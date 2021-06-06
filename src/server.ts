@@ -6,7 +6,7 @@ import express from 'express';
 import env from './environment/environment';
 import loaders from './loaders';
 
-const PORT = env?.PORT;
+const PORT = env?.PORT || 3333;
 
 async function startServer() {
   const app = express();

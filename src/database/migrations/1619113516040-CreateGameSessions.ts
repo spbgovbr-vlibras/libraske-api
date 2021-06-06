@@ -15,11 +15,16 @@ export class CreateGameSessions1619113516040 implements MigrationInterface {
           },
           {
             name: 'user_id',
-            type: 'varchar',
+            type: 'uuid',
+          },
+          {
+            name: 'song_id',
+            type: 'uuid',
           },
           {
             name: 'pontuation',
             type: 'integer',
+            default: 0,
           },
           {
             name: 'created_at',
@@ -37,6 +42,6 @@ export class CreateGameSessions1619113516040 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('game_session');
+    await queryRunner.dropTable('game_sessions');
   }
 }

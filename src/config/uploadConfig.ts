@@ -1,9 +1,11 @@
 import crypto from 'crypto';
+import { Request } from 'express';
 import multer from 'multer';
 import path from 'path';
 
 interface ITypeFolder {
   folder: 'img' | 'song';
+  request?: Request;
 }
 
 interface IStorage {
@@ -13,8 +15,13 @@ interface IStorage {
 
 export const tmpFolder = path.resolve(__dirname, '..', '..', 'tmp'); // put in .env
 
-export default function storage({ folder }: ITypeFolder): IStorage {
-  const destination = path.resolve(tmpFolder, folder);
+export default function storage({ folder, request }: ITypeFolder): IStorage {
+  let destination = path.resolve(tmpFolder, folder);
+
+  if (folder === 'song') {
+    destination = request?.destination || destination;
+  }
+
   return {
     directory: destination,
 

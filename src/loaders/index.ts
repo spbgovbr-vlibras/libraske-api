@@ -1,7 +1,7 @@
 import express from 'express';
 
 import expressLoader from './express';
-// // import '../database';
+import '../database';
 
 export default async ({
   expressApp,

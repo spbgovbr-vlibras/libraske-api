@@ -2,16 +2,14 @@ import { Router } from 'express';
 import multer from 'multer';
 
 import uploadConfig from '../config/uploadConfig';
-import CreatePontuationSessionService from '../services/CreatePontuationSessionService';
+import ensureAuthenticated from '../middlewares/ensureAuthenticated';
+import ConsultGameSessionService from '../services/ConsultGameSessionService';
+import CreateGameSessionService from '../services/CreateGameSessionService';
 import SendingMessageService from '../services/SendingMessageService';
 
 const gameOperationsRouter = Router();
 
-const uploadFrame = multer(uploadConfig({ folder: 'song' }));
-
-gameOperationsRouter.get('/frame/:id', (request, response) => {
-  return response.status(200).send();
-});
+const uploadFrame = multer(uploadConfig({ folder: 'img' }));
 
 gameOperationsRouter.post(
   '/frame/:idSession',
@@ -19,6 +17,8 @@ gameOperationsRouter.post(
   (request, response) => {
     const { idSession } = request.params;
     const { idSong, idFrame, frame } = request.body;
+
+    console.log(idSong);
 
     const sendingMessageService = new SendingMessageService();
 
@@ -34,23 +34,39 @@ gameOperationsRouter.post(
   },
 );
 
-// Pontuation
-gameOperationsRouter.post('/pontuation/session', (request, response) => {
-  const { idSong } = request.body;
+// TODO adicionar id da sessão no retorno da sua criação
+gameOperationsRouter.post(
+  '/pontuation/session',
+  // ensureAuthenticated,
+  async (request, response) => {
+    const { idSong } = request.body;
+    const { idUser } = request.body; // remove later
 
-  const createPontuationSessionService = new CreatePontuationSessionService();
+    const createGameSessionService = new CreateGameSessionService();
 
-  const pontuationSession = createPontuationSessionService.execute({
-    idUser: request.user.id,
-    idSong,
-  });
+    await createGameSessionService.execute({
+      // idUser: request.user.id,
+      idUser, // remote later
+      idSong,
+    });
 
-  return response.json({ pontuationSession });
-});
+    return response.status(204).send();
+  },
+);
 
-gameOperationsRouter.get('/pontuation/session/:id', (request, response) => {
-  return response.json({ pontuation: 130 });
-});
+gameOperationsRouter.get(
+  '/pontuation/session/:id',
+  async (request, response) => {
+    const { id } = request.params;
+    const consultGameSession = new ConsultGameSessionService();
+
+    const gameSession = await consultGameSession.execute({
+      id,
+    });
+
+    return response.json({ gameSession });
+  },
+);
 
 gameOperationsRouter.patch('/pontuation/:id', (request, response) => {
   const { id } = request.user;

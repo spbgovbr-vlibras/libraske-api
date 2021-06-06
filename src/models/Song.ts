@@ -10,8 +10,8 @@ import {
 
 import User from './User';
 
-@Entity('game_session')
-class Song {
+@Entity('songs')
+class Songs {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -25,7 +25,7 @@ class Song {
   // end
 
   @Column()
-  signers: string;
+  singers: string;
 
   @Column()
   thumbnail: string;
@@ -46,4 +46,4 @@ class Song {
   updated_at: Date;
 }
 
-export default Song;
+export default Songs;

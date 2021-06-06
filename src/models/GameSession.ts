@@ -8,10 +8,10 @@ import {
   ManyToOne,
 } from 'typeorm';
 
-import Song from './Song';
+import Music from './Song';
 import User from './User';
 
-@Entity('game_session')
+@Entity('game_sessions')
 class GameSession {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -20,9 +20,9 @@ class GameSession {
   @Column()
   song_id: string;
 
-  @ManyToOne(() => Song)
+  @ManyToOne(() => Music)
   @JoinColumn({ name: 'song_id' })
-  song: Song;
+  song: Music;
   // end
 
   // User relationship

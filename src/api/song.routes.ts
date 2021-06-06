@@ -2,21 +2,66 @@ import { Router } from 'express';
 import multer from 'multer';
 
 import uploadConfig from '../config/uploadConfig';
+import createSongFolder from '../middlewares/createSongFolder';
+import ConsultSongService from '../services/ConsultSongService';
+import CreateSongService from '../services/CreateSongService';
+import DeleteSongService from '../services/DeleteSongService';
+import ListSongsService from '../services/ListSongsService';
 
 const songsRouter = Router();
 
-const uploadSong = multer(uploadConfig({ folder: 'song' }));
+songsRouter.get('/', async (request, response) => {
+  const listSongsService = new ListSongsService();
+  const songs = await listSongsService.execute();
 
-songsRouter.get('/', (request, response) => {});
-
-songsRouter.get('/:id', (request, response) => {});
-
-songsRouter.post('/', uploadSong.single('thumbnail'), (request, response) => {
-  const { songName, file } = request.body;
+  return response.json({ songs });
 });
 
-songsRouter.put('/:id', (request, response) => {});
+songsRouter.get('/:id', async (request, response) => {
+  const { id } = request.params;
 
-songsRouter.delete('/:id', (request, response) => {});
+  const consultSongService = new ConsultSongService();
+  const song = await consultSongService.execute({ id });
+
+  return response.json({ song });
+});
+
+songsRouter.post('/', createSongFolder, (request, response) => {
+  const uploadSong = multer(uploadConfig({ folder: 'song', request }));
+  const { idSong } = request;
+
+  uploadSong.fields([
+    { name: 'thumbnail', maxCount: 1 },
+    { name: 'subtitle', maxCount: 1 },
+  ])(request, response, async () => {
+    const { idUser, name, description, singers } = request.body;
+    const createSongService = new CreateSongService();
+
+    const song = await createSongService.execute({
+      idSong,
+      idUser,
+      // idUser: request.user.id,
+      name,
+      description,
+      singers,
+      thumbnail: request.files.thumbnail[0].filename,
+      subtitle: request.files.subtitle[0].filename,
+    });
+    return response.json(song);
+  });
+});
+
+// TODO PUT na songsRouter
+// songsRouter.put('/:id', async (request, response) => {});
+
+songsRouter.delete('/:id', async (request, response) => {
+  const { id } = request.params;
+
+  const deleteSongService = new DeleteSongService();
+
+  await deleteSongService.execute({ id });
+
+  return response.status(200).send();
+});
 
 export default songsRouter;

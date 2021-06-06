@@ -1,7 +1,7 @@
 import { getRepository } from 'typeorm';
 
 import AppError from '../errors/AppError';
-import Pontuation from '../models/GameSession';
+import GameSession from '../models/GameSession';
 import Song from '../models/Song';
 import User from '../models/User';
 
@@ -11,8 +11,8 @@ interface IRequest {
 }
 
 class CreatePontuationSession {
-  public async execute({ idUser, idSong }: IRequest): Promise<Pontuation> {
-    const pontuationRepository = getRepository(Pontuation);
+  public async execute({ idUser, idSong }: IRequest): Promise<GameSession> {
+    const gameSessionRepository = getRepository(GameSession);
     const songRepository = getRepository(Song);
     const userRepository = getRepository(User);
 
@@ -24,18 +24,19 @@ class CreatePontuationSession {
     }
 
     if (!user) {
-      throw new AppError('User doenst exists');
+      throw new AppError('User does not exists');
     }
 
-    const pontuation = pontuationRepository.create({
+    console.log('user');
+
+    const gameSession = gameSessionRepository.create({
       user,
       song,
-      pontuation: 0,
     });
 
-    await pontuationRepository.save(pontuation);
+    await gameSessionRepository.save(gameSession);
 
-    return pontuation;
+    return gameSession;
   }
 }
 
