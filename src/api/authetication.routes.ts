@@ -21,7 +21,9 @@ authRouter.post('/', async (request, response) => {
 		const accessToken = TokenService.createToken({ cpf });
 		const refreshToken = TokenService.createRefreshToken({ cpf });
 
-		await UpdateUserService.execute({ name: user.name, email: user.email, cpf: user.cpf, profilePhoto: user.profilePhoto, refreshToken })
+		await UpdateUserService.execute({ name: user.name, email: user.email, cpf: user.cpf, profilePhoto: user.profilePhoto, refreshToken });
+
+		console.log(user)
 
 		response.status(200).json({
 			...user,
@@ -32,13 +34,19 @@ authRouter.post('/', async (request, response) => {
 	} catch (error) {
 		console.log(error);
 
-		response.status(500).send("Deu pau")
+		response.status(500).send("Ocorreu um erro ao realizar a autenticação.");
 	}
 
 
 });
 
 authRouter.post('/refresh', async (request, response) => {
+
+	const { refreshToken } = request.body;
+
+	const token = await TokenService.updateToken(refreshToken);
+
+	response.status(200).json({ token, refreshToken });
 
 });
 
