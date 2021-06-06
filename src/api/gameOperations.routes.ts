@@ -18,8 +18,6 @@ gameOperationsRouter.post(
     const { idSession } = request.params;
     const { idSong, idFrame, frame } = request.body;
 
-    console.log(idSong);
-
     const sendingMessageService = new SendingMessageService();
 
     sendingMessageService.execute({
