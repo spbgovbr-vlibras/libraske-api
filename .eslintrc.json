@@ -46,7 +46,8 @@
       "error",
       "ignorePackages",
       {
-        "ts": "never"
+        "ts": "never",
+        "js": "never"
       }
     ],
     "import-helpers/order-imports": [
@@ -60,7 +61,12 @@
     "import/no-extraneous-dependencies": [
       "error",
       { "devDependencies": ["**/*.spec.js"] }
-    ]
+    ],
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".ts"]
+      }
+    }
   },
   "settings": {
     "import/resolver": {

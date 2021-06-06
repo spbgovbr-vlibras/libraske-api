@@ -23,6 +23,9 @@ class User {
   @Column()
   refreshToken: string;
 
+  @Column()
+  cpf: string;
+
   @CreateDateColumn()
   created_at: Date;
 
