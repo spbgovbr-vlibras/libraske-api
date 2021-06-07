@@ -27,8 +27,6 @@ class CreatePontuationSession {
       throw new AppError('User does not exists');
     }
 
-    console.log('user');
-
     const gameSession = gameSessionRepository.create({
       user,
       song,
@@ -40,4 +38,4 @@ class CreatePontuationSession {
   }
 }
 
-export default CreatePontuationSession;
+export default new CreatePontuationSession();

@@ -1,0 +1,29 @@
+version: "3.7"
+services:
+  db:
+    image: postgres
+    container_name: libraske-db
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: libraske
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+  queue:
+    image: rabbitmq
+    cotainer_name: libraske-queue
+    restart: always
+    environment:
+      RABBITMQ_DEFAULT_USER: libraske
+      RABBITMQ_DEFAULT_PASS: libraske
+  api:
+    build: './'
+    container_name: libraske-api
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - "3333:3333"

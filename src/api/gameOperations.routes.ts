@@ -32,7 +32,6 @@ gameOperationsRouter.post(
   },
 );
 
-// TODO adicionar id da sessão no retorno da sua criação
 gameOperationsRouter.post(
   '/pontuation/session',
   // ensureAuthenticated,
@@ -40,15 +39,13 @@ gameOperationsRouter.post(
     const { idSong } = request.body;
     const { idUser } = request.body; // remove later
 
-    const createGameSessionService = new CreateGameSessionService();
-
-    await createGameSessionService.execute({
+    const { id } = await CreateGameSessionService.execute({
       // idUser: request.user.id,
       idUser, // remote later
       idSong,
     });
 
-    return response.status(204).send();
+    return response.status(204).json({ idGameSession: id });
   },
 );
 
@@ -56,9 +53,8 @@ gameOperationsRouter.get(
   '/pontuation/session/:id',
   async (request, response) => {
     const { id } = request.params;
-    const consultGameSession = new ConsultGameSessionService();
 
-    const gameSession = await consultGameSession.execute({
+    const gameSession = ConsultGameSessionService.execute({
       id,
     });
 

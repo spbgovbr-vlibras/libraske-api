@@ -21,4 +21,4 @@ class CreatePontuationSession {
   }
 }
 
-export default CreatePontuationSession;
+export default new CreatePontuationSession();
