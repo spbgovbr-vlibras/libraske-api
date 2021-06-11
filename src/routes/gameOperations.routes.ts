@@ -3,21 +3,34 @@ import ensureAuthenticated from '@middlewares/ensureAuthenticated';
 import ConsultGameSessionService from '@services/ConsultGameSessionService';
 import CreateGameSessionService from '@services/CreateGameSessionService';
 import SendingMessageService from '@services/SendMessageService';
+import { Channel } from 'amqplib';
 import { Router } from 'express';
 import multer from 'multer';
+
+import Rabbitmq from '../queue/Rabbitmq';
 
 const gameOperationsRouter = Router();
 
 const uploadFrame = multer(uploadConfig({ folder: 'img' }));
 
+let sendChannel: Channel;
+let receiveChannel: Channel;
+
+// TODO mover para outro código
+async function getChannel() {
+  sendChannel = await new Rabbitmq().createChannel(sendChannel);
+  receiveChannel = await new Rabbitmq().createChannel(receiveChannel);
+}
+
 gameOperationsRouter.post(
   '/frame/:idSession',
   uploadFrame.single('frame'),
-  (request, response) => {
+  async (request, response) => {
     const { idSession } = request.params;
     const { idFrame } = request.body;
 
-    const sendingMessageService = new SendingMessageService();
+    await getChannel();
+    const sendingMessageService = new SendingMessageService(sendChannel);
 
     sendingMessageService.execute({
       queue: idSession,

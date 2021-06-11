@@ -1,9 +1,5 @@
 import { Channel, Connection, connect } from 'amqplib';
 
-interface IChannel {
-  channel: Channel;
-}
-
 class RabbitmqServer {
   private uri: string;
 
@@ -15,11 +11,17 @@ class RabbitmqServer {
     this.uri = process.env.RABBITMQ || 'amqp://localhost';
   }
 
-  async start(): Promise<IChannel> {
+  async createConnection(): Promise<void> {
     this.conn = await connect(this.uri);
-    this.channel = await this.conn.createChannel();
+  }
 
-    return { channel: this.channel };
+  async createChannel(channel: Channel): Promise<Channel> {
+    if (!channel) {
+      this.channel = await this.conn.createChannel();
+      return this.channel;
+    }
+
+    return channel;
   }
 }
 

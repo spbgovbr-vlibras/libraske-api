@@ -1,4 +1,4 @@
-version: "3.7"
+version: "3.3"
 services:
   db:
     image: postgres
@@ -14,7 +14,7 @@ services:
       - "5432:5432"
   queue:
     image: rabbitmq
-    cotainer_name: libraske-queue
+    container_name: libraske-queue
     restart: always
     environment:
       RABBITMQ_DEFAULT_USER: libraske
