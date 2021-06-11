@@ -1,9 +1,9 @@
+import GameSession from '@models/GameSession';
+import Song from '@models/Song';
+import User from '@models/User';
 import { getRepository } from 'typeorm';
 
 import AppError from '../errors/AppError';
-import GameSession from '../models/GameSession';
-import Song from '../models/Song';
-import User from '../models/User';
 
 interface IRequest {
   idUser: string;

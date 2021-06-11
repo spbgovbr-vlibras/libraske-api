@@ -1,11 +1,10 @@
+import uploadConfig from '@config/uploadConfig';
+import ensureAuthenticated from '@middlewares/ensureAuthenticated';
+import ConsultGameSessionService from '@services/ConsultGameSessionService';
+import CreateGameSessionService from '@services/CreateGameSessionService';
+import SendingMessageService from '@services/SendMessageService';
 import { Router } from 'express';
 import multer from 'multer';
-
-import uploadConfig from '../config/uploadConfig';
-import ensureAuthenticated from '../middlewares/ensureAuthenticated';
-import ConsultGameSessionService from '../services/ConsultGameSessionService';
-import CreateGameSessionService from '../services/CreateGameSessionService';
-import SendingMessageService from '../services/SendingMessageService';
 
 const gameOperationsRouter = Router();
 
@@ -16,16 +15,14 @@ gameOperationsRouter.post(
   uploadFrame.single('frame'),
   (request, response) => {
     const { idSession } = request.params;
-    const { idSong, idFrame, frame } = request.body;
+    const { idFrame } = request.body;
 
     const sendingMessageService = new SendingMessageService();
 
     sendingMessageService.execute({
-      id: '1',
-      idSession,
-      idSong,
+      queue: idSession,
       idFrame,
-      frame,
+      frameImageUri: request.file.filename,
     });
 
     return response.send(204);

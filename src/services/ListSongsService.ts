@@ -1,6 +1,5 @@
+import Song from '@models/Song';
 import { getRepository } from 'typeorm';
-
-import Song from '../models/Song';
 
 class ListSongService {
   public async execute(): Promise<Song[]> {

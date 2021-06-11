@@ -1,12 +1,11 @@
+import uploadConfig from '@config/uploadConfig';
+import createSongFolder from '@middlewares/createSongFolder';
+import ConsultSongService from '@services/ConsultSongService';
+import CreateSongService from '@services/CreateSongService';
+import DeleteSongService from '@services/DeleteSongService';
+import ListSongsService from '@services/ListSongsService';
 import { Router } from 'express';
 import multer from 'multer';
-
-import uploadConfig from '../config/uploadConfig';
-import createSongFolder from '../middlewares/createSongFolder';
-import ConsultSongService from '../services/ConsultSongService';
-import CreateSongService from '../services/CreateSongService';
-import DeleteSongService from '../services/DeleteSongService';
-import ListSongsService from '../services/ListSongsService';
 
 const songsRouter = Router();
 

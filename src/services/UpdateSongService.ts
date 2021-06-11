@@ -1,7 +1,7 @@
+import Song from '@models/Song';
 import { getRepository } from 'typeorm';
 
 import AppError from '../errors/AppError';
-import Song from '../models/Song';
 
 interface IRequest {
   id: string;

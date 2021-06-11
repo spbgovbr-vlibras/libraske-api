@@ -1,10 +1,10 @@
+import { tmpFolder } from '@config/uploadConfig';
+import Song from '@models/Song';
 import fs from 'fs';
 import path from 'path';
 import { getRepository } from 'typeorm';
 
-import { tmpFolder } from '../config/uploadConfig';
 import AppError from '../errors/AppError';
-import Song from '../models/Song';
 
 interface IRequest {
   id: string;

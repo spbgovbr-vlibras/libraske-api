@@ -1,12 +1,26 @@
-import amqp from 'amqplib';
+import { Channel, Connection, connect } from 'amqplib';
 
-const AMQ_URI = process.env.RABBITMQ || 'amqp://localhost';
-
-async function rabbitConnection() {
-  const amqpConnection = await amqp.connect(AMQ_URI);
-  const amqpChannel = await amqpConnection.createChannel();
-
-  return { amqpConnection, amqpChannel };
+interface IChannel {
+  channel: Channel;
 }
 
-export default rabbitConnection;
+class RabbitmqServer {
+  private uri: string;
+
+  private conn: Connection;
+
+  private channel: Channel;
+
+  constructor() {
+    this.uri = process.env.RABBITMQ || 'amqp://localhost';
+  }
+
+  async start(): Promise<IChannel> {
+    this.conn = await connect(this.uri);
+    this.channel = await this.conn.createChannel();
+
+    return { channel: this.channel };
+  }
+}
+
+export default RabbitmqServer;
