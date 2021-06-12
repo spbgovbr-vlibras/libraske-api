@@ -65,7 +65,7 @@ gameOperationsRouter.get(
       id,
     });
 
-    return response.json({ gameSession });
+    return response.json({ pontuation: gameSession.pontuation });
   },
 );
 
