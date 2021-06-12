@@ -34,13 +34,13 @@ songsRouter.post('/', createSongFolder, (request, response) => {
     { name: 'thumbnail', maxCount: 1 },
     { name: 'subtitle', maxCount: 1 },
   ])(request, response, async () => {
-    const { idUser, name, description, singers } = request.body;
+    const { name, description, singers } = request.body;
     const createSongService = new CreateSongService();
 
     const song = await createSongService.execute({
       idSong,
-      idUser,
-      // idUser: request.user.id,
+      //idUser,
+      idUser: request.user.id,
       name,
       description,
       singers,

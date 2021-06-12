@@ -1,38 +1,48 @@
-import { Request, Response, NextFunction } from 'express';
+import e, { Request, Response, NextFunction } from 'express';
 import { verify } from 'jsonwebtoken';
 
-import authConfig from '../config/auth';
 import AppError from '../errors/AppError';
+import env from '../environment/environment';
+import { getRepository } from 'typeorm';
+import User from '../models/User';
 
 interface ITokenPayload {
   authorization: number;
   iat: number;
   exp: number;
   sub: string;
+  cpf: string;
 }
-export default function ensureAuthenticated(
+export default async function ensureAuthenticated(
   request: Request,
   response: Response,
   next: NextFunction,
-): void {
-  const authHeader = request.headers.authorization;
+): Promise<void> {
 
-  if (!authHeader) {
-    throw new AppError('JWT token is missing');
+  if (!env?.DISABLE_AUTH) {
+    const authHeader = request.headers.authorization;
+
+    if (!authHeader) {
+      throw new AppError('JWT token is missing', 401);
+    }
+
+    const [, token] = authHeader?.split(' ');
+
+    try {
+      const decoded = verify(token, env?.ACCESS_SECRET as string);
+      const { cpf } = decoded as ITokenPayload;
+
+      const userRepository = getRepository(User);
+      const user = await userRepository.findOne({ cpf });
+
+      request.user = user;
+
+      return next();
+    } catch (error) {
+      throw new AppError('invalid jwt token', 400);
+    }
+  } else {
+    next();
   }
 
-  const [, token] = authHeader?.split(' ');
-
-  try {
-    const decoded = verify(token, authConfig.jwt.secret);
-    const { sub } = decoded as ITokenPayload;
-
-    request.user = {
-      id: sub,
-    };
-
-    return next();
-  } catch {
-    throw new AppError('invalid jwt token');
-  }
 }

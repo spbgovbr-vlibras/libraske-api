@@ -22,8 +22,15 @@ export default async ({ app }: { app: express.Application }) => {
   app.use(morgan('dev'));
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
+
+  app.use('/libraske', routes);
+  app.use(express.static(path.resolve(staticDirectory, 'img')));
+  app.use(express.static(path.resolve(staticDirectory, 'song')));
+  app.use(express.static(path.resolve(staticDirectory, 'thumbnail')));
+
   app.use(
     (err: Error, request: Request, response: Response, _: NextFunction) => {
+
       if (err instanceof AppError) {
         return response
           .status(err.statusCode)
@@ -35,11 +42,6 @@ export default async ({ app }: { app: express.Application }) => {
         .json({ status: 'error', message: 'Internal server error' });
     },
   );
-
-  app.use('/libraske', routes);
-  app.use(express.static(path.resolve(staticDirectory, 'img')));
-  app.use(express.static(path.resolve(staticDirectory, 'song')));
-  app.use(express.static(path.resolve(staticDirectory, 'thumbnail')));
 
   // Return the express app
   return app;

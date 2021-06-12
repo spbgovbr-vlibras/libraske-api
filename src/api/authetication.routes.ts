@@ -26,8 +26,6 @@ authRouter.post('/', async (request, response) => {
 
 		await UpdateUserService.execute({ name: user.name, email: user.email, cpf: user.cpf, profilePhoto: user.profilePhoto, refreshToken });
 
-		console.log(user)
-
 		response.status(200).json({
 			...user,
 			accessToken,
