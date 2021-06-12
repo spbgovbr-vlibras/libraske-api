@@ -16,12 +16,6 @@ const uploadFrame = multer(uploadConfig({ folder: 'img' }));
 let sendChannel: Channel;
 let receiveChannel: Channel;
 
-// TODO mover para outro código
-async function getChannel() {
-  sendChannel = await new Rabbitmq().createChannel(sendChannel);
-  receiveChannel = await new Rabbitmq().createChannel(receiveChannel);
-}
-
 gameOperationsRouter.post(
   '/frame/:idSession',
   uploadFrame.single('frame'),
@@ -29,8 +23,11 @@ gameOperationsRouter.post(
     const { idSession } = request.params;
     const { idFrame } = request.body;
 
-    await getChannel();
+    sendChannel = await new Rabbitmq().createChannel(sendChannel);
+
     const sendingMessageService = new SendingMessageService(sendChannel);
+
+    console.log(request);
 
     sendingMessageService.execute({
       queue: idSession,
@@ -55,7 +52,7 @@ gameOperationsRouter.post(
       idSong,
     });
 
-    return response.status(204).json({ idGameSession: id });
+    return response.status(201).json({ idGameSession: id });
   },
 );
 
@@ -64,7 +61,7 @@ gameOperationsRouter.get(
   async (request, response) => {
     const { id } = request.params;
 
-    const gameSession = ConsultGameSessionService.execute({
+    const gameSession = await ConsultGameSessionService.execute({
       id,
     });
 
