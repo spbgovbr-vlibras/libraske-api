@@ -39,12 +39,22 @@ class TokenService {
     const userRepository = getRepository(User);
     const user = await userRepository.findOneOrFail({ refreshToken });
 
-
     this.verifyRefreshToken(refreshToken);
 
     return this.createToken({ cpf: user.cpf })
 
   }
+
+  public async deleteToken(refreshToken: string): Promise<void> {
+
+    const userRepository = getRepository(User);
+    const user = await userRepository.findOneOrFail({ refreshToken });
+
+    await userRepository.update(user.id, { refreshToken: 'null' });
+
+  }
+
+
 }
 
 export default new TokenService();
