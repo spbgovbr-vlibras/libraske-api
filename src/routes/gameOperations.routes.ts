@@ -2,7 +2,7 @@ import uploadConfig from '@config/uploadConfig';
 import ensureAuthenticated from '@middlewares/ensureAuthenticated';
 import ConsultGameSessionService from '@services/ConsultGameSessionService';
 import CreateGameSessionService from '@services/CreateGameSessionService';
-import SendingMessageService from '@services/SendMessageService';
+import SenderMessageService from '@services/SenderMessageService';
 import { Channel } from 'amqplib';
 import { Router } from 'express';
 import multer from 'multer';
@@ -14,7 +14,6 @@ const gameOperationsRouter = Router();
 const uploadFrame = multer(uploadConfig({ folder: 'img' }));
 
 let sendChannel: Channel;
-let receiveChannel: Channel;
 
 gameOperationsRouter.post(
   '/frame/:idSession',
@@ -23,19 +22,16 @@ gameOperationsRouter.post(
     const { idSession } = request.params;
     const { idFrame } = request.body;
 
-    sendChannel = await new Rabbitmq().createChannel(sendChannel);
+    sendChannel = await Rabbitmq.createChannel(sendChannel);
+    const sendMessageService = new SenderMessageService(sendChannel);
 
-    const sendingMessageService = new SendingMessageService(sendChannel);
-
-    console.log(request);
-
-    sendingMessageService.execute({
-      queue: idSession,
+    await sendMessageService.execute({
+      idSession,
       idFrame,
-      frameImageUri: request.file.filename,
+      frameImageFilename: request.file.filename,
     });
 
-    return response.send(204);
+    return response.sendStatus(204);
   },
 );
 
