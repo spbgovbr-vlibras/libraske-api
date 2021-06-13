@@ -1,8 +1,8 @@
+import Song from '@models/Song';
+import User from '@models/User';
 import { getRepository } from 'typeorm';
 
 import AppError from '../errors/AppError';
-import Song from '../models/Song';
-import User from '../models/User';
 
 interface IRequest {
   idSong: string;
@@ -15,7 +15,7 @@ interface IRequest {
 }
 
 class CreateSong {
-  public async execute({
+  async execute({
     idSong,
     idUser,
     name,

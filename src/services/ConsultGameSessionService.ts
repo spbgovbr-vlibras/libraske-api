@@ -1,7 +1,7 @@
+import GameSession from '@models/GameSession';
 import { getRepository } from 'typeorm';
 
 import AppError from '../errors/AppError';
-import GameSession from '../models/GameSession';
 
 interface IRequest {
   id: string;
@@ -21,4 +21,4 @@ class CreatePontuationSession {
   }
 }
 
-export default CreatePontuationSession;
+export default new CreatePontuationSession();

@@ -1,12 +1,11 @@
+import uploadConfig from '@config/uploadConfig';
+import createSongFolder from '@middlewares/createSongFolder';
+import ConsultSongService from '@services/ConsultSongService';
+import CreateSongService from '@services/CreateSongService';
+import DeleteSongService from '@services/DeleteSongService';
+import ListSongsService from '@services/ListSongsService';
 import { Router } from 'express';
 import multer from 'multer';
-
-import uploadConfig from '../config/uploadConfig';
-import createSongFolder from '../middlewares/createSongFolder';
-import ConsultSongService from '../services/ConsultSongService';
-import CreateSongService from '../services/CreateSongService';
-import DeleteSongService from '../services/DeleteSongService';
-import ListSongsService from '../services/ListSongsService';
 
 const songsRouter = Router();
 
@@ -35,8 +34,10 @@ songsRouter.post('/', createSongFolder, (request, response) => {
     { name: 'subtitle', maxCount: 1 },
   ])(request, response, async () => {
     const { name, description, singers } = request.body;
+    const { token } = request.headers; // TODO Remover em futuras edições
     const createSongService = new CreateSongService();
 
+    console.log(token);
     const song = await createSongService.execute({
       idSong,
       //idUser,

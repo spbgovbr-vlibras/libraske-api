@@ -1,12 +1,12 @@
+import { tmpFolder as staticDirectory } from '@config/uploadConfig';
 import cors from 'cors';
 import express, { Request, Response, NextFunction } from 'express';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import path from 'path';
 
-import routes from '../api';
-import { tmpFolder as staticDirectory } from '../config/uploadConfig';
 import AppError from '../errors/AppError';
+import routes from '../routes';
 
 export default async ({ app }: { app: express.Application }) => {
   app.get('/status', (req, res) => {
@@ -42,6 +42,9 @@ export default async ({ app }: { app: express.Application }) => {
         .json({ status: 'error', message: 'Internal server error' });
     },
   );
+
+  app.use('/info', express.static(path.resolve(staticDirectory, 'song')));
+  app.use('/libraske', routes);
 
   // Return the express app
   return app;

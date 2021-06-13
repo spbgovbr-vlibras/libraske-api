@@ -8,11 +8,14 @@
   ],
   "main": "src/server.js",
   "license": "MIT",
+  "engines": {
+    "node": "^14"
+  },
   "scripts": {
     "build": "tsc",
     "setup-create-user": "ts-node-dev ./src/scripts/createUser",
     "setup-create-song": "ts-node-dev ./src/scripts/createSong",
-    "dev": "cross-env NODE_ENV=dev ts-node-dev --inspect --transpile-only --ignore-watch node_modules src/server.ts",
+    "dev": "cross-env NODE_ENV=dev ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules src/server.ts",
     "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js"
   },
   "devDependencies": {
@@ -45,6 +48,7 @@
     "lint-staged": "^11.0.0",
     "prettier": "^2.2.1",
     "ts-node-dev": "^1.1.6",
+    "tsconfig-paths": "^3.9.0",
     "typescript": "^4.2.4"
   },
   "husky": {
@@ -72,8 +76,6 @@
     "jsonwebtoken": "^8.5.1",
     "jwk-to-pem": "^2.0.5",
     "minimist": "^1.2.5",
-    "mongodb": "^3.6.6",
-    "mongoose": "^5.12.4",
     "morgan": "^1.10.0",
     "multer": "^1.4.2",
     "pg": "^8.6.0",
