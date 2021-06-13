@@ -65,11 +65,4 @@ gameOperationsRouter.get(
   },
 );
 
-gameOperationsRouter.patch('/pontuation/:id', (request, response) => {
-  const { id } = request.user;
-  const { pontuation } = request.body;
-
-  console.log(request.body);
-});
-
 export default gameOperationsRouter;
