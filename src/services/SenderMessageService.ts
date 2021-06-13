@@ -52,7 +52,7 @@ class SenderMessage {
       await this.channel.assertQueue(QUEUE, assertQueueOptions);
 
       this.channel.sendToQueue(
-        idSession,
+        QUEUE,
         Buffer.from(bufferedData),
         sendQueueOptions,
       );

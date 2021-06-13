@@ -34,10 +34,8 @@ songsRouter.post('/', createSongFolder, (request, response) => {
     { name: 'subtitle', maxCount: 1 },
   ])(request, response, async () => {
     const { name, description, singers } = request.body;
-    const { token } = request.headers; // TODO Remover em futuras edições
     const createSongService = new CreateSongService();
 
-    console.log(token);
     const song = await createSongService.execute({
       idSong,
       //idUser,
