@@ -36,10 +36,8 @@ export default async ({ app }: { app: express.Application }) => {
     },
   );
 
+  app.use('/info', express.static(path.resolve(staticDirectory, 'song')));
   app.use('/libraske', routes);
-  app.use(express.static(path.resolve(staticDirectory, 'img')));
-  app.use(express.static(path.resolve(staticDirectory, 'song')));
-  app.use(express.static(path.resolve(staticDirectory, 'thumbnail')));
 
   // Return the express app
   return app;

@@ -15,7 +15,7 @@ interface IRequest {
 }
 
 class CreateSong {
-  public async execute({
+  async execute({
     idSong,
     idUser,
     name,

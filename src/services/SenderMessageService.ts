@@ -15,6 +15,8 @@ interface IMessage {
   frameImage: string;
 }
 
+const QUEUE = process.env.RABBITMQ_SENDER || 'sender';
+
 const assertQueueOptions = { durable: true };
 const sendQueueOptions = { persistent: true };
 
@@ -31,7 +33,6 @@ class SenderMessage {
     frameImageFilename,
   }: IRequest): Promise<void> {
     try {
-      const workQueue = idSession;
       const imagePath = path.resolve(tmpFolder, 'img', frameImageFilename);
 
       const frameImage = Buffer.from(fs.readFileSync(imagePath)).toString(
@@ -48,10 +49,10 @@ class SenderMessage {
         typeof data === 'object' ? JSON.stringify(data) : data,
       );
 
-      await this.channel.assertQueue(workQueue, assertQueueOptions);
+      await this.channel.assertQueue(QUEUE, assertQueueOptions);
 
       this.channel.sendToQueue(
-        workQueue,
+        idSession,
         Buffer.from(bufferedData),
         sendQueueOptions,
       );

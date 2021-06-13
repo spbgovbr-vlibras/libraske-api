@@ -5,9 +5,9 @@ services:
     container_name: libraske-db
     restart: always
     environment:
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_USER: postgres
-      POSTGRES_DB: libraske
+      POSTGRES_DB: ${POSTGRES_DATABASE}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - ./pgdata:/var/lib/postgresql/data
     ports:
@@ -17,13 +17,14 @@ services:
     container_name: libraske-queue
     restart: always
     environment:
-      RABBITMQ_DEFAULT_USER: libraske
-      RABBITMQ_DEFAULT_PASS: libraske
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
   api:
     build: './'
     container_name: libraske-api
     restart: always
     depends_on:
       - db
+      - queue
     ports:
       - "3333:3333"
