@@ -3,7 +3,7 @@ import { Channel, Connection, connect } from 'amqplib';
 class RabbitmqServer {
   private uri: string;
 
-  private conn: Connection;
+  private connection: Connection;
 
   private channel: Channel;
 
@@ -12,12 +12,12 @@ class RabbitmqServer {
   }
 
   async createConnection(): Promise<void> {
-    this.conn = await connect(this.uri);
+    this.connection = await connect(this.uri);
   }
 
   async createChannel(channel: Channel): Promise<Channel> {
     if (!channel) {
-      this.channel = await this.conn.createChannel();
+      this.channel = await this.connection.createChannel();
       return this.channel;
     }
 
@@ -25,4 +25,4 @@ class RabbitmqServer {
   }
 }
 
-export default RabbitmqServer;
+export default new RabbitmqServer();

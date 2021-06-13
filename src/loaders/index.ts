@@ -9,7 +9,7 @@ export default async ({
 }: {
   expressApp: express.Application;
 }): Promise<void> => {
-  await new Rabbitmq().createConnection();
+  await Rabbitmq.createConnection();
   console.log('Rabbitmq initialized');
   await expressLoader({ app: expressApp });
   console.log('Express initialized');
