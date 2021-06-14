@@ -3,17 +3,12 @@ import ensureAuthenticated from '@middlewares/ensureAuthenticated';
 import ConsultGameSessionService from '@services/ConsultGameSessionService';
 import CreateGameSessionService from '@services/CreateGameSessionService';
 import SenderMessageService from '@services/SenderMessageService';
-import { Channel } from 'amqplib';
 import { Router } from 'express';
 import multer from 'multer';
-
-import Rabbitmq from '../queue/Rabbitmq';
 
 const gameOperationsRouter = Router();
 
 const uploadFrame = multer(uploadConfig({ folder: 'img' }));
-
-let sendChannel: Channel;
 
 gameOperationsRouter.post(
   '/frame/:idSession',
@@ -22,8 +17,7 @@ gameOperationsRouter.post(
     const { idSession } = request.params;
     const { idFrame } = request.body;
 
-    sendChannel = await Rabbitmq.createChannel(sendChannel);
-    const sendMessageService = new SenderMessageService(sendChannel);
+    const sendMessageService = new SenderMessageService();
 
     await sendMessageService.execute({
       idSession,
@@ -64,5 +58,12 @@ gameOperationsRouter.get(
     return response.json({ pontuation: gameSession.pontuation });
   },
 );
+
+gameOperationsRouter.patch('/pontuation/:id', (request, response) => {
+  const { id } = request.user;
+  const { pontuation } = request.body;
+
+  console.log(request.body);
+});
 
 export default gameOperationsRouter;

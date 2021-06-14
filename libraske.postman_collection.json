@@ -1,0 +1,262 @@
+{
+	"info": {
+		"_postman_id": "3cc22938-7531-41e0-bb91-5fb51396d83d",
+		"name": "Libraske",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "🕹️ Game Session",
+			"item": [
+				{
+					"name": "Create Frame",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "frame",
+									"type": "file",
+									"src": "/C:/Users/Joao/Pictures/pexels-photo-531321.jpeg"
+								},
+								{
+									"key": "idFrame",
+									"value": "6",
+									"type": "text"
+								}
+							]
+						},
+						"url": "{{base_url}}/libraske/game/frame/acc00645-143d-4c09-8af4-090709aad0e0"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Game Session",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"idSong\": \"b97746b3-2065-4077-b9be-313f38f88d95\",\n    \"idUser\": \"{{userId}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/libraske/game/pontuation/session"
+					},
+					"response": []
+				},
+				{
+					"name": "Consult Pontuation Game Session",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{base_url}}/libraske/game/pontuation/session/{id}"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "🎵 Song",
+			"item": [
+				{
+					"name": "List Song",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/libraske/songs"
+					},
+					"response": []
+				},
+				{
+					"name": "Consult Song",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/libraske/songs/{id}"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Song",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Batom de Cereja",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "lorem ipsum is simply dummy text of the printing and typesetting industry. lorem ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+									"type": "text"
+								},
+								{
+									"key": "singers",
+									"value": "Israel & Rodolffo",
+									"type": "text"
+								},
+								{
+									"key": "thumbnail",
+									"type": "file",
+									"src": "/C:/Users/Joao/Pictures/pexels-photo-531321.jpeg"
+								},
+								{
+									"key": "subtitle",
+									"type": "file",
+									"src": "/C:/Users/Joao/Pictures/subtitle.txt"
+								}
+							]
+						},
+						"url": "{{base_url}}/libraske/songs"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Song",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": "{{base_url}}/libraske/songs"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Song",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "{{base_url}}/libraske/songs/{id}"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "👤 Auth",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": "{{base_url}}/libraske/auth"
+					},
+					"response": []
+				},
+				{
+					"name": "Fake Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var result = pm.response.json();\r",
+									"\r",
+									"pm.environment.set(\"accessToken\", result.accessToken);\r",
+									"pm.environment.set(\"refreshToken\", result.refreshToken);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": "{{base_url}}/libraske/auth/fake-login"
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"refreshToken\": \"{{refreshToken}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/libraske/auth/logout"
+					},
+					"response": []
+				},
+				{
+					"name": "RefreshToken",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var result = pm.response.json();\r",
+									"\r",
+									"pm.environment.set(\"accessToken\", result.accessToken);\r",
+									"pm.environment.set(\"refreshToken\", result.refreshToken);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"refreshToken\": \"{{refreshToken}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/libraske/auth/refresh"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

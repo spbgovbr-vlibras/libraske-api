@@ -1,57 +1,36 @@
-import { tmpFolder } from '@config/uploadConfig';
-import { Channel } from 'amqplib';
-import fs from 'fs';
-import path from 'path';
+import Rabbitmq from '../loaders/Rabbitmq';
+import CreatePontuationService from './CreatePontuationService';
 
-interface IRequest {
-  idSession: string;
-  idFrame: string;
-  frameImageFilename: string;
-}
+const QUEUE = process.env.RABBITMQ_QUEUE_RECEIVER || 'frame_receiver';
 
-interface IMessage {
-  idSession: string;
-  idFrame: string;
-  frameImage: string;
-}
+const consumeOptions = { noAck: true };
 
-class ReceiverMessage {
-  private channel: Channel;
-
-  constructor(channel: Channel) {
-    this.channel = channel;
-  }
-
-  async execute({
-    idSession,
-    idFrame,
-    frameImageFilename,
-  }: IRequest): Promise<void> {
+class ReceiverMessageService {
+  async execute(): Promise<void> {
     try {
-      const imagePath = path.resolve(tmpFolder, 'img', frameImageFilename);
-      const queue = idSession;
+      const channel = Rabbitmq.getSenderChannel;
 
-      const frameImage = Buffer.from(fs.readFileSync(imagePath)).toString(
-        'base64',
+      channel.assertQueue(QUEUE, {
+        durable: false,
+      });
+
+      channel.consume(
+        QUEUE,
+        async function consume(message) {
+          const { idGameSession, pontuation } = JSON.parse(
+            message?.content.toString() as string,
+          );
+
+          console.log(' [x] Received %s', message?.content.toString());
+
+          await CreatePontuationService.execute({ idGameSession, pontuation });
+        },
+        consumeOptions,
       );
-
-      const data: IMessage = {
-        idSession,
-        idFrame,
-        frameImage,
-      };
-
-      const message = Buffer.from(
-        typeof data === 'object' ? JSON.stringify(data) : data,
-      );
-
-      this.channel.sendToQueue(queue, Buffer.from(message));
-      // console.log(' [x] Sent %s', message);
-      // console.log(idSession);
     } catch (error) {
       console.log(error);
     }
   }
 }
 
-export default ReceiverMessage;
+export default new ReceiverMessageService();

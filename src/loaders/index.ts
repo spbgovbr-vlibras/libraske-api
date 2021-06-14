@@ -1,7 +1,8 @@
 import express from 'express';
 
-import Rabbitmq from '../queue/Rabbitmq';
 import expressLoader from './express';
+import Rabbitmq from './Rabbitmq';
+
 import '../database';
 
 export default async ({
@@ -9,7 +10,7 @@ export default async ({
 }: {
   expressApp: express.Application;
 }): Promise<void> => {
-  await Rabbitmq.createConnection();
+  await Rabbitmq.createRabbitDefaultUsage();
   console.log('Rabbitmq initialized');
   await expressLoader({ app: expressApp });
   console.log('Express initialized');
