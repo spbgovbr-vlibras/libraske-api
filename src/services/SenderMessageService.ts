@@ -1,7 +1,7 @@
 import { tmpFolder } from '@config/uploadConfig';
-import { Channel } from 'amqplib';
 import fs from 'fs';
 import path from 'path';
+import Rabbitmq from 'src/loaders/Rabbitmq';
 
 interface IRequest {
   idSession: string;
@@ -15,48 +15,34 @@ interface IMessage {
   frameImage: string;
 }
 
-const QUEUE = process.env.RABBITMQ_SENDER || 'sender';
+const QUEUE = process.env.RABBITMQ_QUEUE_SENDER || 'frame_sender';
 
-const assertQueueOptions = { durable: true };
+const assertQueueOptions = { durable: false };
 const sendQueueOptions = { persistent: true };
 
 class SenderMessage {
-  private channel: Channel;
-
-  constructor(channel: Channel) {
-    this.channel = channel;
-  }
-
   async execute({
     idSession,
     idFrame,
     frameImageFilename,
   }: IRequest): Promise<void> {
     try {
-      const imagePath = path.resolve(tmpFolder, 'img', frameImageFilename);
+      const channel = Rabbitmq.getSenderChannel;
 
+      const imagePath = path.resolve(tmpFolder, 'img', frameImageFilename);
       const frameImage = Buffer.from(fs.readFileSync(imagePath)).toString(
         'base64',
       );
-
       const data: IMessage = {
         idSession,
         idFrame,
         frameImage,
       };
-
       const bufferedData = Buffer.from(
         typeof data === 'object' ? JSON.stringify(data) : data,
       );
-
-      await this.channel.assertQueue(QUEUE, assertQueueOptions);
-
-      this.channel.sendToQueue(
-        QUEUE,
-        Buffer.from(bufferedData),
-        sendQueueOptions,
-      );
-
+      await channel.assertQueue(QUEUE, assertQueueOptions);
+      channel.sendToQueue(QUEUE, Buffer.from(bufferedData), sendQueueOptions);
       console.log(
         ` [x] Sent { idSession: ${idSession}, idFrame: ${idFrame}, imagePath: ${imagePath} } - ${Date.now()}`,
       );
