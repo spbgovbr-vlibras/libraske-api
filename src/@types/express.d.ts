@@ -10,10 +10,6 @@ declare namespace Express {
     //   id: string;
     //   destination: string;
     // };
-    amqp: {
-      connection: '';
-      channel: '';
-    };
     files: {
       thumbnail: [
         {

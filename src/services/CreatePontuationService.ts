@@ -11,7 +11,6 @@ interface IRequest {
 class CreatePontuationSession {
   async execute({ idGameSession, pontuation }: IRequest): Promise<GameSession> {
     const gameSessionRepository = getRepository(GameSession);
-
     const gameSession = await gameSessionRepository.findOne({
       id: idGameSession,
     });
@@ -20,7 +19,14 @@ class CreatePontuationSession {
       throw new AppError('Game session does not exists');
     }
 
-    await gameSessionRepository.save(gameSession);
+    const oldArray = gameSession.pontuation ? gameSession.pontuation : [];
+
+    const newGameSession = {
+      ...gameSession,
+      pontuation: [...oldArray, pontuation],
+    };
+
+    await gameSessionRepository.save(newGameSession);
 
     return gameSession;
   }

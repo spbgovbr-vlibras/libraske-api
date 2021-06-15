@@ -25,6 +25,9 @@ class GameSession {
   song: Music;
   // end
 
+  @Column()
+  isClosed: boolean;
+
   // User relationship
   @Column()
   user_id: string;
@@ -34,8 +37,8 @@ class GameSession {
   user: User;
   // end
 
-  @Column()
-  pontuation: number;
+  @Column('int', { array: true })
+  pontuation: number[];
 
   @CreateDateColumn()
   created_at: Date;

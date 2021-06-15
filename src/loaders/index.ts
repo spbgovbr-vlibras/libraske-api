@@ -11,7 +11,7 @@ export default async ({
   expressApp: express.Application;
 }): Promise<void> => {
   await Rabbitmq.createRabbitDefaultUsage();
-  console.log('Rabbitmq initialized');
+  console.log('\n > Rabbitmq initialized');
   await expressLoader({ app: expressApp });
-  console.log('Express initialized');
+  console.log('\n > Express initialized');
 };

@@ -1,5 +1,6 @@
 import uploadConfig from '@config/uploadConfig';
 import ensureAuthenticated from '@middlewares/ensureAuthenticated';
+import CloseGameSessionService from '@services/CloseGameSessionService';
 import ConsultGameSessionService from '@services/ConsultGameSessionService';
 import CreateGameSessionService from '@services/CreateGameSessionService';
 import SenderMessageService from '@services/SenderMessageService';
@@ -46,24 +47,28 @@ gameOperationsRouter.post(
   },
 );
 
+gameOperationsRouter.patch(
+  '/pontuation/session/:id',
+  async (request, response) => {
+    const { id } = request.params;
+
+    await CloseGameSessionService.execute({ id });
+
+    return response.status(204).send();
+  },
+);
+
 gameOperationsRouter.get(
   '/pontuation/session/:id',
   async (request, response) => {
     const { id } = request.params;
 
-    const gameSession = await ConsultGameSessionService.execute({
+    const pontuation = await ConsultGameSessionService.execute({
       id,
     });
 
-    return response.json({ pontuation: gameSession.pontuation });
+    return response.json({ pontuation });
   },
 );
-
-gameOperationsRouter.patch('/pontuation/:id', (request, response) => {
-  const { id } = request.user;
-  const { pontuation } = request.body;
-
-  console.log(request.body);
-});
 
 export default gameOperationsRouter;

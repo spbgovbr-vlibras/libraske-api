@@ -2,6 +2,7 @@ import 'reflect-metadata';
 import 'express-async-errors';
 
 import express from 'express';
+import figlet from 'figlet';
 
 import env from './environment/environment';
 import loaders from './loaders';
@@ -14,7 +15,8 @@ async function startServer() {
   await loaders({ expressApp: app });
 
   app.listen(process.env.PORT, () => {
-    console.log(`Your server is ready on port ${PORT}!`);
+    console.log(`\n > Your server is ready on port ${PORT}`);
+    console.log(figlet.textSync('Libraske-api', 'Standard'));
   });
 }
 
