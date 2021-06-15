@@ -38,7 +38,6 @@ songsRouter.post('/', createSongFolder, (request, response) => {
 
     const song = await createSongService.execute({
       idSong,
-      //idUser,
       idUser: request.user.id,
       name,
       description,

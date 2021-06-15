@@ -1,5 +1,4 @@
 import uploadConfig from '@config/uploadConfig';
-import ensureAuthenticated from '@middlewares/ensureAuthenticated';
 import CloseGameSessionService from '@services/CloseGameSessionService';
 import ConsultGameSessionService from '@services/ConsultGameSessionService';
 import CreateGameSessionService from '@services/CreateGameSessionService';
@@ -32,14 +31,11 @@ gameOperationsRouter.post(
 
 gameOperationsRouter.post(
   '/pontuation/session',
-  // ensureAuthenticated,
   async (request, response) => {
     const { idSong } = request.body;
-    const { idUser } = request.body; // remove later
 
     const { id } = await CreateGameSessionService.execute({
-      // idUser: request.user.id,
-      idUser, // remote later
+      idUser: request.user.id,
       idSong,
     });
 
