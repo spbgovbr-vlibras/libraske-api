@@ -5,16 +5,12 @@ import { getRepository } from 'typeorm';
 import User from '../models/User';
 import AppError from '../errors/AppError';
 
-interface IRequest {
-  id: string;
-}
-
 class TokenService {
+
   public createToken(cpf: object): string {
     return jwt.sign(cpf, env?.ACCESS_SECRET as string, {
       expiresIn: env?.ACCESS_TOKEN_EXPIRATION,
     });
-
   }
 
   public createRefreshToken(cpf: object): string {
@@ -28,9 +24,9 @@ class TokenService {
       jwt.verify(refreshToken, env?.REFRESH_SECRET as string);
     } catch (error) {
       if (error.message.includes("expired")) {
-        throw new AppError("RefreshToken expirou!")
+        throw new AppError("RefreshToken expirou!", 401)
       }
-      throw new AppError("Refresh token inválido!");
+      throw new AppError("Refresh token inválido!", 403);
     }
   }
 
@@ -41,8 +37,7 @@ class TokenService {
 
     this.verifyRefreshToken(refreshToken);
 
-    return this.createToken({ cpf: user.cpf })
-
+    return this.createToken({ cpf: user.cpf });
   }
 
   public async deleteToken(refreshToken: string): Promise<void> {
@@ -53,8 +48,6 @@ class TokenService {
     await userRepository.update(user.id, { refreshToken: 'null' });
 
   }
-
-
 }
 
 export default new TokenService();
