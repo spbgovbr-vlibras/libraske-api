@@ -41,8 +41,11 @@ class SenderMessage {
       const bufferedData = Buffer.from(
         typeof data === 'object' ? JSON.stringify(data) : data,
       );
+
       await channel.assertQueue(QUEUE, assertQueueOptions);
       channel.sendToQueue(QUEUE, Buffer.from(bufferedData), sendQueueOptions);
+      fs.unlinkSync(imagePath);
+
       console.log(
         ` [x] Sent { idSession: ${idSession}, idFrame: ${idFrame}, imagePath: ${imagePath} } - ${Date.now()}`,
       );
