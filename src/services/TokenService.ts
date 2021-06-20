@@ -37,7 +37,7 @@ class TokenService {
 
     this.verifyRefreshToken(refreshToken);
 
-    return this.createToken({ cpf: user.cpf });
+    return this.createToken({ cpf: user.cpf })
   }
 
   public async deleteToken(refreshToken: string): Promise<void> {
@@ -45,7 +45,7 @@ class TokenService {
     const userRepository = getRepository(User);
     const user = await userRepository.findOneOrFail({ refreshToken });
 
-    await userRepository.update(user.id, { refreshToken: 'null' });
+    await userRepository.update(user.id, { refreshToken: null });
 
   }
 }

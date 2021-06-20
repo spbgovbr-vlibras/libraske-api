@@ -19,7 +19,7 @@ authRouter.post('/', async (request, response) => {
 
 		let { name, email, cpf, profilePhoto } = await LoginUnicoInstance.signUp({ code, redirectUri: request_uri });
 
-		const user = await CreateUserServiceService.execute({ name, email, cpf, profilePhoto, refreshToken: "null" })
+		const user = await CreateUserServiceService.execute({ name, email, cpf, profilePhoto, refreshToken: null })
 
 		const accessToken = TokenService.createToken({ cpf });
 		const refreshToken = TokenService.createRefreshToken({ cpf });

@@ -6,7 +6,7 @@ interface IRequest {
   email: string;
   profilePhoto: string;
   cpf: string;
-  refreshToken: string;
+  refreshToken: string | null;
 }
 
 class CreatePontuationSession {

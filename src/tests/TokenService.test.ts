@@ -2,7 +2,8 @@ import TokenService from '../services/TokenService';
 import User from '../models/User';
 import { createConnection, getConnection, Entity, getRepository } from 'typeorm';
 import faker from 'faker';
-import jwt from 'jsonwebtoken'
+import jwt from 'jsonwebtoken';
+import CPF from 'cpf';
 
 const TokenServiceMock = TokenService as jest.Mocked<typeof TokenService>;
 
@@ -12,8 +13,12 @@ interface IJwtToken {
     exp: string;
 }
 
+const cpfFactory = () => {
+    return CPF.generate().replace('.', '').replace('-', '');
+}
+
 const setupFactory = () => {
-    const cpf = "12345678900";
+    const cpf = cpfFactory();
     const accessToken = '000000000';
 
     return {
@@ -30,32 +35,8 @@ const setupFactory = () => {
 
 describe('Token Service', () => {
 
-    it('should create a token once and return correct value', async () => {
-
-        const { cpf, accessToken } = setupFactory();
-
-        TokenServiceMock.createToken.mockReturnValue(accessToken);
-        TokenServiceMock.createToken({ cpf });
-
-        expect(TokenServiceMock.createToken).toHaveBeenCalledTimes(1);
-        expect(TokenServiceMock.createToken).toHaveReturnedWith(accessToken);
-    })
-
-    it('should create a refresh token once and return correct value', async () => {
-
-        const { cpf, refreshToken } = setupFactory();
-
-        TokenServiceMock.createRefreshToken.mockReturnValue(refreshToken);
-        TokenServiceMock.createRefreshToken({ cpf });
-
-        expect(TokenServiceMock.createRefreshToken).toHaveBeenCalledTimes(1);
-        expect(TokenServiceMock.createRefreshToken).toHaveReturnedWith(refreshToken);
-    })
-
-
-    it.only('should update an access token', async () => {
-
-        await createConnection({
+    beforeAll(() => {
+        return createConnection({
             type: "sqlite",
             database: ":memory:",
             dropSchema: true,
@@ -63,6 +44,40 @@ describe('Token Service', () => {
             synchronize: true,
             logging: false
         })
+    })
+
+    afterAll(() => {
+        const connection = getConnection();
+        return connection.close();
+    })
+
+    it('should create a token once and return correct value', async () => {
+
+        const { cpf } = setupFactory();
+
+        const result = TokenService.createToken({ cpf });
+        const { cpf: decodedCpf } = jwt.decode(result) as IJwtToken;
+
+        expect(decodedCpf).not.toBeNull();
+        expect(decodedCpf).toBeDefined();
+        expect(cpf).toBe(decodedCpf);
+    })
+
+    it('should create a refresh token once and return correct value', async () => {
+
+        const { cpf } = setupFactory();
+
+        const result = TokenService.createRefreshToken({ cpf });
+        const { cpf: decodedCpf } = jwt.decode(result) as IJwtToken;
+
+        expect(decodedCpf).not.toBeNull();
+        expect(decodedCpf).toBeDefined();
+        expect(cpf).toBe(decodedCpf);
+
+    })
+
+
+    it('should update an access token', async () => {
 
         const userRepository = getRepository(User);
         const { cpf, refreshToken, profilePhoto, name, email } = setupFactory();
@@ -76,9 +91,32 @@ describe('Token Service', () => {
         })
 
         const newAccessToken = await TokenService.updateToken(refreshToken);
-        const decodedToken = jwt.decode(newAccessToken) as IJwtToken;
+        const { cpf: decodedCpf } = jwt.decode(newAccessToken) as IJwtToken;
 
-        expect(cpf).toBe(decodedToken['cpf']);
+        expect(decodedCpf).not.toBeNull();
+        expect(decodedCpf).toBeDefined();
+        expect(cpf).toBe(decodedCpf);
+    })
+
+    it('should remove a refresh token', async () => {
+
+        const userRepository = getRepository(User);
+        const cpf = cpfFactory();
+        const { refreshToken, profilePhoto, name, email } = setupFactory();
+
+        await userRepository.insert({
+            name,
+            email,
+            profilePhoto,
+            cpf,
+            refreshToken
+        })
+
+        await TokenService.deleteToken(refreshToken);
+        const { refreshToken: userRefreshToken } = await userRepository.findOne({ cpf }) as User;
+
+        expect(userRefreshToken).toBeNull();
+
     })
 
 })
