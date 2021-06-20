@@ -20,8 +20,8 @@ class User {
   @Column()
   profilePhoto: string;
 
-  @Column()
-  refreshToken: string;
+  @Column({ nullable: true, type: 'text' })
+  refreshToken!: string | null;
 
   @Column()
   cpf: string;
