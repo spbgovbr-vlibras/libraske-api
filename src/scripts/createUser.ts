@@ -1,21 +1,26 @@
-// yarn setup-create-user --name admintest --email admin@test.com
+// yarn setup-create-user --name "admintest" --email "admin@test.com" --cpf "01234567899"
 
 import minimist from 'minimist';
 import { createConnection, getConnection } from 'typeorm';
-import { uuid } from 'uuidv4';
+import { v4 as uuidv4 } from 'uuid';
 
 import User from '../models/User';
 
-let { name, email } = minimist(process.argv.slice(2));
+const args = minimist(process.argv.slice(2), {
+  string: ['cpf'],
+});
+
+let { name, email } = args;
+const { cpf } = args;
 
 name = name.toLowerCase();
 email = email.toLowerCase();
 
 async function createUser() {
-  if (!name || !email) {
+  if (!name || !email || !cpf) {
     return process.on('exit', () =>
       console.log(
-        `\nIt was not possible to create the user, check the fields: \n name: ${name}, \n email: ${email}`,
+        `\nIt was not possible to create the user, check the fields: \n name: ${name}, \n email: ${email}, \n cpf: ${cpf}`,
       ),
     );
   }
@@ -23,7 +28,8 @@ async function createUser() {
   const query = {
     name,
     email,
-    refreshToken: uuid(),
+    cpf,
+    refreshToken: uuidv4(),
   };
 
   return createConnection().then(() =>

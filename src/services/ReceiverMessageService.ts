@@ -8,7 +8,7 @@ const consumeOptions = { noAck: true };
 class ReceiverMessageService {
   async execute(): Promise<void> {
     try {
-      const channel = Rabbitmq.getSenderChannel;
+      const channel = Rabbitmq.getReceiverChannel;
 
       channel.assertQueue(QUEUE, {
         durable: false,
