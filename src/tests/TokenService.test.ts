@@ -1,39 +1,29 @@
 import TokenService from '../services/TokenService';
 import User from '../models/User';
-import { createConnection, getConnection, Entity, getRepository } from 'typeorm';
+import { createConnection, getConnection, getRepository } from 'typeorm';
 import faker from 'faker';
 import jwt from 'jsonwebtoken';
-import CPF from 'cpf';
-
-const TokenServiceMock = TokenService as jest.Mocked<typeof TokenService>;
-
+import { unformattedCpfFactory } from '../utils/CPFFactory';
 interface IJwtToken {
     cpf: string;
     iat: string;
     exp: string;
 }
 
-const cpfFactory = () => {
-    return CPF.generate().replace('.', '').replace('-', '');
-}
-
-const setupFactory = () => {
-    const cpf = cpfFactory();
-    const accessToken = '000000000';
-
-    return {
-        cpf,
-        accessToken,
-        refreshToken: TokenServiceMock.createRefreshToken({ cpf }),
-        id: faker.datatype.uuid(),
-        email: faker.internet.email(),
-        profilePhoto: faker.internet.url(),
-        name: faker.name.firstName(),
-    }
-}
-
-
 describe('Token Service', () => {
+
+    const setupFactory = () => {
+        const cpf = unformattedCpfFactory();
+
+        return {
+            cpf,
+            refreshToken: TokenService.createRefreshToken({ cpf }),
+            id: faker.datatype.uuid(),
+            email: faker.internet.email(),
+            profilePhoto: faker.internet.url(),
+            name: faker.name.firstName(),
+        }
+    }
 
     beforeAll(() => {
         return createConnection({
@@ -101,7 +91,7 @@ describe('Token Service', () => {
     it('should remove a refresh token', async () => {
 
         const userRepository = getRepository(User);
-        const cpf = cpfFactory();
+        const cpf = unformattedCpfFactory();
         const { refreshToken, profilePhoto, name, email } = setupFactory();
 
         await userRepository.insert({
