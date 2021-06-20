@@ -1,4 +1,4 @@
-import Song from '@models/Song';
+import Song from '../models/Song';
 import { getRepository } from 'typeorm';
 
 const URI = process.env.BASE_URI_API || 'http://localhost:3333/info/';
@@ -21,4 +21,4 @@ class ListSongService {
   }
 }
 
-export default ListSongService;
+export default new ListSongService();

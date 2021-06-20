@@ -10,10 +10,9 @@ import multer from 'multer';
 const songsRouter = Router();
 
 songsRouter.get('/', async (request, response) => {
-  const listSongsService = new ListSongsService();
-  const songs = await listSongsService.execute();
+  const songs = await ListSongsService.execute();
 
-  return response.json({ songs });
+  return response.json({ Items: songs });
 });
 
 songsRouter.get('/:id', async (request, response) => {
@@ -34,9 +33,8 @@ songsRouter.post('/', createSongFolder, (request, response) => {
     { name: 'subtitle', maxCount: 1 },
   ])(request, response, async () => {
     const { name, description, singers } = request.body;
-    const createSongService = new CreateSongService();
 
-    const song = await createSongService.execute({
+    const song = await CreateSongService.execute({
       idSong,
       idUser: request.user.id,
       name,

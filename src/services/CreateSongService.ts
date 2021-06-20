@@ -1,9 +1,5 @@
-import Song from '@models/Song';
-import User from '@models/User';
+import Song from '../models/Song';
 import { getRepository } from 'typeorm';
-
-import AppError from '../errors/AppError';
-
 interface IRequest {
   idSong: string;
   idUser: string;
@@ -13,7 +9,6 @@ interface IRequest {
   thumbnail: string;
   subtitle: string;
 }
-
 class CreateSong {
   async execute({
     idSong,
@@ -24,18 +19,12 @@ class CreateSong {
     thumbnail,
     subtitle,
   }: IRequest): Promise<Song> {
-    const userRepository = getRepository(User);
+
     const songRepository = getRepository(Song);
-
-    const user = await userRepository.findOne({ id: idUser });
-
-    if (!user) {
-      throw new AppError('User does not exists');
-    }
 
     const song = songRepository.create({
       id: idSong,
-      user_id: user.id,
+      user_id: idUser,
       name,
       description,
       singers,
@@ -45,8 +34,8 @@ class CreateSong {
 
     await songRepository.save(song);
 
-    return song;
+    return song
   }
 }
 
-export default CreateSong;
+export default new CreateSong();
