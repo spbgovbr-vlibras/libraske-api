@@ -8,20 +8,20 @@ import AppError from '../errors/AppError';
 class TokenService {
 
   public createToken(cpf: object): string {
-    return jwt.sign(cpf, env?.ACCESS_SECRET as string, {
-      expiresIn: env?.ACCESS_TOKEN_EXPIRATION,
+    return jwt.sign(cpf, env.ACCESS_SECRET, {
+      expiresIn: env.ACCESS_TOKEN_EXPIRATION,
     });
   }
 
   public createRefreshToken(cpf: object): string {
-    return jwt.sign(cpf, env?.REFRESH_SECRET as string, {
-      expiresIn: env?.REFRESH_TOKEN_EXPIRATION,
+    return jwt.sign(cpf, env.REFRESH_SECRET, {
+      expiresIn: env.REFRESH_TOKEN_EXPIRATION,
     });
   }
 
   public verifyRefreshToken(refreshToken: string) {
     try {
-      jwt.verify(refreshToken, env?.REFRESH_SECRET as string);
+      jwt.verify(refreshToken, env.REFRESH_SECRET);
     } catch (error) {
       if (error.message.includes("expired")) {
         throw new AppError("RefreshToken expirou!", 401)

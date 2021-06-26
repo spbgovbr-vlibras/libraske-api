@@ -3,8 +3,8 @@ import path from 'path';
 
 export const loadEnvironments = function loadEnviromentsVariables(typeOfEnvironment: string): DotenvParseOutput {
 
-  if (process.env.NODE_ENV === 'dev' || process.env.NODE_ENV === 'test') {
-    const dotEnvFile = path.join(__dirname, `.env.${process.env.NODE_ENV}`);
+  if (typeOfEnvironment === 'dev' || typeOfEnvironment === 'test') {
+    const dotEnvFile = path.join(__dirname, `.env.${typeOfEnvironment}`);
     return dotenv.config({ path: dotEnvFile }).parsed as DotenvParseOutput;
   }
 

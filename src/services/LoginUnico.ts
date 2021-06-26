@@ -23,11 +23,11 @@ export interface IRequestSingUp {
 }
 
 export const loginUnicoAxiosInstance = axios.create({
-	baseURL: env?.LOGIN_UNICO_BASE_URL,
+	baseURL: env.LOGIN_UNICO_BASE_URL,
 	timeout: 5000,
 	auth: {
-		username: env?.LOGIN_UNICO_CLIENT as string,
-		password: env?.LOGIN_UNICO_SECRET as string,
+		username: env.LOGIN_UNICO_CLIENT,
+		password: env.LOGIN_UNICO_SECRET,
 	},
 });
 

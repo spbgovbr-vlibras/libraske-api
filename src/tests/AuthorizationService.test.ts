@@ -32,10 +32,10 @@ describe('Authorization Service', () => {
             profilePhoto,
             code,
             redirectUri
-        } = setupFactory()
+        } = setupFactory();
 
-        MockedLoginUnico.signUp.mockClear()
-        MockedLoginUnico.signUp.mockResolvedValue({ cpf, email, name, phoneNumber, profilePhoto })
+        MockedLoginUnico.signUp.mockClear();
+        MockedLoginUnico.signUp.mockResolvedValue({ cpf, email, name, phoneNumber, profilePhoto });
 
         const Authorization = new AuthorizationService(MockedLoginUnico);
 
