@@ -80,11 +80,11 @@ describe('Users Service', () => {
 
         expect(user).not.toBeNull();
         expect(user).toBeDefined();
-        expect(user.cpf).toBe(createdUser.cpf);
-        expect(user.refreshToken).toBe(createdUser.refreshToken);
-        expect(user.email).toBe(createdUser.email);
-        expect(user.name).toBe(createdUser.name);
-        expect(user.profilePhoto).toBe(createdUser.profilePhoto);
+        expect(user?.cpf).toBe(createdUser.cpf);
+        expect(user?.refreshToken).toBe(createdUser.refreshToken);
+        expect(user?.email).toBe(createdUser.email);
+        expect(user?.name).toBe(createdUser.name);
+        expect(user?.profilePhoto).toBe(createdUser.profilePhoto);
 
     })
 
@@ -100,11 +100,11 @@ describe('Users Service', () => {
 
         expect(user).not.toBeNull();
         expect(user).toBeDefined();
-        expect(user.cpf).toBe(cpf);
-        expect(user.refreshToken).toBe(refreshToken);
-        expect(user.email).toBe(email);
-        expect(user.name).toBe(name);
-        expect(user.profilePhoto).toBe(profilePhoto);
+        expect(user?.cpf).toBe(cpf);
+        expect(user?.refreshToken).toBe(refreshToken);
+        expect(user?.email).toBe(email);
+        expect(user?.name).toBe(name);
+        expect(user?.profilePhoto).toBe(profilePhoto);
 
     })
 
@@ -131,12 +131,12 @@ describe('Users Service', () => {
 
         const updatedUser = await ConsultUserService.execute({ cpf: firstUser.cpf });
 
-        expect(updatedUser.cpf).toBe(firstUser.cpf);
-        expect(oldUser.email).not.toBe(updatedUser.email)
-        expect(oldUser.name).not.toBe(updatedUser.name)
-        expect(oldUser.profilePhoto).not.toBe(updatedUser.profilePhoto)
-        expect(oldUser.email).not.toBe(updatedUser.email)
-        expect(oldUser.email).not.toBe(updatedUser.email)
+        expect(updatedUser?.cpf).toBe(firstUser.cpf);
+        expect(oldUser.email).not.toBe(updatedUser?.email)
+        expect(oldUser.name).not.toBe(updatedUser?.name)
+        expect(oldUser.profilePhoto).not.toBe(updatedUser?.profilePhoto)
+        expect(oldUser.email).not.toBe(updatedUser?.email)
+        expect(oldUser.email).not.toBe(updatedUser?.email)
 
     })
 

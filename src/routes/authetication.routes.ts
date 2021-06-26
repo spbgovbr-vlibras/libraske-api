@@ -1,11 +1,13 @@
 import { Router } from 'express';
-import LoginUnico from '../services/LoginUnicoService';
-import CreateUserServiceService from '../services/CreateUserService';
+import LoginUnicoInstance, { loginUnicoAxiosInstance } from '../services/LoginUnico';
+import CreateUserService from '../services/CreateUserService';
 import TokenService from '../services/TokenService';
 import UpdateUserService from '../services/UpdateUserService';
 import { getRepository } from 'typeorm';
 import User from '../models/User';
 import AppError from '../errors/AppError';
+import AuthorizationService from '../services/AuthorizationService';
+import ConsultUserService from '@services/ConsultUserService';
 
 const authRouter = Router();
 
@@ -13,18 +15,32 @@ const authRouter = Router();
 authRouter.post('/', async (request, response) => {
 
 	const { code, request_uri } = request.body;
-	const LoginUnicoInstance = new LoginUnico();
 
 	try {
 
-		let { name, email, cpf, profilePhoto } = await LoginUnicoInstance.signUp({ code, redirectUri: request_uri });
+		const authorization = new AuthorizationService(new LoginUnicoInstance(loginUnicoAxiosInstance));
 
-		const user = await CreateUserServiceService.execute({ name, email, cpf, profilePhoto, refreshToken: null })
+		let { name, email, cpf, profilePhoto } = await authorization.execute({ code, redirectUri: request_uri });
 
 		const accessToken = TokenService.createToken({ cpf });
 		const refreshToken = TokenService.createRefreshToken({ cpf });
+		let user = await ConsultUserService.execute({ cpf });
 
-		await UpdateUserService.execute({ name: user.name, email: user.email, cpf: user.cpf, profilePhoto: user.profilePhoto, refreshToken });
+		if (!user) {
+			user = await CreateUserService.execute({ name, email, cpf, profilePhoto, refreshToken: null });
+
+			if (!user) {
+				throw new AppError("Ocorreu um erro ao registrar um novo usuário.");
+			}
+		}
+
+		await UpdateUserService.execute({
+			name: user.name,
+			email: user.email,
+			cpf: user.cpf,
+			profilePhoto: user.profilePhoto,
+			refreshToken
+		});
 
 		response.status(200).json({
 			...user,
@@ -34,7 +50,6 @@ authRouter.post('/', async (request, response) => {
 
 	} catch (error) {
 		console.log(error);
-
 		response.status(500).send("Ocorreu um erro ao realizar a autenticação.");
 	}
 
@@ -50,7 +65,6 @@ authRouter.post('/refresh', async (request, response) => {
 	response.status(200).json({ token, refreshToken });
 
 });
-
 
 authRouter.post('/logout', async (request, response) => {
 

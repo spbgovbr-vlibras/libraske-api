@@ -9,31 +9,15 @@ interface IRequest {
 }
 
 class ConsultUserService {
-    public async execute({ id, cpf }: IRequest): Promise<User> {
+    public async execute({ id, cpf }: IRequest): Promise<User | undefined> {
 
         const userRepository = getRepository(User);
 
         if (cpf) {
-            const result = await userRepository.findOne({ cpf });
-
-            if (result == undefined) {
-                throw new AppError('Usuário não encontrado!', 404)
-            }
-
-            return result;
-
-        } else if (id) {
-
-            const result = await userRepository.findOne({ id });
-
-            if (result == undefined) {
-                throw new AppError('Usuário não encontrado!', 404)
-            }
-
-            return result;
+            return await userRepository.findOne({ cpf });
+        } else {
+            return await userRepository.findOne({ id });
         }
-
-        throw new AppError('Não foi possível encontrar um usuário com os dados informados!', 400);
     }
 }
 

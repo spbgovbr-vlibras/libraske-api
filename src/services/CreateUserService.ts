@@ -9,26 +9,20 @@ interface IRequest {
   refreshToken: string | null;
 }
 
-class CreatePontuationSession {
+class CreateUserService {
   public async execute({ name, email, cpf, profilePhoto, refreshToken }: IRequest): Promise<User> {
 
     const userRepository = getRepository(User);
-    const user = await userRepository.findOne({ cpf });
 
-    if (!user) {
+    return userRepository.save({
+      name,
+      email,
+      profilePhoto,
+      cpf,
+      refreshToken
+    })
 
-      const newUser = userRepository.create({
-        name,
-        email,
-        profilePhoto,
-        cpf,
-        refreshToken
-      })
-
-      return await userRepository.save(newUser);
-    }
-    return user;
   }
 }
 
-export default new CreatePontuationSession();
+export default new CreateUserService();

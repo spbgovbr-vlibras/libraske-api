@@ -15,11 +15,11 @@ class TokenService {
 
   public createRefreshToken(cpf: object): string {
     return jwt.sign(cpf, env?.REFRESH_SECRET as string, {
-      expiresIn: env?.ACCESS_TOKEN_EXPIRATION,
+      expiresIn: env?.REFRESH_TOKEN_EXPIRATION,
     });
   }
 
-  private verifyRefreshToken(refreshToken: string) {
+  public verifyRefreshToken(refreshToken: string) {
     try {
       jwt.verify(refreshToken, env?.REFRESH_SECRET as string);
     } catch (error) {

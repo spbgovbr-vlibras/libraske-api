@@ -1,4 +1,4 @@
-import Song from '@models/Song';
+import Song from '../models/Song';
 import { getRepository } from 'typeorm';
 
 import AppError from '../errors/AppError';
@@ -13,11 +13,11 @@ class ConsultSongService {
     const song = await songRepository.findOne(id);
 
     if (!song) {
-      throw new AppError('Song does not exists.');
+      throw new AppError('Song does not exists.', 404);
     }
 
     return song;
   }
 }
 
-export default ConsultSongService;
+export default new ConsultSongService();
