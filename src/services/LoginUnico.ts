@@ -3,7 +3,7 @@
 
 import { AxiosInstance } from 'axios';
 import axios from 'axios';
-import jwt from 'jsonwebtoken';
+import jsonwebtoken from 'jsonwebtoken';
 import jwtToPem from 'jwk-to-pem';
 import qs from 'qs';
 import AppError from '../errors/AppError';
@@ -33,10 +33,14 @@ export const loginUnicoAxiosInstance = axios.create({
 
 export default class LoginUnico {
 
-	private http: AxiosInstance
+	private http: AxiosInstance;
+	private jwt: object;
+	private jwtToPemInstance: JWK;
 
-	constructor(private http: AxiosInstance) {
+	constructor(private http: AxiosInstance, jwt: object, jwtToPemInstance: JWK) {
 		this.http = http;
+		this.jwt = jwt;
+		this.jwtToPemInstance = jwtToPemInstance;
 	}
 
 	async signUp({ code, redirectUri }: IRequestSingUp): Promise<ILoginUnico> {
@@ -49,6 +53,7 @@ export default class LoginUnico {
 			const {
 				data: { keys },
 			} = await this.http.get('jwk');
+
 			const [key] = keys;
 			const response = await this.http.post('token', qs.stringify(query), {
 				headers: {
@@ -58,7 +63,7 @@ export default class LoginUnico {
 			const {
 				data: { id_token: clientToken },
 			} = response;
-			const decoded = jwt.verify(clientToken, jwtToPem(key));
+			const decoded = this.jwt.verify(clientToken, this.jwtToPemInstance(key));
 			const {
 				sub: cpf,
 				name,
@@ -75,7 +80,9 @@ export default class LoginUnico {
 				profilePhoto: decoded.profilePhoto,
 			};
 		} catch (error) {
+
 			const { response } = error;
+
 			if (response) {
 				const description = response.data && response.data.error_description;
 				const errors = {
