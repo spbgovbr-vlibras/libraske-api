@@ -4,31 +4,47 @@ import { getRepository } from 'typeorm';
 import AppError from '../errors/AppError';
 import ScoresService from './ScoresService';
 import CalculatePontuations from '../utils/CalculatePontuation';
+import UpdateUserService from '../services/UpdateUserService';
+import env from '../environment/environment';
 
 interface IRequest {
   id: string;
 }
 
-
-
+interface CloseGameSessionResponse {
+  gameSession: GameSession;
+  sessionScore: number;
+}
 class CloseGameSessionService {
 
-  constructor(private scoresService: typeof ScoresService = ScoresService) { }
+  constructor(
+    private scoresService: typeof ScoresService = ScoresService,
+    private updateUserService: typeof UpdateUserService = UpdateUserService
+  ) { }
 
 
-  async execute({ id }: IRequest): Promise<void> {
+  async execute({ id }: IRequest): Promise<CloseGameSessionResponse> {
+
     const gameSessionRepository = getRepository(GameSession);
-
     const gameSession = await gameSessionRepository.findOne(id);
 
     if (!gameSession) {
-      throw new AppError('Game session does not exists.');
+      throw new AppError('Game session does not exists.', 404);
     }
 
-    const sessionScore = CalculatePontuations(gameSession.pontuation);
-    await this.scoresService.createScore({ id, sessionScore });
+    if (gameSession.isClosed) {
+      throw new AppError('The game session is already closed.', 400)
+    }
 
-    await gameSessionRepository.save({ ...gameSession, isClosed: true });
+
+    await gameSessionRepository.update(gameSession.id, { isClosed: true })
+
+    const sessionScore = CalculatePontuations(gameSession.pontuation);
+
+    return {
+      gameSession,
+      sessionScore
+    }
 
   }
 }

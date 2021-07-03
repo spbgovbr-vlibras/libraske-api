@@ -26,6 +26,9 @@ class User {
   @Column()
   cpf: string;
 
+  @Column()
+  credit: number;
+
   @CreateDateColumn()
   created_at: Date;
 

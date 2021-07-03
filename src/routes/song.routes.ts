@@ -17,9 +17,7 @@ songsRouter.get('/', async (request, response) => {
 
 songsRouter.get('/:id', async (request, response) => {
   const { id } = request.params;
-
-  const consultSongService = new ConsultSongService();
-  const song = await consultSongService.execute({ id });
+  const song = await ConsultSongService.execute({ id });
 
   return response.json({ song });
 });
@@ -53,9 +51,7 @@ songsRouter.post('/', createSongFolder, (request, response) => {
 songsRouter.delete('/:id', async (request, response) => {
   const { id } = request.params;
 
-  const deleteSongService = new DeleteSongService();
-
-  await deleteSongService.execute({ id });
+  await DeleteSongService.execute({ id });
 
   return response.status(200).send();
 });
