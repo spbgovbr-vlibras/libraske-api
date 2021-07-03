@@ -14,7 +14,7 @@ export default function createSongFolder(
   const destination = path.resolve(tmpFolder, 'song', idSong);
 
   if (!fs.existsSync(destination)) {
-    fs.mkdirSync(destination);
+    fs.mkdirSync(destination, { recursive: true });
   }
 
   request.idSong = idSong;

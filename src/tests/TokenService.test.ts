@@ -82,7 +82,8 @@ describe('Token Service', () => {
             email,
             profilePhoto,
             cpf,
-            refreshToken
+            refreshToken,
+            credit: 0
         })
 
         const newAccessToken = await TokenService.updateToken(refreshToken);
@@ -104,7 +105,8 @@ describe('Token Service', () => {
             email,
             profilePhoto,
             cpf,
-            refreshToken
+            refreshToken,
+            credit: 0
         })
 
         await TokenService.deleteToken(refreshToken);

@@ -4,7 +4,7 @@ import { getRepository } from 'typeorm';
 import AppError from '../errors/AppError';
 import ScoresService from './ScoresService';
 import CalculatePontuations from '../utils/CalculatePontuation';
-import UpdateUserService from '../services/UpdateUserService';
+import UsersService from '../services/UsersService';
 import env from '../environment/environment';
 
 interface IRequest {
@@ -16,13 +16,6 @@ interface CloseGameSessionResponse {
   sessionScore: number;
 }
 class CloseGameSessionService {
-
-  constructor(
-    private scoresService: typeof ScoresService = ScoresService,
-    private updateUserService: typeof UpdateUserService = UpdateUserService
-  ) { }
-
-
   async execute({ id }: IRequest): Promise<CloseGameSessionResponse> {
 
     const gameSessionRepository = getRepository(GameSession);

@@ -1,23 +1,20 @@
 import uploadConfig from '@config/uploadConfig';
 import createSongFolder from '@middlewares/createSongFolder';
-import ConsultSongService from '@services/ConsultSongService';
-import CreateSongService from '@services/CreateSongService';
-import DeleteSongService from '@services/DeleteSongService';
-import ListSongsService from '@services/ListSongsService';
+import SongsService from '@services/SongsService';
 import { Router } from 'express';
 import multer from 'multer';
 
 const songsRouter = Router();
 
 songsRouter.get('/', async (request, response) => {
-  const songs = await ListSongsService.execute();
+  const songs = await SongsService.listSongs();
 
   return response.json({ Items: songs });
 });
 
 songsRouter.get('/:id', async (request, response) => {
   const { id } = request.params;
-  const song = await ConsultSongService.execute({ id });
+  const song = await SongsService.findById({ id });
 
   return response.json({ song });
 });
@@ -32,7 +29,7 @@ songsRouter.post('/', createSongFolder, (request, response) => {
   ])(request, response, async () => {
     const { name, description, singers } = request.body;
 
-    const song = await CreateSongService.execute({
+    const song = await SongsService.createSong({
       idSong,
       idUser: request.user.id,
       name,
@@ -51,7 +48,7 @@ songsRouter.post('/', createSongFolder, (request, response) => {
 songsRouter.delete('/:id', async (request, response) => {
   const { id } = request.params;
 
-  await DeleteSongService.execute({ id });
+  await SongsService.deleteSongAndClearFolder({ id });
 
   return response.status(200).send();
 });
