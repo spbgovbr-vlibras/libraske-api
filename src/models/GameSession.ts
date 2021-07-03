@@ -6,7 +6,9 @@ import {
   UpdateDateColumn,
   JoinColumn,
   ManyToOne,
+  OneToOne,
 } from 'typeorm';
+import Scores from './Scores';
 
 import Music from './Song';
 import User from './User';
@@ -39,6 +41,13 @@ class GameSession {
 
   @Column('int', { array: true })
   pontuation: number[];
+
+
+  //Score relationship
+
+  @OneToOne(() => Scores, gameSession => GameSession)
+  score: Scores;
+
 
   @CreateDateColumn()
   created_at: Date;
