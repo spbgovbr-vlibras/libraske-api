@@ -2,7 +2,6 @@ import { Router } from 'express';
 import LoginUnicoInstance, { loginUnicoAxiosInstance } from '../services/LoginUnico';
 import jwt from 'jsonwebtoken'
 import jwtToPem from 'jwk-to-pem'
-import CreateUserService from '../services/CreateUserService';
 import TokenService from '../services/TokenService';
 import UsersServices from '../services/UsersService';
 import { getRepository } from 'typeorm';
@@ -28,7 +27,7 @@ authRouter.post('/', async (request, response) => {
 		let user = await UsersServices.findUserByCpfOrId({ cpf });
 
 		if (!user) {
-			user = await CreateUserService.execute({ name, email, cpf, profilePhoto, refreshToken: null });
+			user = await UsersServices.createUser({ name, email, cpf, profilePhoto, refreshToken: null });
 
 			if (!user) {
 				throw new AppError("Ocorreu um erro ao registrar um novo usuário.");
