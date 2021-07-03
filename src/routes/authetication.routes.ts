@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken'
 import jwtToPem from 'jwk-to-pem'
 import CreateUserService from '../services/CreateUserService';
 import TokenService from '../services/TokenService';
-import UpdateUserService from '../services/UpdateUserService';
+import UsersServices from '../services/UsersService';
 import { getRepository } from 'typeorm';
 import User from '../models/User';
 import AppError from '../errors/AppError';
@@ -36,7 +36,7 @@ authRouter.post('/', async (request, response) => {
 			}
 		}
 
-		await UpdateUserService.execute({
+		await UsersServices.updateUser({
 			name: user.name,
 			email: user.email,
 			cpf: user.cpf,
@@ -93,7 +93,7 @@ authRouter.post('/fake-login', async (request, response) => {
 		const accessToken = TokenService.createToken({ cpf: user.cpf });
 		const refreshToken = TokenService.createRefreshToken({ cpf: user.cpf });
 
-		await UpdateUserService.execute({ name: user.name, email: user.email, cpf: user.cpf, profilePhoto: user.profilePhoto, refreshToken });
+		await UsersServices.updateUser({ name: user.name, email: user.email, cpf: user.cpf, profilePhoto: user.profilePhoto, refreshToken });
 
 		response.status(200).json({
 			...user,
