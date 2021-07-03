@@ -9,7 +9,6 @@ import { getRepository } from 'typeorm';
 import User from '../models/User';
 import AppError from '../errors/AppError';
 import AuthorizationService from '../services/AuthorizationService';
-import ConsultUserService from '@services/ConsultUserService';
 
 const authRouter = Router();
 
@@ -26,7 +25,7 @@ authRouter.post('/', async (request, response) => {
 
 		const accessToken = TokenService.createToken({ cpf });
 		const refreshToken = TokenService.createRefreshToken({ cpf });
-		let user = await ConsultUserService.execute({ cpf });
+		let user = await UsersServices.findUserByCpfOrId({ cpf });
 
 		if (!user) {
 			user = await CreateUserService.execute({ name, email, cpf, profilePhoto, refreshToken: null });
