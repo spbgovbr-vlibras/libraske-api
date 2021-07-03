@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import LoginUnicoInstance, { loginUnicoAxiosInstance } from '../services/LoginUnico';
+import LoginUnicoInstance, { loginUnicoAxiosInstance } from '../services/LoginUnicoService';
 import jwt from 'jsonwebtoken'
 import jwtToPem from 'jwk-to-pem'
 import TokenService from '../services/TokenService';
@@ -20,7 +20,7 @@ authRouter.post('/', async (request, response) => {
 
 		const authorization = new AuthorizationService(new LoginUnicoInstance(loginUnicoAxiosInstance, jwt, jwtToPem));
 
-		let { name, email, cpf, profilePhoto } = await authorization.execute({ code, redirectUri: request_uri });
+		let { name, email, cpf, profilePhoto } = await authorization.authenticateOnLoginUnico({ code, redirectUri: request_uri });
 
 		const accessToken = TokenService.createToken({ cpf });
 		const refreshToken = TokenService.createRefreshToken({ cpf });

@@ -1,4 +1,4 @@
-import LoginUnico from "../services/LoginUnico";
+import LoginUnico from "../services/LoginUnicoService";
 import { unformattedCpfFactory } from "../utils/CPFFactory";
 import { emailFactory, firstNameFactory, profilePhotoUrlFactory } from "../utils/UsersInformationsFactory";
 import AuthorizationService from "../services/AuthorizationService";
@@ -39,7 +39,7 @@ describe('Authorization Service', () => {
 
         const Authorization = new AuthorizationService(MockedLoginUnico);
 
-        const result = await Authorization.execute({ code, redirectUri });
+        const result = await Authorization.authenticateOnLoginUnico({ code, redirectUri });
 
         expect(MockedLoginUnico.signUp).toBeCalledTimes(1);
         expect(MockedLoginUnico.signUp).toBeCalledWith({ code, redirectUri });
@@ -64,7 +64,7 @@ describe('Authorization Service', () => {
         const Authorization = new AuthorizationService(MockedLoginUnico);
 
         try {
-            await Authorization.execute({ code, redirectUri });
+            await Authorization.authenticateOnLoginUnico({ code, redirectUri });
         } catch (error) {
             expect(error.statusCode).toBe(500);
             expect(MockedLoginUnico.signUp).toBeCalledTimes(1);

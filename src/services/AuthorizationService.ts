@@ -1,6 +1,6 @@
 
 import AppError from '../errors/AppError';
-import LoginUnicoService from './LoginUnico';
+import LoginUnicoService from './LoginUnicoService';
 import env from '../environment/environment'
 
 interface IRequest {
@@ -23,7 +23,7 @@ class AuthorizationService {
         this.loginUnicoService = loginUnicoService;
     }
 
-    async execute({ code, redirectUri }: IRequest): Promise<IResponse> {
+    async authenticateOnLoginUnico({ code, redirectUri }: IRequest): Promise<IResponse> {
         try {
             const { name, email, cpf, profilePhoto } = await this.loginUnicoService.signUp({ code, redirectUri });
 

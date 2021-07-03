@@ -9,7 +9,6 @@ interface ISongsRepository {
     getInstance(): Repository<Song>;
 }
 
-
 class SongsRepository implements ISongsRepository {
 
     async findOneById(id: string): Promise<Song | undefined> {

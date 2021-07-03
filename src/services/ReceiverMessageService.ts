@@ -1,7 +1,8 @@
 import Rabbitmq from '../loaders/Rabbitmq';
-import CreatePontuationService from './CreatePontuationService';
+import GameSessionService from './GameSessionService';
+import env from '../environment/environment'
 
-const QUEUE = process.env.RABBITMQ_QUEUE_RECEIVER || 'frame_receiver';
+const QUEUE = env.RABBITMQ_QUEUE_RECEIVER || 'frame_receiver';
 
 const consumeOptions = { noAck: true };
 
@@ -17,13 +18,24 @@ class ReceiverMessageService {
       channel.consume(
         QUEUE,
         async function consume(message) {
-          const { idGameSession, pontuation } = JSON.parse(
+          let { idGameSession, pontuation } = JSON.parse(
             message?.content.toString() as string,
           );
 
-          console.log(' [x] Received %s', message?.content.toString());
+          //TODO Remover essa parte
+          // idGameSession = '2e4a051e-7c4d-4bcd-9e8f-4038c4520356';
+          // pontuation = Math.round(Math.random() * 100);
 
-          await CreatePontuationService.execute({ idGameSession, pontuation });
+
+          try {
+            await GameSessionService.addPontuation({ idGameSession, pontuation });
+          } catch (err) {
+            console.log(err);
+
+          }
+
+          console.log('cabou');
+
         },
         consumeOptions,
       );

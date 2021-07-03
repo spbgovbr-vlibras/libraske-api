@@ -1,5 +1,5 @@
 import axios from 'axios';
-import LoginUnico from '../services/LoginUnico';
+import LoginUnico from '../services/LoginUnicoService';
 import jsonwebtoken from 'jsonwebtoken';
 import { unformattedCpfFactory } from '../utils/CPFFactory';
 import { emailFactory, firstNameFactory, profilePhotoUrlFactory } from '../utils/UsersInformationsFactory';

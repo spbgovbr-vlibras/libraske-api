@@ -1,13 +1,9 @@
 import uploadConfig from '@config/uploadConfig';
-import CloseGameSessionService from '@services/CloseGameSessionService';
-import ConsultGameSessionService from '@services/ConsultGameSessionService';
-import CreateGameSessionService from '@services/CreateGameSessionService';
 import SenderMessageService from '@services/SenderMessageService';
 import ScoresService from '../services/ScoresService'
 import { Router } from 'express';
 import multer from 'multer';
 import environment from 'src/environment/environment';
-import GameSessionRepository from 'src/repository/GameSessionRepository';
 import GameSessionService from '@services/GameSessionService';
 import CalculateCredits from 'src/utils/CalculateCredits';
 import UsersService from '@services/UsersService';
@@ -40,7 +36,7 @@ gameOperationsRouter.post(
   async (request, response) => {
     const { idSong } = request.body;
 
-    const { id } = await CreateGameSessionService.execute({
+    const { id } = await GameSessionService.createGameSession({
       idUser: request.user.id,
       idSong,
     });
@@ -57,7 +53,7 @@ gameOperationsRouter.patch(
     const bonusValue = parseInt(environment.BONUS_VALUE);
 
     // Finalizando a GameSession
-    const { gameSession, sessionScore } = await CloseGameSessionService.execute({ id });
+    const { gameSession, sessionScore } = await GameSessionService.closeGameSession({ id });
 
     // Criando Score
     await ScoresService.createScore({ id, sessionScore });
@@ -80,11 +76,9 @@ gameOperationsRouter.get(
   async (request, response) => {
     const { id } = request.params;
 
-    const pontuation = await ConsultGameSessionService.execute({
-      id,
-    });
+    const pontuation = await ScoresService.getScoreBySession(id);
 
-    return response.json({ pontuation });
+    return response.json({ sessionScore: pontuation.sessionScore });
   },
 );
 
