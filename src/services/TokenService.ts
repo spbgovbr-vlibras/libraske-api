@@ -4,7 +4,13 @@ import env from '../environment/environment';
 import { getRepository } from 'typeorm';
 import User from '../models/User';
 import AppError from '../errors/AppError';
+import UsersService from './UsersService';
 
+interface IJwtToken {
+  cpf: string;
+  iat: string;
+  exp: string;
+}
 class TokenService {
 
   public createToken(cpf: object): string {
@@ -30,22 +36,28 @@ class TokenService {
     }
   }
 
+  public decodeToken(refreshToken: string): IJwtToken {
+    return jwt.decode(refreshToken) as IJwtToken;
+  }
+
   public async updateToken(refreshToken: string): Promise<string> {
 
-    const userRepository = getRepository(User);
-    const user = await userRepository.findOneOrFail({ refreshToken });
-
     this.verifyRefreshToken(refreshToken);
+    const { cpf } = this.decodeToken(refreshToken);
 
-    return this.createToken({ cpf: user.cpf })
+    await UsersService.findUserByCpfOrId({ cpf });
+
+    return this.createToken({ cpf })
   }
 
   public async deleteToken(refreshToken: string): Promise<void> {
 
-    const userRepository = getRepository(User);
-    const user = await userRepository.findOneOrFail({ refreshToken });
+    this.verifyRefreshToken(refreshToken);
+    const { cpf } = this.decodeToken(refreshToken);
 
-    await userRepository.update(user.id, { refreshToken: null });
+    const user = await UsersService.findUserByCpfOrId({ cpf });
+
+    await UsersService.updateUser({ ...user, refreshToken: null });
 
   }
 }

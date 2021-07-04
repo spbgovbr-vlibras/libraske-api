@@ -1,3 +1,4 @@
+import AppError from "src/errors/AppError";
 import User from "../models/User";
 import UserRepository from '../repository/UsersRepository'
 
@@ -10,7 +11,7 @@ interface IUpdateService {
     email: string;
     profilePhoto: string;
     cpf: string;
-    refreshToken: string;
+    refreshToken: string | null;
 }
 interface IFindUserCpfOrId {
     id?: string;
@@ -41,15 +42,23 @@ class UsersService {
 
     }
 
-    public async findUserByCpfOrId({ id, cpf }: IFindUserCpfOrId): Promise<User | undefined> {
+    public async findUserByCpfOrId({ id, cpf }: IFindUserCpfOrId): Promise<User> {
 
-        const userRepository = UserRepository.getInstance();
+        let user;
 
         if (cpf) {
-            return await userRepository.findOne({ cpf });
+            user = await UserRepository.findOneByCpf(cpf);
+        } else if (id) {
+            user = await UserRepository.findOneById(id);
         } else {
-            return await userRepository.findOne({ id });
+            throw new AppError('Unsupported User.', 500);
         }
+
+        if (!user) {
+            throw new AppError('User not found.', 404);
+        }
+
+        return user;
     }
 
     public async updateUser({ name, email, cpf, profilePhoto, refreshToken }: IUpdateService): Promise<void> {

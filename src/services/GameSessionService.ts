@@ -5,6 +5,11 @@ import AppError from "src/errors/AppError";
 import GameSessionRepository from "src/repository/GameSessionRepository";
 import CalculatePontuations from '../utils/CalculatePontuation';
 import { getRepository } from "typeorm";
+import SongsRepository from "src/repository/SongsRepository";
+import UsersRepository from "src/repository/UsersRepository";
+import UsersService from "./UsersService";
+import SongsService from "./SongsService";
+import ScoresService from "./ScoresService";
 interface ICreatePontuation {
     idGameSession: string;
     pontuation: number;
@@ -26,10 +31,13 @@ interface CloseGameSessionResponse {
 
 class GameSessionService {
 
+    constructor(
+        private userService: typeof UsersService = UsersService,
+        private songsService: typeof SongsService = SongsService) { }
+
     async closeGameSession({ id }: IGetPontuation): Promise<CloseGameSessionResponse> {
 
-        const gameSessionRepository = getRepository(GameSession);
-        const gameSession = await gameSessionRepository.findOne(id);
+        const gameSession = await GameSessionRepository.findOneById(id);
 
         if (!gameSession) {
             throw new AppError('Game session does not exists.', 404);
@@ -40,7 +48,7 @@ class GameSessionService {
         }
 
 
-        await gameSessionRepository.update(gameSession.id, { isClosed: true })
+        await GameSessionRepository.closeGameSession(gameSession.id);
 
         const sessionScore = CalculatePontuations(gameSession.pontuation);
 
@@ -51,34 +59,10 @@ class GameSessionService {
 
     }
 
-    async getPontuation({ id }: IGetPontuation): Promise<number> {
-
-        // TODO Modificar pra pegar resultado da tabela Scores
-        const gameSessionRepository = getRepository(GameSession);
-
-        const gameSession = await gameSessionRepository.findOne(id);
-
-        if (!gameSession) {
-            throw new AppError('Game session does not exists.');
-        }
-
-        console.log(gameSession);
-        const pontuation = gameSession.pontuation
-            ? gameSession.pontuation.reduce(
-                (accumulator, currentValue) => accumulator + currentValue,
-            )
-            : 0;
-
-        return pontuation;
-    }
-
     async createGameSession({ idUser, idSong }: ICreateGameSession): Promise<GameSession> {
-        const gameSessionRepository = getRepository(GameSession);
-        const songRepository = getRepository(Songs);
-        const userRepository = getRepository(User);
 
-        const song = await songRepository.findOne({ id: idSong });
-        const user = await userRepository.findOne({ id: idUser });
+        const song = await SongsService.findById({ id: idSong });
+        const user = await UsersService.findUserByCpfOrId({ id: idUser });
 
         if (!song) {
             throw new AppError('Song doesnt exists', 404);
@@ -88,12 +72,12 @@ class GameSessionService {
             throw new AppError('User does not exists', 404);
         }
 
-        const gameSession = gameSessionRepository.create({
+        const gameSession = GameSessionRepository.getInstance().create({
             user,
             song,
         });
 
-        await gameSessionRepository.save(gameSession);
+        await GameSessionRepository.saveGameSession(gameSession);
 
         return gameSession;
     }

@@ -5,6 +5,7 @@ import AppError from '../errors/AppError';
 import env from '../environment/environment';
 import { getRepository } from 'typeorm';
 import User from '../models/User';
+import UsersService from '@services/UsersService';
 
 interface ITokenPayload {
   authorization: number;
@@ -32,10 +33,7 @@ export default async function ensureAuthenticated(
       const decoded = verify(token, env?.ACCESS_SECRET as string);
       const { cpf } = decoded as ITokenPayload;
 
-      const userRepository = getRepository(User);
-      const user = await userRepository.findOne({ cpf });
-
-      request.user = user;
+      request.user = await UsersService.findUserByCpfOrId({ cpf });;
 
       return next();
     } catch (error) {

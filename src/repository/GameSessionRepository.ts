@@ -5,7 +5,6 @@ import GameSession from '../models/GameSession';
 interface IGameSessionsRepository {
     closeGameSession(id: string): Promise<void>
     findOneById(id: string): Promise<GameSession | undefined>;
-    saveGameSessionWithUserAndSong(user: User, song: Songs): Promise<GameSession>
     saveGameSession(gameSession: GameSession): Promise<GameSession>
     countByUserIdAndSongId(userId: string, songId: string): Promise<number>;
     getInstance(): Repository<any>;
@@ -19,10 +18,6 @@ class GameSessionsRepository implements IGameSessionsRepository {
 
     async findOneById(id: string): Promise<GameSession | undefined> {
         return await getRepository(GameSession).findOne(id);
-    }
-
-    async saveGameSessionWithUserAndSong(user: User, song: Songs): Promise<GameSession> {
-        return await getRepository(GameSession).save({ user, song });
     }
 
     async saveGameSession(gameSession: GameSession): Promise<GameSession> {

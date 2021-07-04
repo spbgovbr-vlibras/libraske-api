@@ -8,6 +8,8 @@ import { getRepository } from 'typeorm';
 import User from '../models/User';
 import AppError from '../errors/AppError';
 import AuthorizationService from '../services/AuthorizationService';
+import UsersService from '../services/UsersService';
+import UsersRepository from 'src/repository/UsersRepository';
 
 const authRouter = Router();
 
@@ -78,11 +80,10 @@ authRouter.post('/logout', async (request, response) => {
 
 authRouter.post('/fake-login', async (request, response) => {
 
-	const userRepository = getRepository(User);
-
 	try {
 
-		const user = await userRepository.findOne();
+		// TODO Remover endpoint futuramente.
+		const user = await UsersRepository.getInstance().findOne();
 
 		if (!user) {
 			throw new AppError('Cadastre pelo menos um usuário no banco.')

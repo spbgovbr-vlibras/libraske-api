@@ -1,10 +1,24 @@
-import { getRepository } from 'typeorm';
-import Users from '../models/User';
+import { getRepository, Repository } from 'typeorm';
+import User from '../models/User';
 
-const getInstance = () => {
-    return getRepository(Users);
+interface IUsersRepository {
+    findOneById(id: string): Promise<User | undefined>
+    findOneByCpf(cpf: string): Promise<User | undefined>
+    getInstance(): Repository<User>;
 }
 
-export default {
-    getInstance
+class UsersRepository implements IUsersRepository {
+    async findOneById(id: string): Promise<User | undefined> {
+        return await getRepository(User).findOne({ id });
+    }
+
+    async findOneByCpf(cpf: string): Promise<User | undefined> {
+        return await getRepository(User).findOne({ cpf });
+    }
+
+    getInstance(): Repository<User> {
+        return getRepository(User);
+    }
 }
+
+export default new UsersRepository();
