@@ -32,8 +32,20 @@ interface CloseGameSessionResponse {
 class GameSessionService {
 
     constructor(
-        private userService: typeof UsersService = UsersService,
+        private usersService: typeof UsersService = UsersService,
         private songsService: typeof SongsService = SongsService) { }
+
+
+    async findGameSession(gameSessionId: string): Promise<GameSession> {
+
+        const gameSession = await GameSessionRepository.findOneById(gameSessionId);
+
+        if (!gameSession) {
+            throw new AppError("Game session not found!");
+        }
+
+        return gameSession;
+    }
 
     async closeGameSession({ id }: IGetPontuation): Promise<CloseGameSessionResponse> {
 
@@ -41,12 +53,9 @@ class GameSessionService {
 
         if (!gameSession) {
             throw new AppError('Game session does not exists.', 404);
-        }
-
-        if (gameSession.isClosed) {
+        } else if (gameSession.isClosed) {
             throw new AppError('The game session is already closed.', 400)
         }
-
 
         await GameSessionRepository.closeGameSession(gameSession.id);
 
@@ -61,16 +70,8 @@ class GameSessionService {
 
     async createGameSession({ idUser, idSong }: ICreateGameSession): Promise<GameSession> {
 
-        const song = await SongsService.findById({ id: idSong });
-        const user = await UsersService.findUserByCpfOrId({ id: idUser });
-
-        if (!song) {
-            throw new AppError('Song doesnt exists', 404);
-        }
-
-        if (!user) {
-            throw new AppError('User does not exists', 404);
-        }
+        const song = await this.songsService.findById({ id: idSong });
+        const user = await this.usersService.findUserByCpfOrId({ id: idUser });
 
         const gameSession = GameSessionRepository.getInstance().create({
             user,
@@ -84,11 +85,7 @@ class GameSessionService {
 
     async addPontuation({ idGameSession, pontuation }: ICreatePontuation): Promise<GameSession> {
 
-        const gameSession = await GameSessionRepository.findOneById(idGameSession);
-
-        if (!gameSession) {
-            throw new AppError('Game session does not exists');
-        }
+        const gameSession = await this.findGameSession(idGameSession);
 
         const oldArray = gameSession.pontuation ? gameSession.pontuation : [];
 

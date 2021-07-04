@@ -27,7 +27,6 @@ interface ICreateUser {
 
 class UsersService {
 
-
     public async createUser({ name, email, cpf, profilePhoto, refreshToken }: ICreateUser): Promise<User> {
 
         const userRepository = UserRepository.getInstance();
