@@ -39,6 +39,7 @@ export default class CreateBoughtItems1625271140873
         columnNames: ['user_id'],
         referencedTableName: 'users',
         referencedColumnNames: ['id'],
+        onDelete: "CASCADE"
       }),
     );
 

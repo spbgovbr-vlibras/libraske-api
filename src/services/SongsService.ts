@@ -11,7 +11,7 @@ interface IFindById {
 
 interface ICreateSong {
     idSong: string;
-    idUser: string;
+    idUser: number;
     name: string;
     description: string;
     singers: string;

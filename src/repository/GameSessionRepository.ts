@@ -3,7 +3,7 @@ import User from '@models/User';
 import { getRepository, Repository } from 'typeorm';
 import GameSession from '../models/GameSession';
 interface IGameSessionsRepository {
-    closeGameSession(id: string): Promise<void>
+    closeGameSession(id: number): Promise<void>
     findOneById(id: string): Promise<GameSession | undefined>;
     saveGameSession(gameSession: GameSession): Promise<GameSession>
     countByUserIdAndSongId(userId: number, songId: string): Promise<number>;
@@ -12,7 +12,7 @@ interface IGameSessionsRepository {
 
 class GameSessionsRepository implements IGameSessionsRepository {
 
-    async closeGameSession(id: string): Promise<void> {
+    async closeGameSession(id: number): Promise<void> {
         await getRepository(GameSession).update(id, { isClosed: true })
     }
 

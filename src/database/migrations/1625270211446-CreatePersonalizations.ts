@@ -45,6 +45,7 @@ export default class CreateClothes1625270211446 implements MigrationInterface {
         columnNames: ['user_id'],
         referencedTableName: 'users',
         referencedColumnNames: ['id'],
+        onDelete: "CASCADE"
       }),
     );
   }

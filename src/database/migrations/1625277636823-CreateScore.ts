@@ -37,6 +37,7 @@ export default class CreateScore1625277636823 implements MigrationInterface {
         columnNames: ['game_session_id'],
         referencedTableName: 'game_sessions',
         referencedColumnNames: ['id'],
+        onDelete: "CASCADE"
       }),
     );
   }

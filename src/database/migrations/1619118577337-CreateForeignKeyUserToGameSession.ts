@@ -10,6 +10,7 @@ export class CreateForeignKeyUserToGameSession1619118577337
         columnNames: ['user_id'],
         referencedTableName: 'users',
         referencedColumnNames: ['id'],
+        onDelete: "CASCADE"
       }),
     );
   }

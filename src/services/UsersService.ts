@@ -1,4 +1,7 @@
+import GameSession from "@models/GameSession";
+import Scores from "@models/Scores";
 import AppError from "src/errors/AppError";
+import { getConnection } from "typeorm";
 import User from "../models/User";
 import UserRepository from '../repository/UsersRepository'
 
@@ -104,6 +107,19 @@ class UsersService {
         }
 
         return newCredit;
+    }
+
+    public async deleteUser(userId: number) {
+
+        const defaultUserRepository = UserRepository.getInstance();
+
+        const user = defaultUserRepository.create({
+            id: userId
+        })
+
+        const deletedUser = await defaultUserRepository.remove(user);
+
+        return deletedUser;
     }
 
 }

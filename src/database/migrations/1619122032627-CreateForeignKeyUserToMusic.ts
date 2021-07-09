@@ -10,6 +10,7 @@ export class CreateForeignKeyUserToMusic1619122032627
         columnNames: ['user_id'],
         referencedTableName: 'users',
         referencedColumnNames: ['id'],
+        onDelete: "CASCADE"
       }),
     );
   }
