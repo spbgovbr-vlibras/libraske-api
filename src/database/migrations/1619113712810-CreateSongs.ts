@@ -15,7 +15,7 @@ export class CreateSongs1619113712810 implements MigrationInterface {
           },
           {
             name: 'user_id',
-            type: 'uuid',
+            type: 'int',
           },
           {
             name: 'name',

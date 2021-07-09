@@ -22,7 +22,7 @@ export default class CreateBoughtItems1625271140873
           },
           {
             name: 'user_id',
-            type: 'uuid',
+            type: 'int',
           },
           {
             name: 'song_id',

@@ -10,7 +10,7 @@ interface ICreatePontuation {
     pontuation: number;
 }
 interface ICreateGameSession {
-    idUser: string;
+    idUser: number;
     idSong: string;
 }
 
@@ -63,6 +63,8 @@ class GameSessionService {
 
     async createGameSession({ idUser, idSong }: ICreateGameSession): Promise<GameSession> {
 
+        //TODO Validar se o usuário tem a música liberada.
+
         const song = await this.songsService.findById({ id: idSong });
         const user = await this.usersService.findUserByCpfOrId({ id: idUser });
 
@@ -92,7 +94,7 @@ class GameSessionService {
         return gameSession;
     }
 
-    async countByUserIdAndSongId(userId: string, songId: string): Promise<number> {
+    async countByUserIdAndSongId(userId: number, songId: string): Promise<number> {
         return await GameSessionRepository.countByUserIdAndSongId(userId, songId);
     }
 

@@ -5,8 +5,8 @@ import BoughtSongs from '../models/BoughtSongs';
 interface IBoughtSongsRepository {
 
     addBoughtSong(boughtSongs: BoughtSongs): Promise<BoughtSongs>
-    findByUserId(userId: string): Promise<BoughtSongs[]>;
-    existsBySongIdAndUserId(userId: string, songId: string): Promise<boolean>;
+    findByUserId(userId: number): Promise<BoughtSongs[]>;
+    existsBySongIdAndUserId(userId: number, songId: string): Promise<boolean>;
     getInstance(): Repository<BoughtSongs>;
 }
 
@@ -16,11 +16,11 @@ class BoughtSongsRepository implements IBoughtSongsRepository {
         return await getRepository(BoughtSongs).save(boughtSongs);
     }
 
-    async findByUserId(userId: string): Promise<BoughtSongs[]> {
+    async findByUserId(userId: number): Promise<BoughtSongs[]> {
         return getRepository(BoughtSongs).find({ user_id: userId });
     }
 
-    async existsBySongIdAndUserId(userId: string, songId: string): Promise<boolean> {
+    async existsBySongIdAndUserId(userId: number, songId: string): Promise<boolean> {
 
         const result = await getRepository(BoughtSongs).find({ user_id: userId, song_id: songId });
 

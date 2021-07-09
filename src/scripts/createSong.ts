@@ -12,7 +12,6 @@ let { name, user_id, description, singers, thumbnail, subtitle } = minimist(
 );
 
 name = name.toLowerCase();
-user_id = user_id.toLowerCase();
 description = description.toLowerCase();
 singers = singers.toLowerCase();
 subtitle = subtitle.toLowerCase();

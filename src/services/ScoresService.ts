@@ -30,14 +30,14 @@ class ScoresService {
         return result;
     }
 
-    async getHistoryBySong(userId: string, songId: string): Promise<IMaxSessionScore[]> {
+    async getHistoryBySong(userId: number, songId: string): Promise<IMaxSessionScore[]> {
 
         const result = await ScoresRepository.getHistoryBySong(userId, songId) as IMaxSessionScore[];
 
         return result;
     }
 
-    async getBestScoresByUser(userId: string): Promise<IBestScoresByUser[]> {
+    async getBestScoresByUser(userId: number): Promise<IBestScoresByUser[]> {
 
         const result = await ScoresRepository.getBestScoresByUser(userId);
 

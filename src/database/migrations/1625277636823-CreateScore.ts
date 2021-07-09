@@ -20,7 +20,7 @@ export default class CreateScore1625277636823 implements MigrationInterface {
           },
           {
             name: 'game_session_id',
-            type: 'uuid',
+            type: 'int',
           },
           {
             name: 'session_score',

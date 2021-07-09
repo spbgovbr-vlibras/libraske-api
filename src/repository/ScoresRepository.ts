@@ -3,7 +3,7 @@ import Scores from '../models/Scores';
 
 interface IScoresRepository {
     findBestScoreBySong(songId: string): Promise<IMaxSessionScore[]>;
-    getHistoryBySong(userId: string, songId: string): Promise<IMaxSessionScore[]>;
+    getHistoryBySong(userId: number, songId: string): Promise<IMaxSessionScore[]>;
     getInstance(): Repository<Scores>;
 }
 
@@ -23,7 +23,7 @@ export interface IBestScoresByUser {
 
 class ScoresRepository implements IScoresRepository {
 
-    async getHistoryBySong(userId: string, songId: string): Promise<IHistoryBySong[]> {
+    async getHistoryBySong(userId: number, songId: string): Promise<IHistoryBySong[]> {
 
         const query = ` select so.name, s.session_score from scores s 
                         inner join game_sessions gs on gs.id = s.game_session_id 
@@ -48,7 +48,7 @@ class ScoresRepository implements IScoresRepository {
         return await getRepository(Scores).query(query);
     }
 
-    async getBestScoresByUser(userId: string): Promise<IBestScoresByUser[]> {
+    async getBestScoresByUser(userId: number): Promise<IBestScoresByUser[]> {
         const query = ` select distinct s.name as song_name, s.id as song_id, max(sc.session_score) over(partition by gs.song_id) as best_score from scores sc 
                         inner join game_sessions gs on gs.id = sc.game_session_id 
                         inner join songs s on gs.song_id = s.id 

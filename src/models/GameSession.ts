@@ -15,8 +15,8 @@ import User from './User';
 
 @Entity('game_sessions')
 class GameSession {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn('increment')
+  id: number;
 
   // Music relationship
   @Column()
@@ -32,7 +32,7 @@ class GameSession {
 
   // User relationship
   @Column()
-  user_id: string;
+  user_id: number;
 
   @ManyToOne(() => User)
   @JoinColumn({ name: 'user_id' })

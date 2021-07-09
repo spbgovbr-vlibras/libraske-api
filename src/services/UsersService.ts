@@ -14,7 +14,7 @@ interface IUpdateService {
     refreshToken: string | null;
 }
 interface IFindUserCpfOrId {
-    id?: string;
+    id?: number;
     cpf?: string;
 }
 interface ICreateUser {
@@ -93,7 +93,7 @@ class UsersService {
         return await this.changeCredit({ creditsToChange: -creditsToChange, user });
     }
 
-    public async checkInsufficientCreditsAndThrow(creditToRemove: number, userId: string) {
+    public async checkInsufficientCreditsAndThrow(creditToRemove: number, userId: number) {
 
         const userToChange = await this.findUserByCpfOrId({ id: userId });
 

@@ -33,7 +33,7 @@ export default async function ensureAuthenticated(
       const decoded = verify(token, env?.ACCESS_SECRET as string);
       const { cpf } = decoded as ITokenPayload;
 
-      request.user = await UsersService.findUserByCpfOrId({ cpf });;
+      request.user = await UsersService.findUserByCpfOrId({ cpf });
 
       return next();
     } catch (error) {

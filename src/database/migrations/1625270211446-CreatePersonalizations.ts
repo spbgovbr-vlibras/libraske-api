@@ -20,7 +20,7 @@ export default class CreateClothes1625270211446 implements MigrationInterface {
           },
           {
             name: 'user_id',
-            type: 'uuid',
+            type: 'int',
           },
           {
             name: 'name',

@@ -20,7 +20,7 @@ export class CreateBoughtClothes1625272366388 implements MigrationInterface {
           },
           {
             name: 'user_id',
-            type: 'uuid',
+            type: 'int',
           },
           {
             name: 'personalization_id',

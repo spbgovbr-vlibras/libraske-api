@@ -6,7 +6,7 @@ interface IGameSessionsRepository {
     closeGameSession(id: string): Promise<void>
     findOneById(id: string): Promise<GameSession | undefined>;
     saveGameSession(gameSession: GameSession): Promise<GameSession>
-    countByUserIdAndSongId(userId: string, songId: string): Promise<number>;
+    countByUserIdAndSongId(userId: number, songId: string): Promise<number>;
     getInstance(): Repository<any>;
 }
 
@@ -24,7 +24,7 @@ class GameSessionsRepository implements IGameSessionsRepository {
         return await getRepository(GameSession).save(gameSession);
     }
 
-    async countByUserIdAndSongId(userId: string, songId: string): Promise<number> {
+    async countByUserIdAndSongId(userId: number, songId: string): Promise<number> {
         return await getRepository(GameSession).count({ user_id: userId, song_id: songId });
     }
 

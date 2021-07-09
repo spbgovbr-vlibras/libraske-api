@@ -2,13 +2,13 @@ import { getRepository, Repository } from 'typeorm';
 import User from '../models/User';
 
 interface IUsersRepository {
-    findOneById(id: string): Promise<User | undefined>
+    findOneById(id: number): Promise<User | undefined>
     findOneByCpf(cpf: string): Promise<User | undefined>
     getInstance(): Repository<User>;
 }
 
 class UsersRepository implements IUsersRepository {
-    async findOneById(id: string): Promise<User | undefined> {
+    async findOneById(id: number): Promise<User | undefined> {
         return await getRepository(User).findOne({ id });
     }
 

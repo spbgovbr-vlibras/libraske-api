@@ -23,29 +23,38 @@ authRouter.post('/', async (request, response) => {
 
 		const accessToken = TokenService.createToken({ cpf });
 		const refreshToken = TokenService.createRefreshToken({ cpf });
-		let user = await UsersServices.findUserByCpfOrId({ cpf });
+		let user;
 
-		if (!user) {
-			user = await UsersServices.createUser({ name, email, cpf, profilePhoto, refreshToken: null });
+		try {
+			user = await UsersServices.findUserByCpfOrId({ cpf });
+		} catch (error) {
 
-			if (!user) {
-				throw new AppError("Ocorreu um erro ao registrar um novo usuário.");
+			if (error instanceof AppError && error.statusCode == 404) {
+				if (!user) {
+					user = await UsersServices.createUser({ name, email, cpf, profilePhoto, refreshToken: null });
+
+					if (!user) {
+						throw new AppError("Ocorreu um erro ao registrar um novo usuário.");
+					}
+				}
+
+				await UsersServices.updateUser({
+					name: user.name,
+					email: user.email,
+					cpf: user.cpf,
+					profilePhoto: user.profilePhoto,
+					refreshToken
+				});
+
+				response.status(200).json({
+					...user,
+					accessToken,
+					refreshToken
+				});
+			} else {
+				throw error;
 			}
 		}
-
-		await UsersServices.updateUser({
-			name: user.name,
-			email: user.email,
-			cpf: user.cpf,
-			profilePhoto: user.profilePhoto,
-			refreshToken
-		});
-
-		response.status(200).json({
-			...user,
-			accessToken,
-			refreshToken
-		});
 
 	} catch (error) {
 		console.log(error);
