@@ -29,11 +29,7 @@ class SongsService {
 
     public async deleteSongAndClearFolder({ id }: IFindById): Promise<Song> {
 
-        const song = await SongsRepository.findOneById(id);
-
-        if (!song) {
-            throw new AppError('Song does not exists.', 404);
-        }
+        const song = await this.findById({ id });
 
         await SongsRepository.deleteSongById(song.id);
 

@@ -44,6 +44,9 @@ class Songs {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @Column()
+  price: number;
 }
 
 export default Songs;

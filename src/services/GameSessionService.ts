@@ -1,15 +1,10 @@
 import GameSession from "@models/GameSession";
-import Songs from "@models/Song";
-import User from "@models/User";
 import AppError from "src/errors/AppError";
 import GameSessionRepository from "src/repository/GameSessionRepository";
 import CalculatePontuations from '../utils/CalculatePontuation';
-import { getRepository } from "typeorm";
-import SongsRepository from "src/repository/SongsRepository";
-import UsersRepository from "src/repository/UsersRepository";
 import UsersService from "./UsersService";
 import SongsService from "./SongsService";
-import ScoresService from "./ScoresService";
+
 interface ICreatePontuation {
     idGameSession: string;
     pontuation: number;
@@ -41,7 +36,7 @@ class GameSessionService {
         const gameSession = await GameSessionRepository.findOneById(gameSessionId);
 
         if (!gameSession) {
-            throw new AppError("Game session not found!");
+            throw new AppError("Game session not found!", 404);
         }
 
         return gameSession;
@@ -49,11 +44,9 @@ class GameSessionService {
 
     async closeGameSession({ id }: IGetPontuation): Promise<CloseGameSessionResponse> {
 
-        const gameSession = await GameSessionRepository.findOneById(id);
+        const gameSession = await this.findGameSession(id);
 
-        if (!gameSession) {
-            throw new AppError('Game session does not exists.', 404);
-        } else if (gameSession.isClosed) {
+        if (gameSession.isClosed) {
             throw new AppError('The game session is already closed.', 400)
         }
 

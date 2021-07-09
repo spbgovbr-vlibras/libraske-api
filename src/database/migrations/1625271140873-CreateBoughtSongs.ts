@@ -3,6 +3,7 @@ import {
   QueryRunner,
   Table,
   TableForeignKey,
+  TableUnique,
 } from 'typeorm';
 
 export default class CreateBoughtItems1625271140873
@@ -50,9 +51,14 @@ export default class CreateBoughtItems1625271140873
         referencedColumnNames: ['id'],
       }),
     );
+
+    await queryRunner.createUniqueConstraint('boughtSongs', new TableUnique(
+      { name: 'UQ_boughtSongs_song_id_user_id', columnNames: ['song_id', 'user_id'] }
+    ))
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.dropUniqueConstraint('boughtSongs', 'UQ_boughtSongs_song_id_user_id');
     await queryRunner.dropForeignKey('boughtSongs', 'SongsBought');
     await queryRunner.dropForeignKey('boughtSongs', 'SongsBoughtUser');
     await queryRunner.dropTable('boughtSongs');

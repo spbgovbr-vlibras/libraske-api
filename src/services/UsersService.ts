@@ -78,11 +78,32 @@ class UsersService {
 
         const userRepository = UserRepository.getInstance();
 
-        const userToChange = await userRepository.findOneOrFail({ id: user.id });
+        const userToChange = await this.findUserByCpfOrId({ id: user.id });
         const newCredit = userToChange.credit + creditsToChange;
+
+        if (newCredit < 0) {
+            throw new AppError("Credits are insufficient.");
+        }
 
         return await userRepository.save({ ...userToChange, credit: newCredit });
 
+    }
+
+    public async removeCredit({ creditsToChange, user }: ICreditChange): Promise<User> {
+        return await this.changeCredit({ creditsToChange: -creditsToChange, user });
+    }
+
+    public async checkInsufficientCreditsAndThrow(creditToRemove: number, userId: string) {
+
+        const userToChange = await this.findUserByCpfOrId({ id: userId });
+
+        const newCredit = userToChange.credit - creditToRemove;
+
+        if (newCredit < 0) {
+            throw new AppError("Credits are insufficient.");
+        }
+
+        return newCredit;
     }
 
 }

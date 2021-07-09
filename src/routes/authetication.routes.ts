@@ -4,11 +4,8 @@ import jwt from 'jsonwebtoken'
 import jwtToPem from 'jwk-to-pem'
 import TokenService from '../services/TokenService';
 import UsersServices from '../services/UsersService';
-import { getRepository } from 'typeorm';
-import User from '../models/User';
 import AppError from '../errors/AppError';
 import AuthorizationService from '../services/AuthorizationService';
-import UsersService from '../services/UsersService';
 import UsersRepository from 'src/repository/UsersRepository';
 
 const authRouter = Router();

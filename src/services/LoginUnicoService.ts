@@ -1,10 +1,7 @@
-// @ts-nocheck
-/* eslint-disable */
-
 import { AxiosInstance } from 'axios';
 import axios from 'axios';
 import jsonwebtoken from 'jsonwebtoken';
-import jwtToPem from 'jwk-to-pem';
+import jwtToPem, { JWK } from 'jwk-to-pem';
 import qs from 'qs';
 import AppError from '../errors/AppError';
 import env from '../environment/environment'
@@ -37,7 +34,7 @@ export default class LoginUnico {
 	private jwt: object;
 	private jwtToPemInstance: JWK;
 
-	constructor(private http: AxiosInstance, jwt: object, jwtToPemInstance: JWK) {
+	constructor(http: AxiosInstance, jwt: object, jwtToPemInstance: JWK) {
 		this.http = http;
 		this.jwt = jwt;
 		this.jwtToPemInstance = jwtToPemInstance;
