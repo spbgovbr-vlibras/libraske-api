@@ -1,6 +1,6 @@
 import Scores from '@models/Scores';
 import AppError from 'src/errors/AppError';
-import ScoresRepository from '../repository/ScoresRepository';
+import ScoresRepository, { IBestScoresByUser, IMaxSessionScore } from '../repository/ScoresRepository';
 
 interface IRequest {
     id: string;
@@ -23,6 +23,27 @@ class ScoresService {
 
     }
 
+    async getBestScoreBySong(songId: string): Promise<IMaxSessionScore[]> {
+
+        const result = await ScoresRepository.findBestScoreBySong(songId) as IMaxSessionScore[];
+
+        return result;
+    }
+
+    async getHistoryBySong(userId: string, songId: string): Promise<IMaxSessionScore[]> {
+
+        const result = await ScoresRepository.getHistoryBySong(userId, songId) as IMaxSessionScore[];
+
+        return result;
+    }
+
+    async getBestScoresByUser(userId: string): Promise<IBestScoresByUser[]> {
+
+        const result = await ScoresRepository.getBestScoresByUser(userId);
+
+        return result;
+    }
+
     async createScore({ id, sessionScore }: IRequest): Promise<void> {
 
         const scoresRepository = ScoresRepository.getInstance();
@@ -35,6 +56,8 @@ class ScoresService {
         await scoresRepository.save(createdScore);
 
     }
+
+
 }
 
 export default new ScoresService();
