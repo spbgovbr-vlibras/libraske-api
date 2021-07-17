@@ -6,7 +6,7 @@ import UsersService from "./UsersService";
 import SongsService from "./SongsService";
 
 interface ICreatePontuation {
-    idGameSession: string;
+    idGameSession: number;
     pontuation: number;
 }
 interface ICreateGameSession {
@@ -15,7 +15,7 @@ interface ICreateGameSession {
 }
 
 interface IGetPontuation {
-    id: string;
+    id: number;
 }
 
 interface CloseGameSessionResponse {
@@ -31,7 +31,7 @@ class GameSessionService {
         private songsService: typeof SongsService = SongsService) { }
 
 
-    async findGameSession(gameSessionId: string): Promise<GameSession> {
+    async findGameSession(gameSessionId: number): Promise<GameSession> {
 
         const gameSession = await GameSessionRepository.findOneById(gameSessionId);
 

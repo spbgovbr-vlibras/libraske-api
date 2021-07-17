@@ -3,13 +3,13 @@ import AppError from 'src/errors/AppError';
 import ScoresRepository, { IBestScoresByUser, IMaxSessionScore } from '../repository/ScoresRepository';
 
 interface IRequest {
-    id: string;
+    id: number;
     sessionScore: number;
 }
 
 class ScoresService {
 
-    async getScoreBySession(id: string): Promise<Scores> {
+    async getScoreBySession(id: number): Promise<Scores> {
 
         const scoresRepository = ScoresRepository.getInstance();
 

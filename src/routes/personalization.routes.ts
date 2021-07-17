@@ -20,7 +20,7 @@ personalizationsRouter.post('/', dtoValidationMiddleware(PersonalizationSaveDTO)
 
     const result = await PersonalizationService.createPersonalization(personalization);
 
-    return response.status(201).json({ ...result });
+    return response.status(201).json({ ...result })
 
 })
 

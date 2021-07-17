@@ -50,13 +50,17 @@ gameOperationsRouter.patch(
   async (request, response) => {
 
     const { id } = request.params;
+    const intId = parseInt(id);
     const bonusValue = parseInt(environment.BONUS_VALUE);
 
     // Finalizando a GameSession
-    const { gameSession, sessionScore } = await GameSessionService.closeGameSession({ id });
+    const { gameSession, sessionScore } = await GameSessionService.closeGameSession({ id: intId });
 
     // Criando Score
-    await ScoresService.createScore({ id, sessionScore });
+    console.log({ id, sessionScore });
+
+
+    await ScoresService.createScore({ id: intId, sessionScore });
 
     // Verificando quantas vezes foram jogadas
     const timesPlayed = await GameSessionService.countByUserIdAndSongId(gameSession.user_id, gameSession.song_id);
@@ -76,7 +80,7 @@ gameOperationsRouter.get(
   async (request, response) => {
     const { id } = request.params;
 
-    const pontuation = await ScoresService.getScoreBySession(id);
+    const pontuation = await ScoresService.getScoreBySession(parseInt(id));
 
     return response.json({ sessionScore: pontuation.sessionScore });
   },
