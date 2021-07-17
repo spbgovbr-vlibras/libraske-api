@@ -7,11 +7,13 @@ import UsersServices from '../services/UsersService';
 import AppError from '../errors/AppError';
 import AuthorizationService from '../services/AuthorizationService';
 import UsersRepository from 'src/repository/UsersRepository';
+import dtoValidationMiddleware from '@middlewares/dtoValidation';
+import { LoginUnicoDTO } from 'src/dto/LoginUnicoDTO';
 
 const authRouter = Router();
 
 
-authRouter.post('/', async (request, response) => {
+authRouter.post('/', dtoValidationMiddleware(LoginUnicoDTO), async (request, response) => {
 
 	const { code, request_uri } = request.body;
 
@@ -60,8 +62,6 @@ authRouter.post('/', async (request, response) => {
 		console.log(error);
 		response.status(500).send("Ocorreu um erro ao realizar a autenticação.");
 	}
-
-
 });
 
 authRouter.post('/refresh', async (request, response) => {

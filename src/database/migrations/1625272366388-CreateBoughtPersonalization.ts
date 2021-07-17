@@ -13,10 +13,10 @@ export class CreateBoughtClothes1625272366388 implements MigrationInterface {
         columns: [
           {
             name: 'id',
-            type: 'uuid',
+            type: 'int',
             isPrimary: true,
-            generationStrategy: 'uuid',
-            default: 'uuid_generate_v4()',
+            generationStrategy: 'increment',
+            isGenerated: true,
           },
           {
             name: 'user_id',
@@ -24,7 +24,7 @@ export class CreateBoughtClothes1625272366388 implements MigrationInterface {
           },
           {
             name: 'personalization_id',
-            type: 'uuid',
+            type: 'int',
           },
           {
             name: 'color',

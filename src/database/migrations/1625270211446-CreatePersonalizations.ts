@@ -13,10 +13,10 @@ export default class CreateClothes1625270211446 implements MigrationInterface {
         columns: [
           {
             name: 'id',
-            type: 'uuid',
+            type: 'int',
             isPrimary: true,
-            generationStrategy: 'uuid',
-            default: 'uuid_generate_v4()',
+            generationStrategy: 'increment',
+            isGenerated: true,
           },
           {
             name: 'user_id',
