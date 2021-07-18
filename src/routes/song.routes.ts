@@ -3,6 +3,7 @@ import createSongFolder from '@middlewares/createSongFolder';
 import SongsService from '@services/SongsService';
 import { Router } from 'express';
 import multer from 'multer';
+import AppError from 'src/errors/AppError';
 
 const songsRouter = Router();
 
@@ -27,18 +28,28 @@ songsRouter.post('/', createSongFolder, (request, response) => {
     { name: 'thumbnail', maxCount: 1 },
     { name: 'subtitle', maxCount: 1 },
   ])(request, response, async () => {
-    const { name, description, singers } = request.body;
+    const { name, description, singers, price } = request.body;
 
-    const song = await SongsService.createSong({
-      idSong,
-      idUser: request.user.id,
-      name,
-      description,
-      singers,
-      thumbnail: request.files.thumbnail[0].filename,
-      subtitle: request.files.subtitle[0].filename,
-    });
-    return response.json(song);
+    try {
+
+      if (!price) {
+        throw new AppError("price is required", 400);
+      }
+
+      const song = await SongsService.createSong({
+        idSong,
+        idUser: request.user.id,
+        name,
+        description,
+        singers,
+        thumbnail: request.files.thumbnail[0].filename,
+        subtitle: request.files.subtitle[0].filename,
+        price: parseInt(price)
+      });
+      return response.json(song);
+    } catch (error) {
+      return response.status(500).json({ error: error.message })
+    }
   });
 });
 

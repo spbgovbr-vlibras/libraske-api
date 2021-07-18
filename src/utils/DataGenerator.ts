@@ -34,4 +34,11 @@ export default class DataGenerator {
         return faker.random.word();
     }
 
+    static getSongGenre = () => {
+        return faker.music.genre();
+    }
+
+    static getRandomFilePath = () => {
+        return faker.system.filePath();
+    }
 }
