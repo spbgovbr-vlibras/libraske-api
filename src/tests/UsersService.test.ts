@@ -226,8 +226,6 @@ describe('Users Service', () => {
             expect(error).toBeInstanceOf(AppError);
         }
 
-
-
     });
 
 
