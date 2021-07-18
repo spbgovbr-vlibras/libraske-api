@@ -1,8 +1,7 @@
 import axios from 'axios';
 import LoginUnico from '../services/LoginUnicoService';
 import jsonwebtoken from 'jsonwebtoken';
-import { unformattedCpfFactory } from '../utils/CPFFactory';
-import { emailFactory, firstNameFactory, profilePhotoUrlFactory } from '../utils/UsersInformationsFactory';
+import DataGenerator from '../utils/DataGenerator';
 
 jest.mock('axios')
 jest.mock('jsonwebtoken')
@@ -14,13 +13,13 @@ describe('Login Unico', () => {
 
     const getUserInfo = () => {
         return {
-            sub: unformattedCpfFactory(),
-            name: firstNameFactory(),
-            email: emailFactory(),
+            sub: DataGenerator.getUnformattedCpf(),
+            name: DataGenerator.getFirstName(),
+            email: DataGenerator.getEmail(),
             email_verified: true,
-            phone_number: unformattedCpfFactory(),
-            code: firstNameFactory(),
-            redirectUri: profilePhotoUrlFactory()
+            phone_number: DataGenerator.getUnformattedCpf(),
+            code: DataGenerator.getFirstName(),
+            redirectUri: DataGenerator.getUrl()
         }
     }
 

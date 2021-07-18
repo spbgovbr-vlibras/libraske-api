@@ -33,6 +33,7 @@ class AuthorizationService {
                 profilePhoto
             }
         } catch (error) {
+            console.error(error);
             throw new AppError("Ocorreu um erro ao tentar realizar a comunicação com o LoginUnico.", 500);
         }
     }

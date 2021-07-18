@@ -1,13 +1,11 @@
-import faker from 'faker';
 import jwt from 'jsonwebtoken';
-import UsersRepository from '../repository/UsersRepository';
 import { createConnection, getConnection } from 'typeorm';
 import env, { loadEnvironments } from '../environment/environment';
 import User from '../models/User';
+import UsersRepository from '../repository/UsersRepository';
 import TokenService from '../services/TokenService';
-import { unformattedCpfFactory } from '../utils/CPFFactory';
-import { firstNameFactory } from '../utils/UsersInformationsFactory';
 import UsersService from '../services/UsersService';
+import DataGenerator from '../utils/DataGenerator';
 interface IJwtToken {
     cpf: string;
     iat: string;
@@ -21,15 +19,15 @@ const mockedUsersService = UsersService as jest.Mocked<typeof UsersService>;
 describe('Token Service', () => {
 
     const setupFactory = () => {
-        const cpf = unformattedCpfFactory();
+        const cpf = DataGenerator.getUnformattedCpf();
 
         return {
             cpf,
             refreshToken: TokenService.createRefreshToken({ cpf }),
-            id: faker.datatype.uuid(),
-            email: faker.internet.email(),
-            profilePhoto: faker.internet.url(),
-            name: faker.name.firstName(),
+            id: DataGenerator.getUUID(),
+            email: DataGenerator.getEmail(),
+            profilePhoto: DataGenerator.getUrl(),
+            name: DataGenerator.getFirstName(),
             credit: 0
         }
     }
@@ -102,7 +100,7 @@ describe('Token Service', () => {
 
     it('should remove a refresh token', async () => {
 
-        const cpf = unformattedCpfFactory();
+        const cpf = DataGenerator.getUnformattedCpf();
         const { refreshToken, profilePhoto, name, email, credit } = setupFactory();
 
         mockedUsersService.findUserByCpfOrId.mockClear();
@@ -132,7 +130,7 @@ describe('Token Service', () => {
 
         env['REFRESH_TOKEN_EXPIRATION'] = '0s';
 
-        const cpf = unformattedCpfFactory();
+        const cpf = DataGenerator.getUnformattedCpf();
         const refreshToken = TokenService.createRefreshToken({ cpf });
 
         try {
@@ -145,11 +143,8 @@ describe('Token Service', () => {
 
     it('should fail when a valid token is not passed', async () => {
 
-        const cpf = unformattedCpfFactory();
-        const refreshToken = TokenService.createRefreshToken({ cpf });
-
         try {
-            TokenService.verifyRefreshToken(firstNameFactory());
+            TokenService.verifyRefreshToken(DataGenerator.getFirstName());
         } catch (error) {
             expect(error.statusCode).toBe(403);
             expect(error.message.toLowerCase()).toContain("inválido");

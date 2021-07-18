@@ -15,13 +15,13 @@ const authRouter = Router();
 
 authRouter.post('/', dtoValidationMiddleware(LoginUnicoDTO), async (request, response) => {
 
-	const { code, request_uri } = request.body;
+	const { code, redirectUri } = request.body;
 
 	try {
 
 		const authorization = new AuthorizationService(new LoginUnicoInstance(loginUnicoAxiosInstance, jwt, jwtToPem));
 
-		let { name, email, cpf, profilePhoto } = await authorization.authenticateOnLoginUnico({ code, redirectUri: request_uri });
+		let { name, email, cpf, profilePhoto } = await authorization.authenticateOnLoginUnico({ code, redirectUri });
 
 		const accessToken = TokenService.createToken({ cpf });
 		const refreshToken = TokenService.createRefreshToken({ cpf });

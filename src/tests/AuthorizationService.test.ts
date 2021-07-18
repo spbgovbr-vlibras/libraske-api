@@ -1,6 +1,5 @@
 import LoginUnico from "../services/LoginUnicoService";
-import { unformattedCpfFactory } from "../utils/CPFFactory";
-import { emailFactory, firstNameFactory, profilePhotoUrlFactory } from "../utils/UsersInformationsFactory";
+import DataGenerator from "../utils/DataGenerator";
 import AuthorizationService from "../services/AuthorizationService";
 
 jest.mock('../services/LoginUnicoService');
@@ -10,13 +9,13 @@ const MockedLoginUnico = new LoginUnicoMock() as jest.Mocked<LoginUnico>;
 
 const setupFactory = () => {
     return {
-        cpf: unformattedCpfFactory(),
-        email: emailFactory(),
-        name: firstNameFactory(),
-        phoneNumber: unformattedCpfFactory(),
-        profilePhoto: profilePhotoUrlFactory(),
-        code: 'Q1W2E',
-        redirectUri: profilePhotoUrlFactory()
+        cpf: DataGenerator.getUnformattedCpf(),
+        email: DataGenerator.getEmail(),
+        name: DataGenerator.getFirstName(),
+        phoneNumber: DataGenerator.getUnformattedCpf(),
+        profilePhoto: DataGenerator.getUrl(),
+        code: DataGenerator.getRandomWord(),
+        redirectUri: DataGenerator.getUrl()
     }
 }
 
