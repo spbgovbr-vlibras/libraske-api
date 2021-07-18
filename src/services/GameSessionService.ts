@@ -50,9 +50,8 @@ class GameSessionService {
             throw new AppError('The game session is already closed.', 400)
         }
 
-        await GameSessionRepository.closeGameSession(gameSession.id);
-
         const sessionScore = CalculatePontuations(gameSession.pontuation);
+        await GameSessionRepository.closeGameSession(gameSession.id);
 
         return {
             gameSession,

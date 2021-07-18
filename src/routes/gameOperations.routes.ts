@@ -57,9 +57,6 @@ gameOperationsRouter.patch(
     const { gameSession, sessionScore } = await GameSessionService.closeGameSession({ id: intId });
 
     // Criando Score
-    console.log({ id, sessionScore });
-
-
     await ScoresService.createScore({ id: intId, sessionScore });
 
     // Verificando quantas vezes foram jogadas

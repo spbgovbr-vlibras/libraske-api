@@ -21,7 +21,7 @@ class PersonalizationService {
     }
 
     async findAll(): Promise<Personalization[]> {
-        return await PersonalizationRepository.getInstance().find();
+        return await PersonalizationRepository.findAll();
     }
 
 }

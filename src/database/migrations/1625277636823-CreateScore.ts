@@ -21,6 +21,7 @@ export default class CreateScore1625277636823 implements MigrationInterface {
           {
             name: 'game_session_id',
             type: 'int',
+            isUnique: true,
           },
           {
             name: 'session_score',
