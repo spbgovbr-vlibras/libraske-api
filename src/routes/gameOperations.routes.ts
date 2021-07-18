@@ -3,9 +3,9 @@ import SenderMessageService from '@services/SenderMessageService';
 import ScoresService from '../services/ScoresService'
 import { Router } from 'express';
 import multer from 'multer';
-import environment from 'src/environment/environment';
+import environment from '../environment/environment';
 import GameSessionService from '@services/GameSessionService';
-import CalculateCredits from 'src/utils/CalculateCredits';
+import CalculateCredits from '../utils/CalculateCredits';
 import UsersService from '@services/UsersService';
 
 const gameOperationsRouter = Router();

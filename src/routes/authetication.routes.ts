@@ -6,9 +6,9 @@ import TokenService from '../services/TokenService';
 import UsersServices from '../services/UsersService';
 import AppError from '../errors/AppError';
 import AuthorizationService from '../services/AuthorizationService';
-import UsersRepository from 'src/repository/UsersRepository';
+import UsersRepository from '../repository/UsersRepository';
 import dtoValidationMiddleware from '@middlewares/dtoValidation';
-import { LoginUnicoDTO } from 'src/dto/LoginUnicoDTO';
+import { LoginUnicoDTO } from '../dto/LoginUnicoDTO';
 
 const authRouter = Router();
 

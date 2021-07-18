@@ -1,6 +1,4 @@
-import User from '@models/User';
-import AppError from 'src/errors/AppError';
-import { EntityRepository, getRepository, Repository } from 'typeorm';
+import { getRepository, Repository } from 'typeorm';
 import BoughtPersonalization from '../models/BoughtPersonalization';
 
 interface BoughtIPersonalizationRepository {
@@ -38,16 +36,22 @@ class BoughtPersonalizationRepository implements BoughtIPersonalizationRepositor
     }
 
     async removeActivePersonalizationByPersonalizationandUser(personalizationId: number, userId: number): Promise<BoughtPersonalization> {
-        return await this.getInstance().query(` update "boughtPersonalization" 
-                                                set "isActive" = false 
-                                                where personalization_id = ${personalizationId} and user_id = ${userId}`)
+
+        const query = ` update "boughtPersonalization" 
+                        set "isActive" = false 
+                        where personalization_id = ${personalizationId} and user_id = ${userId}`
+
+        return await this.getInstance().query(query);
     }
 
     async findBoughtPersonalization(userId: number): Promise<BoughtPersonalization> {
-        return await this.getInstance().query(` select bp.personalization_id, bp.color, bp."isActive" from personalizations p 
-                                                inner join "boughtPersonalization" bp on bp.personalization_id = p.id 
-                                                where bp.user_id = ${userId}
-                                                order by bp.personalization_id `)
+
+        const query = ` select bp.personalization_id, bp.color, bp."isActive" from personalizations p 
+                        inner join "boughtPersonalization" bp on bp.personalization_id = p.id 
+                        where bp.user_id = ${userId}
+                        order by bp.personalization_id `
+
+        return await this.getInstance().query(query);
     }
 
     getInstance(): Repository<BoughtPersonalization> {

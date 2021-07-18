@@ -1,7 +1,6 @@
 
 import AppError from '../errors/AppError';
 import LoginUnicoService from './LoginUnicoService';
-import env from '../environment/environment'
 
 interface IRequest {
     code: string;

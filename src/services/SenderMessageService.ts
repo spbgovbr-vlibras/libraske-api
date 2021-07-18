@@ -1,7 +1,7 @@
 import { tmpFolder } from '@config/uploadConfig';
 import fs from 'fs';
 import path from 'path';
-import Rabbitmq from 'src/loaders/Rabbitmq';
+import Rabbitmq from '../loaders/Rabbitmq';
 
 interface IRequest {
   idSession: string;

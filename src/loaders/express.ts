@@ -4,7 +4,8 @@ import express, { Request, Response, NextFunction } from 'express';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import path from 'path';
-import ValidationErrors from 'src/errors/ValidationErrors';
+import ValidationErrors from '../errors/ValidationErrors';
+import StatusCodeName from '../utils/StatusCodeName';
 
 import AppError from '../errors/AppError';
 import routes from '../routes';
@@ -35,9 +36,12 @@ export default async ({ app }: { app: express.Application }) => {
       console.error(err);
 
       if (err instanceof AppError) {
+
+        const status = StatusCodeName(err.statusCode);
+
         return response
           .status(err.statusCode)
-          .json({ status: 'error', message: err.message });
+          .json({ status, message: err.message });
       } else if (err instanceof ValidationErrors) {
         return response
           .status(err.statusCode)

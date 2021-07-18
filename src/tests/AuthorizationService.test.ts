@@ -3,7 +3,7 @@ import { unformattedCpfFactory } from "../utils/CPFFactory";
 import { emailFactory, firstNameFactory, profilePhotoUrlFactory } from "../utils/UsersInformationsFactory";
 import AuthorizationService from "../services/AuthorizationService";
 
-jest.mock('../services/LoginUnico');
+jest.mock('../services/LoginUnicoService');
 
 const LoginUnicoMock = LoginUnico as jest.Mock<LoginUnico>;
 const MockedLoginUnico = new LoginUnicoMock() as jest.Mocked<LoginUnico>;

@@ -1,5 +1,3 @@
-import Songs from '@models/Song';
-import User from '@models/User';
 import { getRepository, Repository } from 'typeorm';
 import GameSession from '../models/GameSession';
 interface IGameSessionsRepository {

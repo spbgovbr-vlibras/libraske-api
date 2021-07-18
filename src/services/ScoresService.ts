@@ -1,5 +1,5 @@
 import Scores from '@models/Scores';
-import AppError from 'src/errors/AppError';
+import AppError from '../errors/AppError';
 import ScoresRepository, { IBestScoresByUser, IMaxSessionScore } from '../repository/ScoresRepository';
 
 interface IRequest {

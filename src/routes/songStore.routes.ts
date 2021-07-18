@@ -4,8 +4,8 @@ import BoughtSongsService from '@services/BoughtSongsService';
 import SongsService from '@services/SongsService';
 import UsersService from '@services/UsersService';
 import { Router } from 'express';
-import BoughtSongsRepository from 'src/repository/BoughtSongsRepository';
-import UsersRepository from 'src/repository/UsersRepository';
+import BoughtSongsRepository from '../repository/BoughtSongsRepository';
+import UsersRepository from '../repository/UsersRepository';
 import { getConnection } from 'typeorm';
 
 

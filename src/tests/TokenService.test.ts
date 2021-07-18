@@ -1,16 +1,22 @@
-import TokenService from '../services/TokenService';
-import User from '../models/User';
-import { createConnection, getConnection, getRepository } from 'typeorm';
 import faker from 'faker';
 import jwt from 'jsonwebtoken';
-import { unformattedCpfFactory } from '../utils/CPFFactory';
+import UsersRepository from '../repository/UsersRepository';
+import { createConnection, getConnection } from 'typeorm';
 import env, { loadEnvironments } from '../environment/environment';
+import User from '../models/User';
+import TokenService from '../services/TokenService';
+import { unformattedCpfFactory } from '../utils/CPFFactory';
 import { firstNameFactory } from '../utils/UsersInformationsFactory';
+import UsersService from '../services/UsersService';
 interface IJwtToken {
     cpf: string;
     iat: string;
     exp: string;
 }
+
+jest.mock('../services/UsersService')
+
+const mockedUsersService = UsersService as jest.Mocked<typeof UsersService>;
 
 describe('Token Service', () => {
 
@@ -24,6 +30,7 @@ describe('Token Service', () => {
             email: faker.internet.email(),
             profilePhoto: faker.internet.url(),
             name: faker.name.firstName(),
+            credit: 0
         }
     }
 
@@ -74,10 +81,9 @@ describe('Token Service', () => {
 
     it('should update an access token', async () => {
 
-        const userRepository = getRepository(User);
         const { cpf, refreshToken, profilePhoto, name, email } = setupFactory();
 
-        await userRepository.insert({
+        await UsersRepository.getInstance().insert({
             name,
             email,
             profilePhoto,
@@ -96,11 +102,15 @@ describe('Token Service', () => {
 
     it('should remove a refresh token', async () => {
 
-        const userRepository = getRepository(User);
         const cpf = unformattedCpfFactory();
-        const { refreshToken, profilePhoto, name, email } = setupFactory();
+        const { refreshToken, profilePhoto, name, email, credit } = setupFactory();
 
-        await userRepository.insert({
+        mockedUsersService.findUserByCpfOrId.mockClear();
+        mockedUsersService.findUserByCpfOrId.mockResolvedValueOnce({ name, cpf, refreshToken, email, credit, profilePhoto } as User);
+
+        TokenService.UserService = mockedUsersService;
+
+        await UsersRepository.getInstance().insert({
             name,
             email,
             profilePhoto,
@@ -110,9 +120,11 @@ describe('Token Service', () => {
         })
 
         await TokenService.deleteToken(refreshToken);
-        const { refreshToken: userRefreshToken } = await userRepository.findOne({ cpf }) as User;
 
-        expect(userRefreshToken).toBeNull();
+        expect(mockedUsersService.findUserByCpfOrId).toBeCalledTimes(1);
+        expect(mockedUsersService.updateUser).toBeCalledTimes(1);
+        expect(mockedUsersService.updateUser).toHaveBeenCalledWith({ name, cpf, email, credit, profilePhoto, refreshToken: null });
+
 
     })
 

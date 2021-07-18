@@ -1,9 +1,6 @@
-import GameSession from "@models/GameSession";
-import Scores from "@models/Scores";
-import AppError from "src/errors/AppError";
-import { getConnection } from "typeorm";
+import AppError from "../errors/AppError";
 import User from "../models/User";
-import UserRepository from '../repository/UsersRepository'
+import UserRepository from '../repository/UsersRepository';
 
 interface ICreditChange {
     creditsToChange: number;
@@ -29,6 +26,12 @@ interface ICreateUser {
 }
 
 class UsersService {
+
+    private usersRepository: typeof UserRepository;
+
+    constructor() {
+        this.usersRepository = UserRepository;
+    }
 
     public async createUser({ name, email, cpf, profilePhoto, refreshToken }: ICreateUser): Promise<User> {
 
