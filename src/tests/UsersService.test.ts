@@ -1,5 +1,5 @@
 import AppError from "../errors/AppError";
-import { createConnection } from "typeorm";
+import { createConnection, getConnection } from "typeorm";
 import User from "../models/User";
 import TokenService from "../services/TokenService";
 import UsersService from "../services/UsersService";
@@ -54,6 +54,11 @@ describe('Users Service', () => {
             synchronize: true,
             logging: false,
         })
+    })
+
+    afterAll(() => {
+        const connection = getConnection();
+        return connection.close();
     })
 
     it('should create an user', async () => {

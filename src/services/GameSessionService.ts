@@ -1,6 +1,6 @@
-import GameSession from "@models/GameSession";
-import AppError from "src/errors/AppError";
-import GameSessionRepository from "src/repository/GameSessionRepository";
+import GameSession from "../models/GameSession";
+import AppError from "../errors/AppError";
+import GameSessionRepository from "../repository/GameSessionRepository";
 import CalculatePontuations from '../utils/CalculatePontuation';
 import UsersService from "./UsersService";
 import SongsService from "./SongsService";
@@ -71,6 +71,8 @@ class GameSessionService {
         const gameSession = GameSessionRepository.getInstance().create({
             user,
             song,
+            isClosed: false,
+            pontuation: []
         });
 
         await GameSessionRepository.saveGameSession(gameSession);

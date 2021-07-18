@@ -70,6 +70,7 @@ describe('Song Service', () => {
         expect(createdSong.thumbnail).toBe(thumbnail);
         expect(createdSong.subtitle).toBe(subtitle);
         expect(createdSong.name).toBe(songName);
+        expect(createdSong.price).toBe(price);
     })
 
 
