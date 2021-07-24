@@ -1,11 +1,11 @@
 {
   "name": "default",
   "type": "postgres",
-  "host": "localhost",
+  "host": "libraske-teste-postgresql",
   "port": 5432,
   "username": "postgres",
-  "password": "postgres",
-  "database": "libraske",
+  "password": "3WVigQGS8W",
+  "database": "postgres",
   "entities": [
     "./src/models/*.ts"
   ],

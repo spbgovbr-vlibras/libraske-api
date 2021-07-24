@@ -1,17 +1,13 @@
 FROM node:14
 
-WORKDIR /usr/src/app
+RUN apt-get update && apt-get install -y unzip zip ssh python3 curl git-core curl build-essential openssl libssl-dev
 
-COPY package*.json ./
+copy . /libraske/
+
+WORKDIR /libraske/
 
 RUN npm install
 
-COPY . .
-
-RUN npm run build
-COPY ormconfig.json ./dist
-COPY .env ./dist
-WORKDIR ./dist
-
-EXPOSE 3333
-CMD [ "node", "server.js" ]
+EXPOSE 80
+#CMD yarn typeorm migration:run && yarn run dev
+CMD yarn run dev
