@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: libraske-config
+  namespace: vlibras
+data:
+  .env.dev: |
+    #API
+    PORT=80
+    #LOGIN UNICO
+    Client_id=libraske-dth.vlibras.gov.br
+    SEcret=AKf-eU_2q59i8mwA7MRVV3t1I0AJPILO7ypI9ELwjMzxkX3KavZ7LsPkQpY76YLQk40i3nyTR4tEn689ZYjBE3g
+    LOGIN_UNICO_BASE_URL=https://sso.staging.acesso.gov.br
+    LOGIN_UNICO_CLIENT=libraske-dth.vlibras.gov.br
+    LOGIN_UNICO_SECRET=AKf-eU_2q59i8mwA7MRVV3t1I0AJPILO7ypI9ELwjMzxkX3KavZ7LsPkQpY76YLQk40i3nyTR4tEn689ZYjBE3g
+    ACCESS_SECRET='0.s1441t9vw48'
+    REFRESH_SECRET='0.l3356rqi24'
+    ACCESS_TOKEN_EXPIRATION=1d
+    REFRESH_TOKEN_EXPIRATION=1d
+    ## Variável responsável por desabilitar a autenticação. > NÃO < deve ir para produção.
+    #DISABLE_AUTH=true
+    # POSTGRES
+    POSTGRES_DATABASE=postgres
+    POSTGRES_USER=postgres
+    POSTGRES_PASSWORD=3WVigQGS8W
+    # RABBITMQ
+    RABBITMQ=amqp://vlibras:vlibraschangeme@vlibras-rabbitmqha-discovery
+    RABBITMQ_USER=vlibras
+    RABBITMQ_PASSWORD=vlibraschangeme
+    RABBITMQ_SENDER=sender
+    RABBITMQ_RECEIVER=receiver
+    # QUEUE
+    RABBITMQ_QUEUE_SENDER=frame_sender
+    RABBITMQ_QUEUE_RECEIVER=frame_receiver
+    # GAME
+    BONUS_VALUE=10

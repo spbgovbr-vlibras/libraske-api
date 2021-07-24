@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dictionary-env-config
+  namespace: vlibras
+data:
+  .env: |
+
+    DICTIONARY_MODE=central
+    LOG_LEVEL=debug
+
+    # APP Configuration
+    PORT=8080
+    HOST=0.0.0.0
+    NODE_ENV=development
+    APP_KEY=iwESOD6X6JmoMCec_siJwkWnEpyXFlhn
+    APP_PREFIX=/api
+
+    DB_CONNECTION=pg
+
+    PG_HOST=central-teste-postgresql
+    PG_PORT=5432
+    PG_USER=postgres
+    PG_PASSWORD=tMCU4wSDpO
+    PG_DB_NAME=postgres
+
+    # Postgres configuration (example only, don't use this values in production)
+    # Nginx configuration
+    NGINX_URL=https://dicionario2-dth.vlibras.gov.br
+    NGINX_LOCATION_ALIAS_BLENDER=static/blender
+    NGINX_LOCATION_ALIAS_BUNDLES=static/bundles
+    NGINX_LOCATION_ALIAS_VIDEOS=static/videos
