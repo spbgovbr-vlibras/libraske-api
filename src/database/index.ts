@@ -9,5 +9,6 @@ getConnectionOptions().then(options => {
   newOptions.host = 'localhost';
   createConnection({
     ...options,
+    name: "default"
   });
 });

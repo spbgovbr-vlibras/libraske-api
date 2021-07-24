@@ -1,3 +1,4 @@
+import Personalization from '../../models/Personalization';
 import {
   MigrationInterface,
   QueryRunner,
@@ -29,11 +30,7 @@ export default class CreateClothes1625270211446 implements MigrationInterface {
           {
             name: 'description',
             type: 'varchar',
-          },
-          {
-            name: 'price',
-            type: 'integer',
-          },
+          }
         ],
       }),
     );

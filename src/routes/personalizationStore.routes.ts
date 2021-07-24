@@ -1,8 +1,7 @@
 import dtoValidationMiddleware from "@middlewares/dtoValidation";
-import BoughtPersonalization from "@models/BoughtPersonalization";
 import User from "@models/User";
 import BoughtPersonalizationService from "@services/BoughtPersonalizationService";
-import PersonalizationService from "@services/PersonalizationService";
+import PersonalizationGroupService from "@services/PersonalizationGroupService";
 import UsersService from "@services/UsersService";
 import { Router } from "express";
 import { BoughtPersonalizationBuyDTO } from "src/dto/BoughtPersonalizationBuyDTO";
@@ -12,35 +11,34 @@ import { getConnection } from "typeorm";
 
 const boughtPersonalizationRouter = Router();
 
-boughtPersonalizationRouter.post('/personalizations/:id/buy', dtoValidationMiddleware(BoughtPersonalizationBuyDTO), async (request, response) => {
-
+boughtPersonalizationRouter.post('/personalizations-group/:id', dtoValidationMiddleware(BoughtPersonalizationBuyDTO), async (request, response) => {
     const { id } = request.params;
-    const { color, isActive } = request.body;
+    const { isActive } = request.body;
     const user = request.user as User;
 
-    const personalization = await PersonalizationService.findById(parseInt(id));
+    // TODO Recuperar o preço correto
+    const personalizationGroupId = parseInt(id);
+    const personalizationGroup = await PersonalizationGroupService.findOneById(personalizationGroupId);
 
-    await BoughtPersonalizationService.checkAlreadyPurchased(user.id, personalization.id, color);
-    const credit = await UsersService.checkInsufficientCreditsAndThrow(personalization.price, user.id);
+    await BoughtPersonalizationService.checkAlreadyPurchased(user.id, personalizationGroup.id);
+    const credit = await UsersService.checkInsufficientCreditsAndThrow(personalizationGroup.price, user.id);
 
     const updatedUser = UsersRepository.getInstance().create({
         ...user, credit
     });
 
     const boughtpersonalization = BoughtPersonalizationRepository.getInstance().create({
-        personalization_id: personalization.id,
+        personalization_group_id: personalizationGroupId,
         user_id: user.id,
-        color,
         isActive,
     });
 
     const connection = getConnection();
     const queryRunner = connection.createQueryRunner();
     let err;
-
-
+    
     if (isActive) {
-        await BoughtPersonalizationService.removeActivePersonalizationByPersonalizationandUser(personalization.id, user.id);
+       await BoughtPersonalizationService.removeActivePersonalizationByPersonalizationandUser(personalizationGroup.personalization_id, user.id);
     }
 
     await queryRunner.startTransaction();

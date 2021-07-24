@@ -1,18 +1,18 @@
 import jwt from 'jsonwebtoken';
 import { createConnection, getConnection } from 'typeorm';
-import env, { loadEnvironments } from '../environment/environment';
-import User from '../models/User';
-import UsersRepository from '../repository/UsersRepository';
-import TokenService from '../services/TokenService';
-import UsersService from '../services/UsersService';
-import DataGenerator from '../utils/DataGenerator';
+import env, { loadEnvironments } from '../src/environment/environment';
+import User from '../src/models/User';
+import UsersRepository from '../src/repository/UsersRepository';
+import TokenService from '../src/services/TokenService';
+import UsersService from '../src/services/UsersService';
+import DataGenerator from '../src/utils/DataGenerator';
 interface IJwtToken {
     cpf: string;
     iat: string;
     exp: string;
 }
 
-jest.mock('../services/UsersService')
+jest.mock('../src/services/UsersService')
 
 const mockedUsersService = UsersService as jest.Mocked<typeof UsersService>;
 

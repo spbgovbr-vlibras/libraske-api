@@ -1,11 +1,11 @@
-import SongsService from '../services/SongsService';
-import UsersService from '../services/UsersService';
+import SongsService from '../src/services/SongsService';
+import UsersService from '../src/services/UsersService';
 import fs from 'fs';
-import DataGenerator from '../utils/DataGenerator';
+import DataGenerator from '../src/utils/DataGenerator';
 import { createConnection, getConnection, getRepository } from 'typeorm';
-import AppError from '../errors/AppError';
-import Song from '../models/Song';
-import User from '../models/User';
+import AppError from '../src/errors/AppError';
+import Song from '../src/models/Song';
+import User from '../src/models/User';
 
 
 describe('Song Service', () => {
@@ -127,6 +127,7 @@ describe('Song Service', () => {
     })
 
     it('should delete a song', async () => {
+
         const { cpf, email, songName, profilePhoto, description, singers, thumbnail, subtitle, name, price } = setupFactory();
         const id = DataGenerator.getUUID();
 

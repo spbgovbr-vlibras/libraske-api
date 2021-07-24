@@ -11,19 +11,19 @@ class BoughtPersonalizationService {
         return await BoughtPersonalizationRepository.addBoughtPersonalization(boughtPersonalization);
     }
 
-    async checkAlreadyPurchased(userId: number, personalizationId: number, color: string) {
+    async checkAlreadyPurchased(userId: number, personalizationGroup: number) {
 
-        const amount = await BoughtPersonalizationRepository.checkAlreadyPurchased(userId, personalizationId, color);
+        const amount = await BoughtPersonalizationRepository.checkAlreadyPurchased(userId, personalizationGroup);
 
         if (amount > 0) {
-            throw new AppError("Personalization for this color has already been purchased.", 400)
+            throw new AppError("Personalization for this group has already been purchased.", 400)
         }
 
         return amount;
     }
 
-    async removeActivePersonalizationByPersonalizationandUser(personalizationId: number, userId: number) {
-        await BoughtPersonalizationRepository.removeActivePersonalizationByPersonalizationandUser(personalizationId, userId);
+    async removeActivePersonalizationByPersonalizationandUser(personalizationGroupId: number, userId: number) {
+        await BoughtPersonalizationRepository.removeActivePersonalizationByPersonalizationandUser(personalizationGroupId, userId);
     }
 
     async getAvailablePersonalization(userId: number) {
@@ -32,8 +32,6 @@ class BoughtPersonalizationService {
 
         return groupBy(allBoughtPersonalization, 'personalization_id');
     }
-
-
 }
 
 export default new BoughtPersonalizationService();

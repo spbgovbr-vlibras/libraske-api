@@ -1,4 +1,4 @@
-import { loadEnvironments } from '../environment/environment'
+import { loadEnvironments } from '../src/environment/environment'
 
 describe('Environment tests', () => {
     it('should return all environment variables', async () => {

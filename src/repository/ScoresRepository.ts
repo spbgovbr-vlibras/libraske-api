@@ -24,7 +24,6 @@ export interface IBestScoresByUser {
 class ScoresRepository implements IScoresRepository {
 
     async getHistoryBySong(userId: number, songId: string): Promise<IHistoryBySong[]> {
-
         const query = ` select so.name, s.session_score from scores s 
                         inner join game_sessions gs on gs.id = s.game_session_id 
                         inner join songs so on gs.song_id = so.id 
@@ -40,7 +39,6 @@ class ScoresRepository implements IScoresRepository {
     }
 
     async findBestScoreBySong(songId: string): Promise<IMaxSessionScore[]> {
-
         const query = ` select max(s.session_score) as maxSongScore from "scores" s 
                         inner join "game_sessions" gs on gs.id = s.game_session_id 
                         where gs.song_id = '${songId}'`

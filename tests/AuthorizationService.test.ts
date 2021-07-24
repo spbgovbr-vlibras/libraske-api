@@ -1,8 +1,8 @@
-import LoginUnico from "../services/LoginUnicoService";
-import DataGenerator from "../utils/DataGenerator";
-import AuthorizationService from "../services/AuthorizationService";
+import LoginUnico from "../src/services/LoginUnicoService";
+import DataGenerator from "../src/utils/DataGenerator";
+import AuthorizationService from "../src/services/AuthorizationService";
 
-jest.mock('../services/LoginUnicoService');
+jest.mock('../src/services/LoginUnicoService');
 
 const LoginUnicoMock = LoginUnico as jest.Mock<LoginUnico>;
 const MockedLoginUnico = new LoginUnicoMock() as jest.Mocked<LoginUnico>;

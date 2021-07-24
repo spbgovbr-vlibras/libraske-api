@@ -1,9 +1,9 @@
-import AppError from "../errors/AppError";
+import AppError from "../src/errors/AppError";
 import { createConnection, getConnection } from "typeorm";
-import User from "../models/User";
-import TokenService from "../services/TokenService";
-import UsersService from "../services/UsersService";
-import DataGenerator from "../utils/DataGenerator";
+import User from "../src/models/User";
+import TokenService from "../src/services/TokenService";
+import UsersService from "../src/services/UsersService";
+import DataGenerator from "../src/utils/DataGenerator";
 
 describe('Users Service', () => {
 
@@ -232,6 +232,5 @@ describe('Users Service', () => {
         }
 
     });
-
 
 })

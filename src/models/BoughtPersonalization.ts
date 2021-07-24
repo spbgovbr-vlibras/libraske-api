@@ -1,11 +1,7 @@
 import {
-    Entity,
-    PrimaryGeneratedColumn,
-    Column,
-    ManyToOne,
-    JoinColumn,
+    Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn
 } from 'typeorm';
-import Personalization from './Personalization';
+import PersonalizationGroup from './PersonalizationGroup';
 import User from './User';
 
 @Entity('boughtPersonalization')
@@ -22,14 +18,11 @@ class BoughtPersonalization {
     user: User;
 
     @Column()
-    personalization_id: number;
+    personalization_group_id: number;
 
-    @ManyToOne(() => Personalization)
-    @JoinColumn({ name: 'personalization_id' })
-    personalization: Personalization;
-
-    @Column()
-    color: string;
+    @ManyToOne(() => PersonalizationGroup)
+    @JoinColumn({ name: 'personalization_group_id' })
+    personalizationGroup: PersonalizationGroup;
 
     @Column()
     isActive: boolean;

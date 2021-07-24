@@ -1,3 +1,4 @@
+import User from '../../models/User';
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
 export class CreateUsers1619115113506 implements MigrationInterface {

@@ -1,7 +1,7 @@
 import axios from 'axios';
-import LoginUnico from '../services/LoginUnicoService';
+import LoginUnico from '../src/services/LoginUnicoService';
 import jsonwebtoken from 'jsonwebtoken';
-import DataGenerator from '../utils/DataGenerator';
+import DataGenerator from '../src/utils/DataGenerator';
 
 jest.mock('axios')
 jest.mock('jsonwebtoken')

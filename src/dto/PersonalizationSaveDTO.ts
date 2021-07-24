@@ -11,8 +11,4 @@ export class PersonalizationSaveDTO {
     @IsString()
     public description: string;
 
-    @IsInt()
-    @Min(0)
-    public price: number;
-
 }

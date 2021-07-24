@@ -13,7 +13,7 @@ class PersonalizationsRepository implements IPersonalizationsRepository {
 
     async findOne(id: number): Promise<Personalization | undefined> {
         return await getRepository(Personalization).findOne(id, {
-            select: ['id', 'name', 'description', 'price']
+            select: ['id', 'name', 'description']
         });
     }
 
@@ -23,7 +23,7 @@ class PersonalizationsRepository implements IPersonalizationsRepository {
 
     async findAll(): Promise<Personalization[]> {
         return await this.getInstance().find({
-            select: ['id', 'name', 'description', 'price']
+            select: ['id', 'name', 'description']
         })
     }
 

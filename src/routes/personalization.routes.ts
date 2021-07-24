@@ -10,12 +10,11 @@ const personalizationsRouter = Router();
 personalizationsRouter.post('/', dtoValidationMiddleware(PersonalizationSaveDTO), async (request, response) => {
 
     const user = request.user as User;
-    const { name, description, price } = request.body;
+    const { name, description } = request.body;
     const personalization = {
         user_id: user.id,
         name,
-        description,
-        price
+        description
     } as Personalization;
 
     const result = await PersonalizationService.createPersonalization(personalization);

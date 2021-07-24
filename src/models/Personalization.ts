@@ -25,9 +25,6 @@ class Personalization {
   @Column({ nullable: true, type: 'text' })
   description: string | null;
 
-  @Column()
-  price: number;
-
 }
 
 export default Personalization;
