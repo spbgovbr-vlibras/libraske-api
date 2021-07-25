@@ -1,10 +1,8 @@
-import Songs from '@models/Song';
-import User from '@models/User';
 import { getRepository, Repository } from 'typeorm';
 import GameSession from '../models/GameSession';
 interface IGameSessionsRepository {
     closeGameSession(id: number): Promise<void>
-    findOneById(id: string): Promise<GameSession | undefined>;
+    findOneById(id: number): Promise<GameSession | undefined>;
     saveGameSession(gameSession: GameSession): Promise<GameSession>
     countByUserIdAndSongId(userId: number, songId: string): Promise<number>;
     getInstance(): Repository<any>;
@@ -16,7 +14,7 @@ class GameSessionsRepository implements IGameSessionsRepository {
         await getRepository(GameSession).update(id, { isClosed: true })
     }
 
-    async findOneById(id: string): Promise<GameSession | undefined> {
+    async findOneById(id: number): Promise<GameSession | undefined> {
         return await getRepository(GameSession).findOne(id);
     }
 

@@ -2,7 +2,12 @@ const accumulatorFunction = (accumulator: number, currentValue: number) => accum
 
 export default (pontuations: number[]): number => {
 
-    const finalPontuation = pontuations ? pontuations.reduce(accumulatorFunction) : 0;
+    if (!pontuations || pontuations.length === 0) {
+        return 0;
+    }
+
+    const finalPontuation = pontuations.reduce(accumulatorFunction);
+
     return Math.round(finalPontuation / pontuations.length);
 
 }

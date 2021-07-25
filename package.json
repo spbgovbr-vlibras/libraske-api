@@ -17,7 +17,8 @@
     "setup-create-song": "ts-node-dev ./src/scripts/createSong",
     "dev": "cross-env NODE_ENV=dev ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules src/server.ts",
     "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js",
-    "test": "cross-env NODE_ENV=test jest"
+    "test": "cross-env NODE_ENV=test jest",
+    "seed": "ts-node-dev src/database/seeds/DatabaseSeed.ts"
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.14.5",
@@ -69,9 +70,14 @@
   },
   "dependencies": {
     "@types/jest": "^26.0.23",
+    "@types/lodash": "^4.14.171",
     "amqplib": "^0.7.1",
     "axios": "^0.21.1",
     "bcryptjs": "^2.4.3",
+    "chalk": "^4.1.1",
+    "class-sanitizer": "^1.0.1",
+    "class-transformer": "^0.4.0",
+    "class-validator": "^0.13.1",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
@@ -81,6 +87,7 @@
     "helmet": "^4.4.1",
     "jsonwebtoken": "^8.5.1",
     "jwk-to-pem": "^2.0.5",
+    "lodash": "^4.17.21",
     "minimist": "^1.2.5",
     "morgan": "^1.10.0",
     "multer": "^1.4.2",

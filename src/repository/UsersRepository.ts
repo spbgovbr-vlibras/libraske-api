@@ -1,6 +1,5 @@
 import { getRepository, Repository } from 'typeorm';
 import User from '../models/User';
-
 interface IUsersRepository {
     findOneById(id: number): Promise<User | undefined>
     findOneByCpf(cpf: string): Promise<User | undefined>

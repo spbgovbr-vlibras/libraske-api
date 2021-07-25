@@ -6,20 +6,22 @@ import TokenService from '../services/TokenService';
 import UsersServices from '../services/UsersService';
 import AppError from '../errors/AppError';
 import AuthorizationService from '../services/AuthorizationService';
-import UsersRepository from 'src/repository/UsersRepository';
+import UsersRepository from '../repository/UsersRepository';
+import dtoValidationMiddleware from '@middlewares/dtoValidation';
+import { LoginUnicoDTO } from '../dto/LoginUnicoDTO';
 
 const authRouter = Router();
 
 
-authRouter.post('/', async (request, response) => {
+authRouter.post('/', dtoValidationMiddleware(LoginUnicoDTO), async (request, response) => {
 
-	const { code, request_uri } = request.body;
+	const { code, redirectUri } = request.body;
 
 	try {
 
 		const authorization = new AuthorizationService(new LoginUnicoInstance(loginUnicoAxiosInstance, jwt, jwtToPem));
 
-		let { name, email, cpf, profilePhoto } = await authorization.authenticateOnLoginUnico({ code, redirectUri: request_uri });
+		let { name, email, cpf, profilePhoto } = await authorization.authenticateOnLoginUnico({ code, redirectUri });
 
 		const accessToken = TokenService.createToken({ cpf });
 		const refreshToken = TokenService.createRefreshToken({ cpf });
@@ -60,8 +62,6 @@ authRouter.post('/', async (request, response) => {
 		console.log(error);
 		response.status(500).send("Ocorreu um erro ao realizar a autenticação.");
 	}
-
-
 });
 
 authRouter.post('/refresh', async (request, response) => {

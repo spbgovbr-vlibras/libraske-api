@@ -1,12 +1,12 @@
-import GameSession from "@models/GameSession";
-import AppError from "src/errors/AppError";
-import GameSessionRepository from "src/repository/GameSessionRepository";
+import GameSession from "../models/GameSession";
+import AppError from "../errors/AppError";
+import GameSessionRepository from "../repository/GameSessionRepository";
 import CalculatePontuations from '../utils/CalculatePontuation';
 import UsersService from "./UsersService";
 import SongsService from "./SongsService";
 
 interface ICreatePontuation {
-    idGameSession: string;
+    idGameSession: number;
     pontuation: number;
 }
 interface ICreateGameSession {
@@ -15,7 +15,7 @@ interface ICreateGameSession {
 }
 
 interface IGetPontuation {
-    id: string;
+    id: number;
 }
 
 interface CloseGameSessionResponse {
@@ -31,7 +31,7 @@ class GameSessionService {
         private songsService: typeof SongsService = SongsService) { }
 
 
-    async findGameSession(gameSessionId: string): Promise<GameSession> {
+    async findGameSession(gameSessionId: number): Promise<GameSession> {
 
         const gameSession = await GameSessionRepository.findOneById(gameSessionId);
 
@@ -50,9 +50,8 @@ class GameSessionService {
             throw new AppError('The game session is already closed.', 400)
         }
 
-        await GameSessionRepository.closeGameSession(gameSession.id);
-
         const sessionScore = CalculatePontuations(gameSession.pontuation);
+        await GameSessionRepository.closeGameSession(gameSession.id);
 
         return {
             gameSession,
@@ -71,6 +70,8 @@ class GameSessionService {
         const gameSession = GameSessionRepository.getInstance().create({
             user,
             song,
+            isClosed: false,
+            pontuation: []
         });
 
         await GameSessionRepository.saveGameSession(gameSession);

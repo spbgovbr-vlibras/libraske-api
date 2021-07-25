@@ -1,7 +1,6 @@
 
 import AppError from '../errors/AppError';
 import LoginUnicoService from './LoginUnicoService';
-import env from '../environment/environment'
 
 interface IRequest {
     code: string;
@@ -34,6 +33,7 @@ class AuthorizationService {
                 profilePhoto
             }
         } catch (error) {
+            console.error(error);
             throw new AppError("Ocorreu um erro ao tentar realizar a comunicação com o LoginUnico.", 500);
         }
     }

@@ -1,9 +1,6 @@
-import GameSession from "@models/GameSession";
-import Scores from "@models/Scores";
-import AppError from "src/errors/AppError";
-import { getConnection } from "typeorm";
+import AppError from "../errors/AppError";
 import User from "../models/User";
-import UserRepository from '../repository/UsersRepository'
+import UserRepository from '../repository/UsersRepository';
 
 interface ICreditChange {
     creditsToChange: number;
@@ -30,16 +27,23 @@ interface ICreateUser {
 
 class UsersService {
 
+    private usersRepository: typeof UserRepository;
+
+    constructor() {
+        this.usersRepository = UserRepository;
+    }
+
     public async createUser({ name, email, cpf, profilePhoto, refreshToken }: ICreateUser): Promise<User> {
 
-        const userRepository = UserRepository.getInstance();
+        const userRepository = this.usersRepository.getInstance();
 
         return userRepository.save({
             name,
             email,
             profilePhoto,
             cpf,
-            refreshToken
+            refreshToken,
+            credit: 0
         })
 
     }
@@ -49,9 +53,9 @@ class UsersService {
         let user;
 
         if (cpf) {
-            user = await UserRepository.findOneByCpf(cpf);
+            user = await this.usersRepository.findOneByCpf(cpf);
         } else if (id) {
-            user = await UserRepository.findOneById(id);
+            user = await this.usersRepository.findOneById(id);
         } else {
             throw new AppError('Unsupported User.', 500);
         }
@@ -65,7 +69,7 @@ class UsersService {
 
     public async updateUser({ name, email, cpf, profilePhoto, refreshToken }: IUpdateService): Promise<void> {
 
-        const userRepository = UserRepository.getInstance();
+        const userRepository = this.usersRepository.getInstance();
 
         await userRepository.update({ cpf }, {
             name,
@@ -79,13 +83,13 @@ class UsersService {
 
     public async changeCredit({ creditsToChange, user }: ICreditChange): Promise<User> {
 
-        const userRepository = UserRepository.getInstance();
+        const userRepository = this.usersRepository.getInstance();
 
         const userToChange = await this.findUserByCpfOrId({ id: user.id });
         const newCredit = userToChange.credit + creditsToChange;
 
         if (newCredit < 0) {
-            throw new AppError("Credits are insufficient.");
+            throw new AppError("Credits are insufficient.", 400);
         }
 
         return await userRepository.save({ ...userToChange, credit: newCredit });
@@ -103,7 +107,7 @@ class UsersService {
         const newCredit = userToChange.credit - creditToRemove;
 
         if (newCredit < 0) {
-            throw new AppError("Credits are insufficient.");
+            throw new AppError("Credits are insufficient.", 400);
         }
 
         return newCredit;
@@ -111,7 +115,7 @@ class UsersService {
 
     public async deleteUser(userId: number) {
 
-        const defaultUserRepository = UserRepository.getInstance();
+        const defaultUserRepository = this.usersRepository.getInstance();
 
         const user = defaultUserRepository.create({
             id: userId

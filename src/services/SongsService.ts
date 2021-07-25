@@ -1,4 +1,4 @@
-import AppError from "src/errors/AppError";
+import AppError from "../errors/AppError";
 import Song from "../models/Song";
 import SongsRepository from '../repository/SongsRepository';
 import { tmpFolder } from '../config/uploadConfig';
@@ -17,15 +17,12 @@ interface ICreateSong {
     singers: string;
     thumbnail: string;
     subtitle: string;
+    price: number;
 }
 
 const URI = process.env.BASE_URI_API || 'http://localhost:3333/info/';
 
 class SongsService {
-
-    public async updateSong({ id }: IFindById): Promise<Song> {
-        throw new AppError('Not Implemented', 501);
-    }
 
     public async deleteSongAndClearFolder({ id }: IFindById): Promise<Song> {
 
@@ -42,7 +39,7 @@ class SongsService {
         return song;
     }
 
-    async createSong({ idSong, idUser, name, description, singers, thumbnail, subtitle }: ICreateSong): Promise<Song> {
+    async createSong({ idSong, idUser, name, description, singers, thumbnail, subtitle, price }: ICreateSong): Promise<Song> {
 
         const song = SongsRepository.getInstance().create({
             id: idSong,
@@ -52,6 +49,7 @@ class SongsService {
             singers,
             thumbnail,
             subtitle,
+            price
         });
 
         return await SongsRepository.createSong(song);

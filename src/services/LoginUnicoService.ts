@@ -31,10 +31,10 @@ export const loginUnicoAxiosInstance = axios.create({
 export default class LoginUnico {
 
 	private http: AxiosInstance;
-	private jwt: object;
-	private jwtToPemInstance: JWK;
+	private jwt: any;
+	private jwtToPemInstance: any;
 
-	constructor(http: AxiosInstance, jwt: object, jwtToPemInstance: JWK) {
+	constructor(http: AxiosInstance, jwt: any, jwtToPemInstance: any) {
 		this.http = http;
 		this.jwt = jwt;
 		this.jwtToPemInstance = jwtToPemInstance;

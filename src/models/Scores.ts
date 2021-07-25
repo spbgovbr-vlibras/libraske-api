@@ -15,7 +15,7 @@ class Scores {
 
     // Scores relationship
     @Column()
-    game_session_id: string;
+    game_session_id: number;
 
     @OneToOne(() => GameSession)
     @JoinColumn({ name: 'game_session_id' })

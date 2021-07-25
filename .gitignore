@@ -12,3 +12,8 @@ tmp/song/*
 !tmp/.gitkeep
 !tmp/img/.gitkeep
 !tmp/song/.gitkeep
+
+*.log
+*.lock
+yarn.lock
+coverage/

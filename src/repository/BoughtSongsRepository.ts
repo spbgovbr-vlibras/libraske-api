@@ -1,5 +1,4 @@
-import User from '@models/User';
-import { EntityRepository, getRepository, Repository } from 'typeorm';
+import { getRepository, Repository } from 'typeorm';
 import BoughtSongs from '../models/BoughtSongs';
 
 interface IBoughtSongsRepository {

@@ -4,11 +4,16 @@ import express, { Request, Response, NextFunction } from 'express';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import path from 'path';
+import ValidationErrors from '../errors/ValidationErrors';
+import StatusCodeName from '../utils/StatusCodeName';
 
 import AppError from '../errors/AppError';
 import routes from '../routes';
+import chalk from 'chalk';
 
 export default async ({ app }: { app: express.Application }) => {
+  console.log("Configuring and starting express...");
+  
   app.get('/status', (req, res) => {
     res.status(200).end();
   });
@@ -31,13 +36,20 @@ export default async ({ app }: { app: express.Application }) => {
   app.use(
     (err: Error, request: Request, response: Response, _: NextFunction) => {
 
+      console.error(err);
+
       if (err instanceof AppError) {
+
+        const status = StatusCodeName(err.statusCode);
+
         return response
           .status(err.statusCode)
-          .json({ status: 'error', message: err.message });
+          .json({ status, message: err.message });
+      } else if (err instanceof ValidationErrors) {
+        return response
+          .status(err.statusCode)
+          .json({ status: 'ValidationError', errors: err.errors });
       }
-
-      console.log(err);
 
       return response
         .status(500)
@@ -48,6 +60,7 @@ export default async ({ app }: { app: express.Application }) => {
   app.use('/info', express.static(path.resolve(staticDirectory, 'song')));
   app.use('/libraske', routes);
 
+  console.log(chalk.green(`Express started!`));  
   // Return the express app
   return app;
 };

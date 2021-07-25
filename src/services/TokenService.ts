@@ -1,17 +1,24 @@
 import jwt from 'jsonwebtoken';
 import env from '../environment/environment';
-
-import { getRepository } from 'typeorm';
-import User from '../models/User';
 import AppError from '../errors/AppError';
 import UsersService from './UsersService';
 
-interface IJwtToken {
+export interface IJwtToken {
   cpf: string;
   iat: string;
   exp: string;
 }
 class TokenService {
+
+  private userService: typeof UsersService;
+
+  constructor() {
+    this.userService = UsersService;
+  }
+
+  public set UserService(userService: typeof UsersService) {
+    this.userService = userService;
+  }
 
   public createToken(cpf: object): string {
     return jwt.sign(cpf, env.ACCESS_SECRET, {
@@ -37,7 +44,7 @@ class TokenService {
   }
 
   public decodeToken(refreshToken: string): IJwtToken {
-    return jwt.decode(refreshToken) as IJwtToken;
+    return jwt.decode(refreshToken) as unknown as IJwtToken;
   }
 
   public async updateToken(refreshToken: string): Promise<string> {
@@ -45,7 +52,7 @@ class TokenService {
     this.verifyRefreshToken(refreshToken);
     const { cpf } = this.decodeToken(refreshToken);
 
-    await UsersService.findUserByCpfOrId({ cpf });
+    await this.userService.findUserByCpfOrId({ cpf });
 
     return this.createToken({ cpf })
   }
@@ -55,9 +62,9 @@ class TokenService {
     this.verifyRefreshToken(refreshToken);
     const { cpf } = this.decodeToken(refreshToken);
 
-    const user = await UsersService.findUserByCpfOrId({ cpf });
+    const user = await this.userService.findUserByCpfOrId({ cpf });
 
-    await UsersService.updateUser({ ...user, refreshToken: null });
+    await this.userService.updateUser({ ...user, refreshToken: null });
 
   }
 }

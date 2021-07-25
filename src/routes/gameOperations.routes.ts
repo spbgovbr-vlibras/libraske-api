@@ -3,9 +3,9 @@ import SenderMessageService from '@services/SenderMessageService';
 import ScoresService from '../services/ScoresService'
 import { Router } from 'express';
 import multer from 'multer';
-import environment from 'src/environment/environment';
+import environment from '../environment/environment';
 import GameSessionService from '@services/GameSessionService';
-import CalculateCredits from 'src/utils/CalculateCredits';
+import CalculateCredits from '../utils/CalculateCredits';
 import UsersService from '@services/UsersService';
 
 const gameOperationsRouter = Router();
@@ -50,13 +50,14 @@ gameOperationsRouter.patch(
   async (request, response) => {
 
     const { id } = request.params;
+    const intId = parseInt(id);
     const bonusValue = parseInt(environment.BONUS_VALUE);
 
     // Finalizando a GameSession
-    const { gameSession, sessionScore } = await GameSessionService.closeGameSession({ id });
+    const { gameSession, sessionScore } = await GameSessionService.closeGameSession({ id: intId });
 
     // Criando Score
-    await ScoresService.createScore({ id, sessionScore });
+    await ScoresService.createScore({ id: intId, sessionScore });
 
     // Verificando quantas vezes foram jogadas
     const timesPlayed = await GameSessionService.countByUserIdAndSongId(gameSession.user_id, gameSession.song_id);
@@ -76,7 +77,7 @@ gameOperationsRouter.get(
   async (request, response) => {
     const { id } = request.params;
 
-    const pontuation = await ScoresService.getScoreBySession(id);
+    const pontuation = await ScoresService.getScoreBySession(parseInt(id));
 
     return response.json({ sessionScore: pontuation.sessionScore });
   },
