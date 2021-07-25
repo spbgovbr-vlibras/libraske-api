@@ -3,14 +3,9 @@ import { createConnection, getConnection } from 'typeorm';
 import env, { loadEnvironments } from '../src/environment/environment';
 import User from '../src/models/User';
 import UsersRepository from '../src/repository/UsersRepository';
-import TokenService from '../src/services/TokenService';
+import TokenService, { IJwtToken } from '../src/services/TokenService';
 import UsersService from '../src/services/UsersService';
 import DataGenerator from '../src/utils/DataGenerator';
-interface IJwtToken {
-    cpf: string;
-    iat: string;
-    exp: string;
-}
 
 jest.mock('../src/services/UsersService')
 
@@ -57,7 +52,7 @@ describe('Token Service', () => {
         const { cpf } = setupFactory();
 
         const result = TokenService.createToken({ cpf });
-        const { cpf: decodedCpf } = jwt.decode(result) as IJwtToken;
+        const { cpf: decodedCpf } = jwt.decode(result) as unknown as IJwtToken;
 
         expect(decodedCpf).not.toBeNull();
         expect(decodedCpf).toBeDefined();
@@ -69,7 +64,7 @@ describe('Token Service', () => {
         const { cpf } = setupFactory();
 
         const result = TokenService.createRefreshToken({ cpf });
-        const { cpf: decodedCpf } = jwt.decode(result) as IJwtToken;
+        const { cpf: decodedCpf } = jwt.decode(result) as unknown as IJwtToken;
 
         expect(decodedCpf).not.toBeNull();
         expect(decodedCpf).toBeDefined();
@@ -91,7 +86,7 @@ describe('Token Service', () => {
         })
 
         const newAccessToken = await TokenService.updateToken(refreshToken);
-        const { cpf: decodedCpf } = jwt.decode(newAccessToken) as IJwtToken;
+        const { cpf: decodedCpf } = jwt.decode(newAccessToken) as unknown as IJwtToken;
 
         expect(decodedCpf).not.toBeNull();
         expect(decodedCpf).toBeDefined();

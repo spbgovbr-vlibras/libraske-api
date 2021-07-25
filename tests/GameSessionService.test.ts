@@ -26,7 +26,7 @@ describe('Game Session Service', () => {
         }
     }
 
-    const getDefaultData = () => {
+    const getDefaultData = () => {       
 
         const cpf = DataGenerator.getUnformattedCpf();
         const refreshToken = TokenService.createRefreshToken({ cpf });

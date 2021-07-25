@@ -3,8 +3,7 @@ import env from '../environment/environment';
 import AppError from '../errors/AppError';
 import UsersService from './UsersService';
 
-
-interface IJwtToken {
+export interface IJwtToken {
   cpf: string;
   iat: string;
   exp: string;
@@ -45,7 +44,7 @@ class TokenService {
   }
 
   public decodeToken(refreshToken: string): IJwtToken {
-    return jwt.decode(refreshToken) as IJwtToken;
+    return jwt.decode(refreshToken) as unknown as IJwtToken;
   }
 
   public async updateToken(refreshToken: string): Promise<string> {
