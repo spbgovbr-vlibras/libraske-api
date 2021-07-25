@@ -15,7 +15,7 @@ const options = {
   "cli": {
     "migrationsDir": environment.MIGRATION_DIRECTORY
   },
-  "logging": false,
+  "logging": environment.DATABASE_LOG === "true",
   "synchronize": true
 } as ConnectionOptions;
 
