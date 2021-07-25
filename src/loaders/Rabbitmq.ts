@@ -1,4 +1,5 @@
 import { Channel, Connection, connect } from 'amqplib';
+import chalk from 'chalk';
 
 import RabbitConsumer from '../services/ReceiverMessageService';
 
@@ -21,12 +22,15 @@ class RabbitmqServer {
   }
 
   public async createRabbitDefaultUsage(): Promise<IDefaultChannels> {
+    console.log(`Starting RabbitMQ...`);
+    
     await this.createConnection();
 
     const { senderChannel, receiverChannel } = await this.createChannel();
 
     await RabbitConsumer.execute();
 
+    console.log(chalk.green(`RabbitMQ started!`));
     return { senderChannel, receiverChannel };
   }
 

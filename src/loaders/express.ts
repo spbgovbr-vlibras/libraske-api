@@ -9,8 +9,11 @@ import StatusCodeName from '../utils/StatusCodeName';
 
 import AppError from '../errors/AppError';
 import routes from '../routes';
+import chalk from 'chalk';
 
 export default async ({ app }: { app: express.Application }) => {
+  console.log("Configuring and starting express...");
+  
   app.get('/status', (req, res) => {
     res.status(200).end();
   });
@@ -57,6 +60,7 @@ export default async ({ app }: { app: express.Application }) => {
   app.use('/info', express.static(path.resolve(staticDirectory, 'song')));
   app.use('/libraske', routes);
 
+  console.log(chalk.green(`Express started!`));  
   // Return the express app
   return app;
 };

@@ -1,17 +1,17 @@
+import User from '@models/User';
 import express from 'express';
-
+import { getRepository } from 'typeorm';
+import {startDatabase} from '../database';
 import expressLoader from './express';
 import Rabbitmq from './Rabbitmq';
 
-import '../database';
 
 export default async ({
   expressApp,
 }: {
   expressApp: express.Application;
-}): Promise<void> => {
+}): Promise<void> => { 
+  await startDatabase();
   await Rabbitmq.createRabbitDefaultUsage();
-  console.log('\n > Rabbitmq initialized');
   await expressLoader({ app: expressApp });
-  console.log('\n > Express initialized');
 };
