@@ -18,7 +18,7 @@
     "dev": "cross-env NODE_ENV=dev ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules src/server.ts",
     "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js",
     "test": "cross-env NODE_ENV=test jest",
-    "seed": "ts-node-dev src/database/seeds/DatabaseSeed.ts"
+    "seed": "cross-env NODE_ENV=dev ts-node-dev src/database/seeds/DatabaseSeed.ts"
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.14.5",

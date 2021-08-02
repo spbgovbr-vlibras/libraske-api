@@ -1,30 +1,34 @@
 import '../index';
 
 import User from "../../models/User";
-import { createConnection } from "typeorm";
+import { ConnectionOptions, createConnection } from "typeorm";
 import Personalization from '../../models/Personalization';
 import PersonalizationGroup from '../../models/PersonalizationGroup';
 import PersonalizationColor from '../../models/PersonalizationColor';
+import environment from '../../../environment/environment';
+import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
 
 
 async function run() {
 
-    const connection = await createConnection({
+    const options: PostgresConnectionOptions = {
         type: "postgres",
-        host: "localhost",
-        port: 5432,
-        username: "postgres",
-        password: "password",
-        database: "libraske",
+        host: environment.TYPEORM_HOST,
+        port: parseInt(environment.TYPEORM_PORT),
+        username: environment.TYPEORM_USERNAME,
+        password: environment.TYPEORM_PASSWORD,
+        database: environment.TYPEORM_DATABASE,
         entities: [
             User,
             Personalization,
             PersonalizationGroup,
             PersonalizationColor
         ],
-        synchronize: true,
-        logging: true
-    });
+        synchronize: false,
+        logging: environment.TYPEORM_LOGGING === "true"
+    }
+
+    const connection = await createConnection(options);
 
     const userRepository = connection.getRepository(User);
     const personalizationRepository = connection.getRepository(Personalization);

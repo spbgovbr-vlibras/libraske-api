@@ -1,23 +1,27 @@
 import { ConnectionOptions, createConnection } from 'typeorm';
-import environment from '../environment/environment';
+import environment from '../../environment/environment';
 import chalk from 'chalk';
 
 const options = {
-  "name": environment.DATABASE_NAME,
-  "type": environment.DATABASE_TYPE,
-  "host": environment.DATABASE_HOST,
-  "port": environment.DATABASE_PORT,
-  "username": environment.DATABASE_USERNAME,
-  "password": environment.DATABASE_PASSWORD,
-  "database": environment.DATABASE,
-  "entities": [environment.DATABASE_ENTITIES],
-  "migrations": [environment.MIGRATION_FILES],
+  "name": environment.TYPEORM_CONNECTION_NAME,
+  "type": environment.TYPEORM_CONNECTION,
+  "host": environment.TYPEORM_HOST,
+  "port": environment.TYPEORM_PORT,
+  "username": environment.TYPEORM_USERNAME,
+  "password": environment.TYPEORM_PASSWORD,
+  "database": environment.TYPEORM_DATABASE,
+  "entities": [environment.TYPEORM_ENTITIES],
+  "migrations": [environment.TYPEORM_MIGRATIONS],
   "cli": {
-    "migrationsDir": environment.MIGRATION_DIRECTORY
+    "migrationsDir": environment.TYPEORM_MIGRATIONS_DIR
   },
-  "logging": environment.DATABASE_LOG === "true",
+  "logging": environment.TYPEORM_LOGGING === "true",
   "synchronize": true
 } as ConnectionOptions;
+
+
+console.log({options});
+
 
 export const startDatabase = async () => {
   console.log(chalk.white(`Starting database...`));

@@ -3,7 +3,7 @@ import SenderMessageService from '@services/SenderMessageService';
 import ScoresService from '../services/ScoresService'
 import { Router } from 'express';
 import multer from 'multer';
-import environment from '../environment/environment';
+import environment from '../../environment/environment';
 import GameSessionService from '@services/GameSessionService';
 import CalculateCredits from '../utils/CalculateCredits';
 import UsersService from '@services/UsersService';

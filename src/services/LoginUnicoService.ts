@@ -4,7 +4,7 @@ import jsonwebtoken from 'jsonwebtoken';
 import jwtToPem, { JWK } from 'jwk-to-pem';
 import qs from 'qs';
 import AppError from '../errors/AppError';
-import env from '../environment/environment'
+import env from '../../environment/environment'
 
 export interface ILoginUnico {
 	name: string;
