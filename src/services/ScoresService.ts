@@ -1,6 +1,6 @@
 import Scores from '@models/Scores';
 import AppError from '../errors/AppError';
-import ScoresRepository, { IBestScoresByUser, IMaxSessionScore } from '../repository/ScoresRepository';
+import ScoresRepository, { IBestScoresByUser, IMaxSessionScore } from '../repositories/ScoresRepository';
 
 interface IRequest {
   id: number;

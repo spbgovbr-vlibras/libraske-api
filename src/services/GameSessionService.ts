@@ -1,6 +1,6 @@
 import GameSession from "../models/GameSession";
 import AppError from "../errors/AppError";
-import GameSessionRepository from "../repository/GameSessionRepository";
+import GameSessionRepository from "../repositories/GameSessionRepository";
 import CalculatePontuations from '../utils/CalculatePontuation';
 import UsersService from "./UsersService";
 import SongsService from "./SongsService";

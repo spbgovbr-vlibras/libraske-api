@@ -7,7 +7,6 @@ interface IPersonalizationGroupRepository {
 }
 
 class PersonalizationGroupRepository implements IPersonalizationGroupRepository {
-
   async findOneById(id: number): Promise<PersonalizationGroup | undefined> {
     return await this.getInstance().findOne(id);
   }

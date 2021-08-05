@@ -1,6 +1,6 @@
 import AppError from "../errors/AppError";
 import Song from "../models/Song";
-import SongsRepository from '../repository/SongsRepository';
+import SongsRepository from '../repositories/SongsRepository';
 import { tmpFolder } from '../config/uploadConfig';
 import fs from 'fs';
 import path from 'path';

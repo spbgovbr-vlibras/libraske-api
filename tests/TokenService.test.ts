@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import { createConnection, getConnection } from 'typeorm';
 import env, { loadEnvironments } from '../src/environment/environment';
 import User from '../src/models/User';
-import UsersRepository from '../src/repository/UsersRepository';
+import UsersRepository from '../src/repositories/UsersRepository';
 import TokenService, { IJwtToken } from '../src/services/TokenService';
 import UsersService from '../src/services/UsersService';
 import DataGenerator from '../src/utils/DataGenerator';

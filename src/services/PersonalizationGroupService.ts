@@ -1,6 +1,6 @@
 import PersonalizationGroup from "@models/PersonalizationGroup";
 import AppError from "src/errors/AppError";
-import PersonalizationGroupRepository from '../repository/PersonalizationGroupRepository'
+import PersonalizationGroupRepository from '../repositories/PersonalizationGroupRepository'
 
 class PersonalizationGroupService {
 

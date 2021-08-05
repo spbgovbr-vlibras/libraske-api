@@ -20,9 +20,7 @@ export interface IBestScoresByUser {
   song_name: number;
 
 }
-
 class ScoresRepository implements IScoresRepository {
-
   async getHistoryBySong(userId: number, songId: string): Promise<IHistoryBySong[]> {
     const query = ` select so.name, s.session_score from scores s 
                         inner join game_sessions gs on gs.id = s.game_session_id 

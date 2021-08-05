@@ -9,7 +9,6 @@ interface IGameSessionsRepository {
 }
 
 class GameSessionsRepository implements IGameSessionsRepository {
-
   async closeGameSession(id: number): Promise<void> {
     await getRepository(GameSession).update(id, { isClosed: true })
   }

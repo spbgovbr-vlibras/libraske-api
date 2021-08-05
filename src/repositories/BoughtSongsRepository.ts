@@ -20,19 +20,14 @@ class BoughtSongsRepository implements IBoughtSongsRepository {
   }
 
   async existsBySongIdAndUserId(userId: number, songId: string): Promise<boolean> {
-
     const result = await getRepository(BoughtSongs).find({ user_id: userId, song_id: songId });
 
     return result.length > 0;
-
   }
 
   getInstance(): Repository<BoughtSongs> {
     return getRepository(BoughtSongs);
   }
-
-
-
 }
 
 export default new BoughtSongsRepository();

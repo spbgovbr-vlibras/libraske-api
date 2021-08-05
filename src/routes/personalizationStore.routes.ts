@@ -5,8 +5,8 @@ import PersonalizationGroupService from "@services/PersonalizationGroupService";
 import UsersService from "@services/UsersService";
 import { Router } from "express";
 import { BoughtPersonalizationBuyDTO } from "src/dto/BoughtPersonalizationBuyDTO";
-import BoughtPersonalizationRepository from "src/repository/BoughtPersonalizationRepository";
-import UsersRepository from "src/repository/UsersRepository";
+import BoughtPersonalizationRepository from "src/repositories/BoughtPersonalizationRepository";
+import UsersRepository from "src/repositories/UsersRepository";
 import { getConnection } from "typeorm";
 
 const boughtPersonalizationRouter = Router();

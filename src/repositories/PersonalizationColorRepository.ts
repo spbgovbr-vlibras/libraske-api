@@ -13,7 +13,6 @@ interface IPersonalizationColorRepository {
 }
 
 class PersonalizationColorRepository implements IPersonalizationColorRepository {
-
   async findColorsByPersonalization(personalizationId: number): Promise<ColorsByPersonalization> {
     const query = `select 
                             p.id as personalizationId, 

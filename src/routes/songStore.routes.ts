@@ -4,8 +4,8 @@ import SongsService from '@services/SongsService';
 import UsersService from '@services/UsersService';
 import { Router } from 'express';
 import { getConnection } from 'typeorm';
-import BoughtSongsRepository from '../repository/BoughtSongsRepository';
-import UsersRepository from '../repository/UsersRepository';
+import BoughtSongsRepository from '../repositories/BoughtSongsRepository';
+import UsersRepository from '../repositories/UsersRepository';
 
 
 const songStore = Router();

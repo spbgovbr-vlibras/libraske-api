@@ -10,7 +10,6 @@ interface ISongsRepository {
 }
 
 class SongsRepository implements ISongsRepository {
-
   async findOneById(id: string): Promise<Song | undefined> {
     return await getRepository(Song).findOne(id);
   }
@@ -28,7 +27,6 @@ class SongsRepository implements ISongsRepository {
       select: ['id', 'name', 'description', 'singers', 'thumbnail', 'subtitle', 'price'],
     });
   }
-
 
   getInstance(): Repository<Song> {
     return getRepository(Song);

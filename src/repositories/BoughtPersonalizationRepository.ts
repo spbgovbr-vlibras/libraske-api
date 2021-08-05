@@ -37,43 +37,43 @@ class BoughtPersonalizationRepository implements BoughtIPersonalizationRepositor
 
   async removeActivePersonalizationByPersonalizationandUser(personalizationId: number, userId: number): Promise<BoughtPersonalization> {
     const query = ` update "boughtPersonalization"
-                        set "isActive" = false 
-                        from "boughtPersonalization" bp 
-                        inner join personalization_group pg on pg.id = bp."personalization_group_id"
-                        inner join personalizations p on p.id = pg."personalization_id"
-                        where pg."personalization_id" = ${personalizationId} and p.user_id = ${userId}`
+                    set "isActive" = false 
+                    from "boughtPersonalization" bp 
+                    inner join personalization_group pg on pg.id = bp."personalization_group_id"
+                    inner join personalizations p on p.id = pg."personalization_id"
+                    where pg."personalization_id" = ${personalizationId} and p.user_id = ${userId}`
 
     return await this.getInstance().query(query);
   }
 
   async findBoughtPersonalization(userId: number): Promise<BoughtPersonalization> {
     const query = ` select 
-                            p.id as personalization_id, 
-                            pg.id as personalization_group_id,
-                            pg."name", 
-                            pg.price,
-                            pc."isDefault",
-                            pc.code
-                        from personalizations p 
-                        inner join personalization_group pg on p.id = pg.personalization_id 
-                        inner join personalization_color pc on pc.personalization_group_id = pg.id 
-                        inner join "boughtPersonalization" bp on bp.personalization_group_id = pg.id
-                        where p.user_id = ${userId}
+                      p.id as personalization_id, 
+                      pg.id as personalization_group_id,
+                      pg."name", 
+                      pg.price,
+                      pc."isDefault",
+                      pc.code
+                    from personalizations p 
+                    inner join personalization_group pg on p.id = pg.personalization_id 
+                    inner join personalization_color pc on pc.personalization_group_id = pg.id 
+                    inner join "boughtPersonalization" bp on bp.personalization_group_id = pg.id
+                    where p.user_id = ${userId}
 
-                        union
-    
-                        select 
-                             p.id as personalization_id, 
-                             pg.id as personalization_group_id,
-                             pg."name", 
-                             pg.price,
-                             pc."isDefault",
-                             pc.code
-                         from personalizations p 
-                         inner join personalization_group pg on p.id = pg.personalization_id 
-                         inner join personalization_color pc on pc.personalization_group_id = pg.id 
-                         where p.id in (1, 2)
-                         order by 1, 2 asc`
+                    union
+
+                    select 
+                      p.id as personalization_id, 
+                      pg.id as personalization_group_id,
+                      pg."name", 
+                      pg.price,
+                      pc."isDefault",
+                      pc.code
+                    from personalizations p 
+                    inner join personalization_group pg on p.id = pg.personalization_id 
+                    inner join personalization_color pc on pc.personalization_group_id = pg.id 
+                    where p.id in (1, 2)
+                    order by 1, 2 asc`
 
     return await this.getInstance().query(query);
   }

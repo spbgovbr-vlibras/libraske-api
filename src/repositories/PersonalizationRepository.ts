@@ -10,7 +10,6 @@ interface IPersonalizationsRepository {
 }
 
 class PersonalizationsRepository implements IPersonalizationsRepository {
-
   async findOne(id: number): Promise<Personalization | undefined> {
     return await getRepository(Personalization).findOne(id, {
       select: ['id', 'name', 'description']

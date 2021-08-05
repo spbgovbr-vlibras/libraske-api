@@ -1,6 +1,6 @@
 import AppError from "../errors/AppError";
 import User from "../models/User";
-import UserRepository from '../repository/UsersRepository';
+import UserRepository from '../repositories/UsersRepository';
 
 interface ICreditChange {
   creditsToChange: number;
@@ -9,7 +9,7 @@ interface ICreditChange {
 interface IUpdateService {
   name: string;
   email: string;
-  profilePhoto: string;
+  profilePhoto: string | null;
   cpf: string;
   refreshToken: string | null;
 }
