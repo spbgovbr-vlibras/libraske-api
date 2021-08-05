@@ -6,79 +6,79 @@ import fs from 'fs';
 import path from 'path';
 
 interface IFindById {
-    id: string;
+  id: string;
 }
 
 interface ICreateSong {
-    idSong: string;
-    idUser: number;
-    name: string;
-    description: string;
-    singers: string;
-    thumbnail: string;
-    subtitle: string;
-    price: number;
+  idSong: string;
+  idUser: number;
+  name: string;
+  description: string;
+  singers: string;
+  thumbnail: string;
+  subtitle: string;
+  price: number;
 }
 
 const URI = process.env.BASE_URI_API || 'http://localhost:3333/info/';
 
 class SongsService {
 
-    public async deleteSongAndClearFolder({ id }: IFindById): Promise<Song> {
+  public async deleteSongAndClearFolder({ id }: IFindById): Promise<Song> {
 
-        const song = await this.findById({ id });
+    const song = await this.findById({ id });
 
-        await SongsRepository.deleteSongById(song.id);
+    await SongsRepository.deleteSongById(song.id);
 
-        const dir = path.resolve(tmpFolder, 'song', id);
+    const dir = path.resolve(tmpFolder, 'song', id);
 
-        if (fs.existsSync(dir)) {
-            fs.rmdirSync(dir, { recursive: true });
-        }
-
-        return song;
+    if (fs.existsSync(dir)) {
+      fs.rmdirSync(dir, { recursive: true });
     }
 
-    async createSong({ idSong, idUser, name, description, singers, thumbnail, subtitle, price }: ICreateSong): Promise<Song> {
+    return song;
+  }
 
-        const song = SongsRepository.getInstance().create({
-            id: idSong,
-            user_id: idUser,
-            name,
-            description,
-            singers,
-            thumbnail,
-            subtitle,
-            price
-        });
+  async createSong({ idSong, idUser, name, description, singers, thumbnail, subtitle, price }: ICreateSong): Promise<Song> {
 
-        return await SongsRepository.createSong(song);
+    const song = SongsRepository.getInstance().create({
+      id: idSong,
+      user_id: idUser,
+      name,
+      description,
+      singers,
+      thumbnail,
+      subtitle,
+      price
+    });
 
+    return await SongsRepository.createSong(song);
+
+  }
+
+  public async findById({ id }: IFindById): Promise<Song> {
+
+    const song = await SongsRepository.findOneById(id);
+
+    if (!song) {
+      throw new AppError('Song does not exists.', 404);
     }
 
-    public async findById({ id }: IFindById): Promise<Song> {
+    return song;
+  }
 
-        const song = await SongsRepository.findOneById(id);
+  public async listSongs(): Promise<Song[]> {
 
-        if (!song) {
-            throw new AppError('Song does not exists.', 404);
-        }
+    const songs = await SongsRepository.listSongs();
 
-        return song;
-    }
+    const songModified = songs.map(song => ({
+      ...song,
+      thumbnail: new URL(`${song.id}/${song.thumbnail}`, URI).href,
+      subtitle: new URL(`${song.id}/${song.subtitle}`, URI).href,
+    }));
 
-    public async listSongs(): Promise<Song[]> {
-
-        const songs = await SongsRepository.listSongs();
-
-        const songModified = songs.map(song => ({
-            ...song,
-            thumbnail: new URL(`${song.id}/${song.thumbnail}`, URI).href,
-            subtitle: new URL(`${song.id}/${song.subtitle}`, URI).href,
-        }));
-
-        return songModified;
-    }
+    return songModified;
+  }
 
 }
 

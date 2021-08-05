@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import env from '../../environment/environment';
+import env from '../environment/environment';
 import AppError from '../errors/AppError';
 import UsersService from './UsersService';
 

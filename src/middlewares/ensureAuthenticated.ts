@@ -2,7 +2,7 @@ import e, { Request, Response, NextFunction } from 'express';
 import { verify } from 'jsonwebtoken';
 
 import AppError from '../errors/AppError';
-import env from '../../environment/environment';
+import env from '../environment/environment';
 import { getRepository } from 'typeorm';
 import User from '../models/User';
 import UsersService from '@services/UsersService';

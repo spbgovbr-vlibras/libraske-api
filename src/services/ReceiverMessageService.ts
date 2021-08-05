@@ -1,6 +1,6 @@
 import Rabbitmq from '../loaders/Rabbitmq';
 import GameSessionService from './GameSessionService';
-import env from '../../environment/environment'
+import env from '../environment/environment'
 
 const QUEUE = env.RABBITMQ_QUEUE_RECEIVER || 'frame_receiver';
 

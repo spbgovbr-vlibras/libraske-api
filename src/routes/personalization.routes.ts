@@ -9,36 +9,36 @@ const personalizationsRouter = Router();
 
 personalizationsRouter.post('/', dtoValidationMiddleware(PersonalizationSaveDTO), async (request, response) => {
 
-    const user = request.user as User;
-    const { name, description } = request.body;
-    const personalization = {
-        user_id: user.id,
-        name,
-        description
-    } as Personalization;
+  const user = request.user as User;
+  const { name, description } = request.body;
+  const personalization = {
+    user_id: user.id,
+    name,
+    description
+  } as Personalization;
 
-    const result = await PersonalizationService.createPersonalization(personalization);
+  const result = await PersonalizationService.createPersonalization(personalization);
 
-    return response.status(201).json({ ...result })
+  return response.status(201).json({ ...result })
 
 })
 
 personalizationsRouter.get('/', async (request, response) => {
 
-    const result = await PersonalizationService.findAll();
+  const result = await PersonalizationService.findAll();
 
-    response.status(200).json(result);
+  response.status(200).json(result);
 
 })
 
 personalizationsRouter.get('/:id', async (request, response) => {
 
-    const { id } = request.params;
-    const intId = parseInt(id);
+  const { id } = request.params;
+  const intId = parseInt(id);
 
-    const result = await PersonalizationService.findById(intId);
+  const result = await PersonalizationService.findById(intId);
 
-    response.status(200).json(result);
+  response.status(200).json(result);
 
 })
 

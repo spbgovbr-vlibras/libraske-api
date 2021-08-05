@@ -3,59 +3,59 @@ import AppError from '../errors/AppError';
 import ScoresRepository, { IBestScoresByUser, IMaxSessionScore } from '../repository/ScoresRepository';
 
 interface IRequest {
-    id: number;
-    sessionScore: number;
+  id: number;
+  sessionScore: number;
 }
 
 class ScoresService {
 
-    async getScoreBySession(id: number): Promise<Scores> {
+  async getScoreBySession(id: number): Promise<Scores> {
 
-        const scoresRepository = ScoresRepository.getInstance();
+    const scoresRepository = ScoresRepository.getInstance();
 
-        const result = await scoresRepository.findOne({ game_session_id: id });
+    const result = await scoresRepository.findOne({ game_session_id: id });
 
-        if (!result) {
-            throw new AppError('Game session not found!', 404);
-        }
-
-        return result;
-
+    if (!result) {
+      throw new AppError('Game session not found!', 404);
     }
 
-    async getBestScoreBySong(songId: string): Promise<IMaxSessionScore[]> {
+    return result;
 
-        const result = await ScoresRepository.findBestScoreBySong(songId) as IMaxSessionScore[];
+  }
 
-        return result;
-    }
+  async getBestScoreBySong(songId: string): Promise<IMaxSessionScore[]> {
 
-    async getHistoryBySong(userId: number, songId: string): Promise<IMaxSessionScore[]> {
+    const result = await ScoresRepository.findBestScoreBySong(songId) as IMaxSessionScore[];
 
-        const result = await ScoresRepository.getHistoryBySong(userId, songId) as IMaxSessionScore[];
+    return result;
+  }
 
-        return result;
-    }
+  async getHistoryBySong(userId: number, songId: string): Promise<IMaxSessionScore[]> {
 
-    async getBestScoresByUser(userId: number): Promise<IBestScoresByUser[]> {
+    const result = await ScoresRepository.getHistoryBySong(userId, songId) as IMaxSessionScore[];
 
-        const result = await ScoresRepository.getBestScoresByUser(userId);
+    return result;
+  }
 
-        return result;
-    }
+  async getBestScoresByUser(userId: number): Promise<IBestScoresByUser[]> {
 
-    async createScore({ id, sessionScore }: IRequest): Promise<void> {
+    const result = await ScoresRepository.getBestScoresByUser(userId);
 
-        const scoresRepository = ScoresRepository.getInstance();
+    return result;
+  }
 
-        const createdScore = scoresRepository.create({
-            game_session_id: id,
-            sessionScore
-        })
+  async createScore({ id, sessionScore }: IRequest): Promise<void> {
 
-        await scoresRepository.save(createdScore);
+    const scoresRepository = ScoresRepository.getInstance();
 
-    }
+    const createdScore = scoresRepository.create({
+      game_session_id: id,
+      sessionScore
+    })
+
+    await scoresRepository.save(createdScore);
+
+  }
 
 
 }

@@ -12,55 +12,55 @@ import { getConnection } from "typeorm";
 const boughtPersonalizationRouter = Router();
 
 boughtPersonalizationRouter.post('/personalizations-group/:id', dtoValidationMiddleware(BoughtPersonalizationBuyDTO), async (request, response) => {
-    const { id } = request.params;
-    const { isActive } = request.body;
-    const user = request.user as User;
+  const { id } = request.params;
+  const { isActive } = request.body;
+  const user = request.user as User;
 
-    // TODO Recuperar o preço correto
-    const personalizationGroupId = parseInt(id);
-    const personalizationGroup = await PersonalizationGroupService.findOneById(personalizationGroupId);
+  // TODO Recuperar o preço correto
+  const personalizationGroupId = parseInt(id);
+  const personalizationGroup = await PersonalizationGroupService.findOneById(personalizationGroupId);
 
-    await BoughtPersonalizationService.checkAlreadyPurchased(user.id, personalizationGroup.id);
-    const credit = await UsersService.checkInsufficientCreditsAndThrow(personalizationGroup.price, user.id);
+  await BoughtPersonalizationService.checkAlreadyPurchased(user.id, personalizationGroup.id, personalizationGroup.personalization_id);
+  const credit = await UsersService.checkInsufficientCreditsAndThrow(personalizationGroup.price, user.id);
 
-    const updatedUser = UsersRepository.getInstance().create({
-        ...user, credit
-    });
+  const updatedUser = UsersRepository.getInstance().create({
+    ...user, credit
+  });
 
-    const boughtpersonalization = BoughtPersonalizationRepository.getInstance().create({
-        personalization_group_id: personalizationGroupId,
-        user_id: user.id,
-        isActive,
-    });
+  const boughtpersonalization = BoughtPersonalizationRepository.getInstance().create({
+    personalization_group_id: personalizationGroupId,
+    user_id: user.id,
+    isActive,
+  });
 
-    const connection = getConnection();
-    const queryRunner = connection.createQueryRunner();
-    let err;
-    
-    if (isActive) {
-       await BoughtPersonalizationService.removeActivePersonalizationByPersonalizationandUser(personalizationGroup.personalization_id, user.id);
-    }
+  const connection = getConnection();
+  const queryRunner = connection.createQueryRunner();
+  let err;
 
-    await queryRunner.startTransaction();
+  if (isActive) {
+    await BoughtPersonalizationService.removeActivePersonalizationByPersonalizationandUser(personalizationGroup.personalization_id, user.id);
+  }
 
-    try {
+  await queryRunner.startTransaction();
 
-        await queryRunner.manager.save(updatedUser);
-        await queryRunner.manager.save(boughtpersonalization);
+  try {
 
-        await queryRunner.commitTransaction();
-    } catch (error) {
-        err = error;
-        await queryRunner.rollbackTransaction();
-    } finally {
-        await queryRunner.release();
-    }
+    await queryRunner.manager.save(updatedUser);
+    await queryRunner.manager.save(boughtpersonalization);
 
-    if (err) {
-        throw err;
-    }
+    await queryRunner.commitTransaction();
+  } catch (error) {
+    err = error;
+    await queryRunner.rollbackTransaction();
+  } finally {
+    await queryRunner.release();
+  }
 
-    response.status(200).send()
+  if (err) {
+    throw err;
+  }
+
+  response.status(200).send()
 
 
 })

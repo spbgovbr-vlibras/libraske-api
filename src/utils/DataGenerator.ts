@@ -2,43 +2,43 @@ import faker from 'faker';
 import CPF from 'cpf';
 
 export default class DataGenerator {
-    static getUUID = () => {
-        return faker.datatype.uuid()
-    }
+  static getUUID = () => {
+    return faker.datatype.uuid()
+  }
 
-    static getFirstName = () => {
-        return faker.name.firstName()
-    }
+  static getFirstName = () => {
+    return faker.name.firstName()
+  }
 
-    static getEmail = () => {
-        return faker.internet.email();
-    }
+  static getEmail = () => {
+    return faker.internet.email();
+  }
 
-    static getUrl = () => {
-        return faker.internet.url();
-    }
+  static getUrl = () => {
+    return faker.internet.url();
+  }
 
-    static getInteger = (): number => {
-        return faker.datatype.number();
-    }
+  static getInteger = (): number => {
+    return faker.datatype.number();
+  }
 
-    static getFormattedCpf = () => {
-        return CPF.generate();
-    }
+  static getFormattedCpf = () => {
+    return CPF.generate();
+  }
 
-    static getUnformattedCpf = () => {
-        return DataGenerator.getFormattedCpf().replace(/[.]/g, '').replace('-', '');
-    }
+  static getUnformattedCpf = () => {
+    return DataGenerator.getFormattedCpf().replace(/[.]/g, '').replace('-', '');
+  }
 
-    static getRandomWord = () => {
-        return faker.random.word();
-    }
+  static getRandomWord = () => {
+    return faker.random.word();
+  }
 
-    static getSongGenre = () => {
-        return faker.music.genre();
-    }
+  static getSongGenre = () => {
+    return faker.music.genre();
+  }
 
-    static getRandomFilePath = () => {
-        return faker.system.filePath();
-    }
+  static getRandomFilePath = () => {
+    return faker.system.filePath();
+  }
 }

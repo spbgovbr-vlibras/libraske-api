@@ -17,8 +17,8 @@ class User {
   @Column()
   email: string;
 
-  @Column()
-  profilePhoto: string;
+  @Column({ nullable: true, type: 'text' })
+  profilePhoto: string | null;
 
   @Column({ nullable: true, type: 'text' })
   refreshToken!: string | null;

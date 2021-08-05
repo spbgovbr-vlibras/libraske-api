@@ -4,24 +4,24 @@ import PersonalizationGroupRepository from '../repository/PersonalizationGroupRe
 
 class PersonalizationGroupService {
 
-    async findOneById(id: number): Promise<PersonalizationGroup> {
-        
-        const group = await PersonalizationGroupRepository.findOneById(id);
+  async findOneById(id: number): Promise<PersonalizationGroup> {
 
-        if(!group){
-            throw new AppError('Personalization group not found', 404);
-        }
+    const group = await PersonalizationGroupRepository.findOneById(id);
 
-        return group;
+    if (!group) {
+      throw new AppError('Personalization group not found', 404);
     }
 
-    async findAllByPersonalizationId(personalizationId: number) {
-        return await PersonalizationGroupRepository.findByPersonalizationId(personalizationId);
-    }
+    return group;
+  }
 
-    async findAll() {
-        return await PersonalizationGroupRepository.findAll();
-    }
+  async findAllByPersonalizationId(personalizationId: number) {
+    return await PersonalizationGroupRepository.findByPersonalizationId(personalizationId);
+  }
+
+  async findAll() {
+    return await PersonalizationGroupRepository.findAll();
+  }
 
 }
 

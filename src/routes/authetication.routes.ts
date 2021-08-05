@@ -15,102 +15,102 @@ const authRouter = Router();
 
 authRouter.post('/', dtoValidationMiddleware(LoginUnicoDTO), async (request, response) => {
 
-	const { code, redirectUri } = request.body;
+  const { code, redirectUri } = request.body;
 
-	try {
+  try {
 
-		const authorization = new AuthorizationService(new LoginUnicoInstance(loginUnicoAxiosInstance, jwt, jwtToPem));
+    const authorization = new AuthorizationService(new LoginUnicoInstance(loginUnicoAxiosInstance, jwt, jwtToPem));
 
-		let { name, email, cpf, profilePhoto } = await authorization.authenticateOnLoginUnico({ code, redirectUri });
+    let { name, email, cpf, profilePhoto } = await authorization.authenticateOnLoginUnico({ code, redirectUri });
 
-		const accessToken = TokenService.createToken({ cpf });
-		const refreshToken = TokenService.createRefreshToken({ cpf });
-		let user;
+    const accessToken = TokenService.createToken({ cpf });
+    const refreshToken = TokenService.createRefreshToken({ cpf });
+    let user;
 
-		try {
-			user = await UsersServices.findUserByCpfOrId({ cpf });
-		} catch (error) {
+    try {
+      user = await UsersServices.findUserByCpfOrId({ cpf });
+    } catch (error) {
 
-			if (error instanceof AppError && error.statusCode == 404) {
-				if (!user) {
-					user = await UsersServices.createUser({ name, email, cpf, profilePhoto, refreshToken: null });
+      if (error instanceof AppError && error.statusCode == 404) {
+        if (!user) {
+          user = await UsersServices.createUser({ name, email, cpf, profilePhoto, refreshToken: null });
 
-					if (!user) {
-						throw new AppError("Ocorreu um erro ao registrar um novo usuário.");
-					}
-				}
+          if (!user) {
+            throw new AppError("Ocorreu um erro ao registrar um novo usuário.");
+          }
+        }
 
-				await UsersServices.updateUser({
-					name: user.name,
-					email: user.email,
-					cpf: user.cpf,
-					profilePhoto: user.profilePhoto,
-					refreshToken
-				});
+        await UsersServices.updateUser({
+          name: user.name,
+          email: user.email,
+          cpf: user.cpf,
+          profilePhoto: user.profilePhoto,
+          refreshToken
+        });
 
-				response.status(200).json({
-					...user,
-					accessToken,
-					refreshToken
-				});
-			} else {
-				throw error;
-			}
-		}
+        response.status(200).json({
+          ...user,
+          accessToken,
+          refreshToken
+        });
+      } else {
+        throw error;
+      }
+    }
 
-	} catch (error) {
-		console.log(error);
-		response.status(500).send("Ocorreu um erro ao realizar a autenticação.");
-	}
+  } catch (error) {
+    console.log(error);
+    response.status(500).send("Ocorreu um erro ao realizar a autenticação.");
+  }
 });
 
 authRouter.post('/refresh', async (request, response) => {
 
-	const { refreshToken } = request.body;
+  const { refreshToken } = request.body;
 
-	const token = await TokenService.updateToken(refreshToken);
+  const token = await TokenService.updateToken(refreshToken);
 
-	response.status(200).json({ token, refreshToken });
+  response.status(200).json({ token, refreshToken });
 
 });
 
 authRouter.post('/logout', async (request, response) => {
 
-	const { refreshToken } = request.body;
+  const { refreshToken } = request.body;
 
-	await TokenService.deleteToken(refreshToken);
+  await TokenService.deleteToken(refreshToken);
 
-	response.status(204).send();
+  response.status(204).send();
 
 });
 
 authRouter.post('/fake-login', async (request, response) => {
 
-	try {
+  try {
 
-		// TODO Remover endpoint futuramente.
-		const user = await UsersRepository.getInstance().findOne();
+    // TODO Remover endpoint futuramente.
+    const user = await UsersRepository.getInstance().findOne();
 
-		if (!user) {
-			throw new AppError('Cadastre pelo menos um usuário no banco.')
-		}
+    if (!user) {
+      throw new AppError('Cadastre pelo menos um usuário no banco.')
+    }
 
-		const accessToken = TokenService.createToken({ cpf: user.cpf });
-		const refreshToken = TokenService.createRefreshToken({ cpf: user.cpf });
+    const accessToken = TokenService.createToken({ cpf: user.cpf });
+    const refreshToken = TokenService.createRefreshToken({ cpf: user.cpf });
 
-		await UsersServices.updateUser({ name: user.name, email: user.email, cpf: user.cpf, profilePhoto: user.profilePhoto, refreshToken });
+    await UsersServices.updateUser({ name: user.name, email: user.email, cpf: user.cpf, profilePhoto: user.profilePhoto, refreshToken });
 
-		response.status(200).json({
-			...user,
-			accessToken,
-			refreshToken
-		});
+    response.status(200).json({
+      ...user,
+      accessToken,
+      refreshToken
+    });
 
-	} catch (error) {
-		console.log(error);
+  } catch (error) {
+    console.log(error);
 
-		response.status(500).send("Ocorreu um erro ao realizar a autenticação.");
-	}
+    response.status(500).send("Ocorreu um erro ao realizar a autenticação.");
+  }
 })
 
 

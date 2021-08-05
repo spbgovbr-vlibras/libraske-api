@@ -4,41 +4,41 @@ import BoughtSongsRepository from '../repository/BoughtSongsRepository'
 
 class BoughtSongsService {
 
-    async checkAlreadyPurchased(userId: number, songId: string) {
+  async checkAlreadyPurchased(userId: number, songId: string) {
 
-        const alreadyBought = await BoughtSongsRepository.existsBySongIdAndUserId(userId, songId);
+    const alreadyBought = await BoughtSongsRepository.existsBySongIdAndUserId(userId, songId);
 
-        if (alreadyBought) {
-            throw new AppError("The song has already been purchased.", 400);
-        }
-
+    if (alreadyBought) {
+      throw new AppError("The song has already been purchased.", 400);
     }
 
-    async getBoughtSongsByUser(userId: number): Promise<BoughtSongs[]> {
+  }
 
-        const boughtSongs = await BoughtSongsRepository.findByUserId(userId);
+  async getBoughtSongsByUser(userId: number): Promise<BoughtSongs[]> {
 
-        return boughtSongs;
-    }
+    const boughtSongs = await BoughtSongsRepository.findByUserId(userId);
 
-    async addBoughtSong(userId: number, songId: string) {
+    return boughtSongs;
+  }
 
-        await this.checkAlreadyPurchased(userId, songId);
+  async addBoughtSong(userId: number, songId: string) {
 
-        const boughtSong = BoughtSongsRepository.getInstance().create({
-            song_id: songId,
-            user_id: userId
-        })
+    await this.checkAlreadyPurchased(userId, songId);
 
-        await BoughtSongsRepository.addBoughtSong(boughtSong);
-    }
+    const boughtSong = BoughtSongsRepository.getInstance().create({
+      song_id: songId,
+      user_id: userId
+    })
+
+    await BoughtSongsRepository.addBoughtSong(boughtSong);
+  }
 
 
-    async getAvailableSongs(userId: number) {
+  async getAvailableSongs(userId: number) {
 
-        return await BoughtSongsRepository.findByUserId(userId);
+    return await BoughtSongsRepository.findByUserId(userId);
 
-    }
+  }
 }
 
 export default new BoughtSongsService();

@@ -12,55 +12,55 @@ const songStore = Router();
 
 songStore.post("/song/:id/buy", async (request, response) => {
 
-    const { id } = request.params;
-    const user = request.user as User;
+  const { id } = request.params;
+  const user = request.user as User;
 
-    const song = await SongsService.findById({ id });
+  const song = await SongsService.findById({ id });
 
-    await BoughtSongsService.checkAlreadyPurchased(user.id, song.id);
-    const credit = await UsersService.checkInsufficientCreditsAndThrow(song.price, user.id);
+  await BoughtSongsService.checkAlreadyPurchased(user.id, song.id);
+  const credit = await UsersService.checkInsufficientCreditsAndThrow(song.price, user.id);
 
-    const updatedUser = UsersRepository.getInstance().create({
-        ...user, credit
-    });
+  const updatedUser = UsersRepository.getInstance().create({
+    ...user, credit
+  });
 
-    const boughtSong = BoughtSongsRepository.getInstance().create({
-        song_id: song.id,
-        user_id: user.id
-    });
+  const boughtSong = BoughtSongsRepository.getInstance().create({
+    song_id: song.id,
+    user_id: user.id
+  });
 
-    const connection = getConnection();
-    const queryRunner = connection.createQueryRunner();
-    let err;
+  const connection = getConnection();
+  const queryRunner = connection.createQueryRunner();
+  let err;
 
-    await queryRunner.startTransaction();
+  await queryRunner.startTransaction();
 
-    try {
+  try {
 
-        await queryRunner.manager.save(updatedUser);
-        await queryRunner.manager.save(boughtSong);
+    await queryRunner.manager.save(updatedUser);
+    await queryRunner.manager.save(boughtSong);
 
-        await queryRunner.commitTransaction();
-    } catch (error) {
-        err = error;
-        await queryRunner.rollbackTransaction();
-    } finally {
-        await queryRunner.release();
-    }
+    await queryRunner.commitTransaction();
+  } catch (error) {
+    err = error;
+    await queryRunner.rollbackTransaction();
+  } finally {
+    await queryRunner.release();
+  }
 
-    if (err) {
-        throw err;
-    }
+  if (err) {
+    throw err;
+  }
 
-    response.status(200).send()
+  response.status(200).send()
 });
 
 songStore.get("/song/bought", async (request, response) => {
 
-    const user = request.user;
-    const res = await BoughtSongsService.getBoughtSongsByUser(user.id);
+  const user = request.user;
+  const res = await BoughtSongsService.getBoughtSongsByUser(user.id);
 
-    response.json(res);
+  response.json(res);
 });
 
 

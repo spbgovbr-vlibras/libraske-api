@@ -4,7 +4,7 @@ import 'express-async-errors';
 import express from 'express';
 import figlet from 'figlet';
 
-import env from '../environment/environment';
+import env from './environment/environment';
 import chalk from 'chalk'
 import loaders from './loaders';
 

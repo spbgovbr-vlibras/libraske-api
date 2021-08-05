@@ -6,98 +6,98 @@ import UsersService from "./UsersService";
 import SongsService from "./SongsService";
 
 interface ICreatePontuation {
-    idGameSession: number;
-    pontuation: number;
+  idGameSession: number;
+  pontuation: number;
 }
 interface ICreateGameSession {
-    idUser: number;
-    idSong: string;
+  idUser: number;
+  idSong: string;
 }
 
 interface IGetPontuation {
-    id: number;
+  id: number;
 }
 
 interface CloseGameSessionResponse {
-    gameSession: GameSession;
-    sessionScore: number;
+  gameSession: GameSession;
+  sessionScore: number;
 }
 
 
 class GameSessionService {
 
-    constructor(
-        private usersService: typeof UsersService = UsersService,
-        private songsService: typeof SongsService = SongsService) { }
+  constructor(
+    private usersService: typeof UsersService = UsersService,
+    private songsService: typeof SongsService = SongsService) { }
 
 
-    async findGameSession(gameSessionId: number): Promise<GameSession> {
+  async findGameSession(gameSessionId: number): Promise<GameSession> {
 
-        const gameSession = await GameSessionRepository.findOneById(gameSessionId);
+    const gameSession = await GameSessionRepository.findOneById(gameSessionId);
 
-        if (!gameSession) {
-            throw new AppError("Game session not found!", 404);
-        }
-
-        return gameSession;
+    if (!gameSession) {
+      throw new AppError("Game session not found!", 404);
     }
 
-    async closeGameSession({ id }: IGetPontuation): Promise<CloseGameSessionResponse> {
+    return gameSession;
+  }
 
-        const gameSession = await this.findGameSession(id);
+  async closeGameSession({ id }: IGetPontuation): Promise<CloseGameSessionResponse> {
 
-        if (gameSession.isClosed) {
-            throw new AppError('The game session is already closed.', 400)
-        }
+    const gameSession = await this.findGameSession(id);
 
-        const sessionScore = CalculatePontuations(gameSession.pontuation);
-        await GameSessionRepository.closeGameSession(gameSession.id);
-
-        return {
-            gameSession,
-            sessionScore
-        }
-
+    if (gameSession.isClosed) {
+      throw new AppError('The game session is already closed.', 400)
     }
 
-    async createGameSession({ idUser, idSong }: ICreateGameSession): Promise<GameSession> {
+    const sessionScore = CalculatePontuations(gameSession.pontuation);
+    await GameSessionRepository.closeGameSession(gameSession.id);
 
-        //TODO Validar se o usuário tem a música liberada.
-
-        const song = await this.songsService.findById({ id: idSong });
-        const user = await this.usersService.findUserByCpfOrId({ id: idUser });
-
-        const gameSession = GameSessionRepository.getInstance().create({
-            user,
-            song,
-            isClosed: false,
-            pontuation: []
-        });
-
-        await GameSessionRepository.saveGameSession(gameSession);
-
-        return gameSession;
+    return {
+      gameSession,
+      sessionScore
     }
 
-    async addPontuation({ idGameSession, pontuation }: ICreatePontuation): Promise<GameSession> {
+  }
 
-        const gameSession = await this.findGameSession(idGameSession);
+  async createGameSession({ idUser, idSong }: ICreateGameSession): Promise<GameSession> {
 
-        const oldArray = gameSession.pontuation ? gameSession.pontuation : [];
+    //TODO Validar se o usuário tem a música liberada.
 
-        const newGameSession = {
-            ...gameSession,
-            pontuation: [...oldArray, pontuation],
-        };
+    const song = await this.songsService.findById({ id: idSong });
+    const user = await this.usersService.findUserByCpfOrId({ id: idUser });
 
-        await GameSessionRepository.saveGameSession(newGameSession);
+    const gameSession = GameSessionRepository.getInstance().create({
+      user,
+      song,
+      isClosed: false,
+      pontuation: []
+    });
 
-        return gameSession;
-    }
+    await GameSessionRepository.saveGameSession(gameSession);
 
-    async countByUserIdAndSongId(userId: number, songId: string): Promise<number> {
-        return await GameSessionRepository.countByUserIdAndSongId(userId, songId);
-    }
+    return gameSession;
+  }
+
+  async addPontuation({ idGameSession, pontuation }: ICreatePontuation): Promise<GameSession> {
+
+    const gameSession = await this.findGameSession(idGameSession);
+
+    const oldArray = gameSession.pontuation ? gameSession.pontuation : [];
+
+    const newGameSession = {
+      ...gameSession,
+      pontuation: [...oldArray, pontuation],
+    };
+
+    await GameSessionRepository.saveGameSession(newGameSession);
+
+    return gameSession;
+  }
+
+  async countByUserIdAndSongId(userId: number, songId: string): Promise<number> {
+    return await GameSessionRepository.countByUserIdAndSongId(userId, songId);
+  }
 
 }
 

@@ -4,15 +4,15 @@ import { Router } from 'express';
 const personalizationGroupRouter = Router();
 
 personalizationGroupRouter.get('/:id', async (request, response) => {
-    const {id} = request.params;
+  const { id } = request.params;
 
-    const result = await PersonalizationGroupService.findAllByPersonalizationId(parseInt(id));
+  const result = await PersonalizationGroupService.findAllByPersonalizationId(parseInt(id));
 
-    return response.status(200).json(result)
+  return response.status(200).json(result)
 })
 
 personalizationGroupRouter.get('/', async (request, response) => {
-    return response.status(200).json(await PersonalizationGroupService.findAll())
+  return response.status(200).json(await PersonalizationGroupService.findAll())
 })
 
 export default personalizationGroupRouter;

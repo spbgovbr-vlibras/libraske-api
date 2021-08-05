@@ -1,4 +1,3 @@
-import User from '../../models/User';
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
 export class CreateUsers1619115113506 implements MigrationInterface {
@@ -26,7 +25,7 @@ export class CreateUsers1619115113506 implements MigrationInterface {
           {
             name: 'profilePhoto',
             type: 'varchar',
-            isNullable: true,
+            isNullable: true
           },
           {
             name: 'refreshToken',
