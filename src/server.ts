@@ -9,6 +9,8 @@ import chalk from 'chalk'
 import loaders from './loaders';
 
 const PORT = env?.PORT || 3333;
+console.log(env);
+
 
 async function startServer() {
   const app = express();

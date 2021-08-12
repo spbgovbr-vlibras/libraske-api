@@ -22,20 +22,11 @@ class ReceiverMessageService {
             message?.content.toString() as string,
           );
 
-          //TODO Remover essa parte
-          // idGameSession = '2e4a051e-7c4d-4bcd-9e8f-4038c4520356';
-          // pontuation = Math.round(Math.random() * 100);
-
-
           try {
             await GameSessionService.addPontuation({ idGameSession, pontuation });
           } catch (err) {
             console.log(err);
-
           }
-
-          console.log('cabou');
-
         },
         consumeOptions,
       );

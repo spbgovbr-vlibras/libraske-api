@@ -8,6 +8,7 @@ import User from '../../models/User';
 import '../index';
 
 
+console.log({ environment });
 
 async function run() {
   const options: PostgresConnectionOptions = {
@@ -26,6 +27,8 @@ async function run() {
     synchronize: false,
     logging: environment.TYPEORM_LOGGING === 'true',
   };
+
+  console.log(options);
 
   const connection = await createConnection(options);
 
