@@ -28,8 +28,6 @@ async function run() {
     logging: environment.TYPEORM_LOGGING === 'true',
   };
 
-  console.log(options);
-
   const connection = await createConnection(options);
 
   const userRepository = connection.getRepository(User);
