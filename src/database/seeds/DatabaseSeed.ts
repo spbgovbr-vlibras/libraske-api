@@ -7,29 +7,27 @@ import PersonalizationGroup from '../../models/PersonalizationGroup';
 import User from '../../models/User';
 import '../index';
 
+const options: PostgresConnectionOptions = {
+  type: 'postgres',
+  host: environment.TYPEORM_HOST,
+  port: parseInt(environment.TYPEORM_PORT),
+  username: environment.TYPEORM_USERNAME,
+  password: environment.TYPEORM_PASSWORD,
+  database: environment.TYPEORM_DATABASE,
+  entities: [
+    User,
+    Personalization,
+    PersonalizationGroup,
+    PersonalizationColor,
+  ],
+  synchronize: false,
+  logging: environment.TYPEORM_LOGGING === 'true',
+};
 
-console.log({ environment });
+console.log(options);
 
 async function run() {
-  const options: PostgresConnectionOptions = {
-    type: 'postgres',
-    host: environment.TYPEORM_HOST,
-    port: parseInt(environment.TYPEORM_PORT),
-    username: environment.TYPEORM_USERNAME,
-    password: environment.TYPEORM_PASSWORD,
-    database: environment.TYPEORM_DATABASE,
-    entities: [
-      User,
-      Personalization,
-      PersonalizationGroup,
-      PersonalizationColor,
-    ],
-    synchronize: false,
-    logging: environment.TYPEORM_LOGGING === 'true',
-  };
-
   const connection = await createConnection(options);
-
   const userRepository = connection.getRepository(User);
   const personalizationRepository = connection.getRepository(Personalization);
   const personalizationGroupRepository =

@@ -16,7 +16,8 @@ const options = {
   cli: {
     migrationsDir: environment.TYPEORM_MIGRATIONS_DIR,
   },
-  logging: environment.TYPEORM_LOGGING === 'true'
+  logging: environment.TYPEORM_LOGGING === 'true',
+  synchronize: environment.TYPEORM_SYNCHRONIZE === 'true'
 } as ConnectionOptions;
 
 export const startDatabase = async (): Promise<void> => {
