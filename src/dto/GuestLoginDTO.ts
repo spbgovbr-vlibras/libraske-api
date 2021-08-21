@@ -6,5 +6,5 @@ export class GuestLoginDTO {
   @Trim()
   @MinLength(2, { message: "O nome deve possuir pelo menos 2 caracteres" })
   @MaxLength(20, { message: "O nome pode possuir no máximo 20 caracteres" })
-  public userName: string;
+  public guestName: string;
 }

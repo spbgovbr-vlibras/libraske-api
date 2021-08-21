@@ -20,7 +20,7 @@ interface IFindUserCpfOrId {
 interface ICreateUser {
   name: string;
   email: string;
-  profilePhoto: string;
+  profilePhoto: string | null;
   cpf: string;
   refreshToken: string | null;
 }
@@ -124,6 +124,11 @@ class UsersService {
     const deletedUser = await defaultUserRepository.remove(user);
 
     return deletedUser;
+  }
+
+  public async existsByCpf(cpf: string) {
+    const user = await UserRepository.findOneByCpf(cpf);
+    return user != undefined;
   }
 
 }

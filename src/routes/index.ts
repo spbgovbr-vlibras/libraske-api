@@ -9,8 +9,9 @@ import boughtPersonalization from './boughtPersonalization.routes';
 import scores from './score.routes';
 import userRouter from './users.routes';
 import personalizationRoutes from './personalization.routes';
-import personalizationStoreRoutes from './personalizationStore.routes'
-import personalizationGroupRoutes from './personalizationGroup.routes'
+import personalizationStoreRoutes from './personalizationStore.routes';
+import personalizationGroupRoutes from './personalizationGroup.routes';
+import guestAuthRouter from './guestAuthentication.routes';
 
 import ensureAuthenticated from "../middlewares/ensureAuthenticated";
 
@@ -27,5 +28,6 @@ routes.use('/users', ensureAuthenticated, userRouter);
 routes.use('/personalizations', ensureAuthenticated, personalizationRoutes);
 routes.use('/personalizations-group', personalizationGroupRoutes);
 routes.use('/auth', authRoutes);
+routes.use('/guest-auth', guestAuthRouter);
 
 export default routes;
