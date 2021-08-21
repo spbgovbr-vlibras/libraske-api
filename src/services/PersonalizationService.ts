@@ -1,5 +1,5 @@
-import AppError from "src/errors/AppError";
-import PersonalizationRepository from "src/repositories/PersonalizationRepository";
+import AppError from "../errors/AppError";
+import PersonalizationRepository from "../repositories/PersonalizationRepository";
 import Personalization from "../models/Personalization";
 
 

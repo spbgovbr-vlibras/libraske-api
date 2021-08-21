@@ -1,9 +1,9 @@
-import uploadConfig from '@config/uploadConfig';
-import createSongFolder from '@middlewares/createSongFolder';
-import SongsService from '@services/SongsService';
+import uploadConfig from '../config/uploadConfig';
+import createSongFolder from '../middlewares/createSongFolder';
+import SongsService from '../services/SongsService';
 import { Router } from 'express';
 import multer from 'multer';
-import AppError from 'src/errors/AppError';
+import AppError from '../errors/AppError';
 
 const songsRouter = Router();
 

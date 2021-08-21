@@ -1,4 +1,4 @@
-import { tmpFolder as staticDirectory } from '@config/uploadConfig';
+import { tmpFolder as staticDirectory } from '../config/uploadConfig';
 import cors from 'cors';
 import express, { Request, Response, NextFunction } from 'express';
 import helmet from 'helmet';

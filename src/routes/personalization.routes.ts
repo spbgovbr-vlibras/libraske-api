@@ -1,7 +1,7 @@
-import dtoValidationMiddleware from '@middlewares/dtoValidation';
-import Personalization from '@models/Personalization';
-import User from '@models/User';
-import PersonalizationService from '@services/PersonalizationService';
+import dtoValidationMiddleware from '../middlewares/dtoValidation';
+import Personalization from '../models/Personalization';
+import User from '../models/User';
+import PersonalizationService from '../services/PersonalizationService';
 import { Router } from 'express';
 import { PersonalizationSaveDTO } from '../dto/PersonalizationSaveDTO';
 

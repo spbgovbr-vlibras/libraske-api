@@ -1,4 +1,4 @@
-import BoughtSongsService from '@services/BoughtSongsService';
+import BoughtSongsService from '../services/BoughtSongsService';
 import { Router } from 'express';
 
 const songStore = Router();

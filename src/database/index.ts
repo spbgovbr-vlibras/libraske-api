@@ -11,7 +11,7 @@ const options = {
   username: environment.TYPEORM_USERNAME,
   password: environment.TYPEORM_PASSWORD,
   database: environment.TYPEORM_DATABASE,
-  entities: [environment.TYPEORM_ENTITIES],
+  entities: [environment.TYPEORM_ENTITIES, environment.TYPEORM_ENTITIES.replace("ts", "js")],
   migrations: [environment.TYPEORM_MIGRATIONS],
   cli: {
     migrationsDir: environment.TYPEORM_MIGRATIONS_DIR,
@@ -19,6 +19,9 @@ const options = {
   logging: environment.TYPEORM_LOGGING === 'true',
   synchronize: environment.TYPEORM_SYNCHRONIZE === 'true'
 } as ConnectionOptions;
+
+console.log({ options });
+
 
 export const startDatabase = async (): Promise<void> => {
   console.log(chalk.white(`Starting database...`));

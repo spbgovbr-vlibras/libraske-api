@@ -1,12 +1,12 @@
-import dtoValidationMiddleware from "@middlewares/dtoValidation";
-import User from "@models/User";
-import BoughtPersonalizationService from "@services/BoughtPersonalizationService";
-import PersonalizationGroupService from "@services/PersonalizationGroupService";
-import UsersService from "@services/UsersService";
+import dtoValidationMiddleware from "../middlewares/dtoValidation";
+import User from "../models/User";
+import BoughtPersonalizationService from "../services/BoughtPersonalizationService";
+import PersonalizationGroupService from "../services/PersonalizationGroupService";
+import UsersService from "../services/UsersService";
 import { Router } from "express";
-import { BoughtPersonalizationBuyDTO } from "src/dto/BoughtPersonalizationBuyDTO";
-import BoughtPersonalizationRepository from "src/repositories/BoughtPersonalizationRepository";
-import UsersRepository from "src/repositories/UsersRepository";
+import { BoughtPersonalizationBuyDTO } from "../dto/BoughtPersonalizationBuyDTO";
+import BoughtPersonalizationRepository from "../repositories/BoughtPersonalizationRepository";
+import UsersRepository from "../repositories/UsersRepository";
 import { getConnection } from "typeorm";
 
 const boughtPersonalizationRouter = Router();

@@ -1,4 +1,4 @@
-import Scores from '@models/Scores';
+import Scores from '../models/Scores';
 import AppError from '../errors/AppError';
 import ScoresRepository, { IBestScoresByUser, IMaxSessionScore } from '../repositories/ScoresRepository';
 

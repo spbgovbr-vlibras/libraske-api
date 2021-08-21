@@ -1,11 +1,11 @@
 import jwt from 'jsonwebtoken';
 import { createConnection, getConnection } from 'typeorm';
-import env, { loadEnvironments } from '../src/environment/environment';
-import User from '../src/models/User';
-import UsersRepository from '../src/repositories/UsersRepository';
-import TokenService, { IJwtToken } from '../src/services/TokenService';
-import UsersService from '../src/services/UsersService';
-import DataGenerator from '../src/utils/DataGenerator';
+import env, { loadEnvironments } from '../environment/environment';
+import User from '../models/User';
+import UsersRepository from '../repositories/UsersRepository';
+import TokenService, { IJwtToken } from '../services/TokenService';
+import UsersService from '../services/UsersService';
+import DataGenerator from '../utils/DataGenerator';
 
 jest.mock('../src/services/UsersService')
 

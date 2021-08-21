@@ -1,4 +1,4 @@
-import ScoresService from '@services/ScoresService';
+import ScoresService from '../services/ScoresService';
 import { Router } from 'express';
 
 const scoreRouter = Router();

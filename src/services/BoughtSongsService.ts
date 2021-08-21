@@ -1,5 +1,5 @@
-import BoughtSongs from "@models/BoughtSongs";
-import AppError from "src/errors/AppError";
+import BoughtSongs from "../models/BoughtSongs";
+import AppError from "../errors/AppError";
 import BoughtSongsRepository from '../repositories/BoughtSongsRepository'
 
 class BoughtSongsService {

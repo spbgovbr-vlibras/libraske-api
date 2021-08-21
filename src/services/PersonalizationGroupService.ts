@@ -1,5 +1,5 @@
-import PersonalizationGroup from "@models/PersonalizationGroup";
-import AppError from "src/errors/AppError";
+import PersonalizationGroup from "../models/PersonalizationGroup";
+import AppError from "../errors/AppError";
 import PersonalizationGroupRepository from '../repositories/PersonalizationGroupRepository'
 
 class PersonalizationGroupService {

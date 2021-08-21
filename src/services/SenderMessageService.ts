@@ -1,4 +1,4 @@
-import { tmpFolder } from '@config/uploadConfig';
+import { tmpFolder } from '../config/uploadConfig';
 import fs from 'fs';
 import path from 'path';
 import Rabbitmq from '../loaders/Rabbitmq';

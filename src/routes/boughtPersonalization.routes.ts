@@ -1,4 +1,4 @@
-import BoughtPersonalizationService from '@services/BoughtPersonalizationService';
+import BoughtPersonalizationService from '../services/BoughtPersonalizationService';
 import { Router } from 'express';
 
 const boughtPersonalizationRouter = Router();

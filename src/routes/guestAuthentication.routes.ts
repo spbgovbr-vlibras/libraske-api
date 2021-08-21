@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import dtoValidationMiddleware from '@middlewares/dtoValidation';
+import dtoValidationMiddleware from '../middlewares/dtoValidation';
 import { GuestLoginDTO } from '../dto/GuestLoginDTO';
-import GuestAuthService from '@services/GuestAuthService';
+import GuestAuthService from '../services/GuestAuthService';
 
 const guestAuthRouter = Router();
 

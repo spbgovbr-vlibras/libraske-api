@@ -20,7 +20,8 @@
     "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js",
     "test": "cross-env NODE_ENV=test jest",
     "seed": "cross-env NODE_ENV=dev ts-node-dev src/database/seeds/DatabaseSeed.ts",
-    "seed-dth": "cross-env ts-node-dev src/database/seeds/DatabaseSeed.ts"
+    "seed-dth": "cross-env ts-node-dev src/database/seeds/DatabaseSeed.ts",
+    "prod": "tsc && cross-env NODE_ENV=dev ts-node dist/server.js"
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.14.5",
@@ -37,6 +38,7 @@
     "@types/mocha": "^8.2.2",
     "@types/morgan": "^1.9.2",
     "@types/multer": "^1.4.5",
+    "@types/uuid": "^8.3.1",
     "@typescript-eslint/eslint-plugin": "^4.29.0",
     "@typescript-eslint/parser": "^4.29.0",
     "cross-env": "^7.0.3",
@@ -99,6 +101,7 @@
     "reflect-metadata": "^0.1.13",
     "short-uuid": "^4.1.0",
     "sqlite3": "^5.0.2",
+    "sucrase": "^3.20.1",
     "ts-jest": "^27.0.3",
     "typeorm": "^0.2.32",
     "uuid": "^8.3.2"

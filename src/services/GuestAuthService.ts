@@ -1,6 +1,6 @@
-import User from "@models/User";
-import DataGenerator from "src/utils/DataGenerator";
-import FakeCpfGenerator from "src/utils/FakeCpfGenerator";
+import User from "../models/User";
+import DataGenerator from "../utils/DataGenerator";
+import FakeCpfGenerator from "../utils/FakeCpfGenerator";
 import TokenService from "./TokenService";
 import UsersService from "./UsersService";
 

@@ -1,6 +1,5 @@
-import PersonalizationGroup from '@models/PersonalizationGroup';
+import PersonalizationGroup from '../models/PersonalizationGroup';
 import { getRepository, Repository } from 'typeorm';
-import Personalization from '../models/Personalization';
 
 interface IPersonalizationGroupRepository {
   getInstance(): Repository<PersonalizationGroup>;

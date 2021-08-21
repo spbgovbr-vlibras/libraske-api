@@ -1,6 +1,6 @@
-import BoughtPersonalization from "@models/BoughtPersonalization";
-import AppError from "src/errors/AppError";
-import BoughtPersonalizationRepository from "src/repositories/BoughtPersonalizationRepository";
+import BoughtPersonalization from "../models/BoughtPersonalization";
+import AppError from "../errors/AppError";
+import BoughtPersonalizationRepository from "../repositories/BoughtPersonalizationRepository";
 import { groupBy } from 'lodash';
 
 

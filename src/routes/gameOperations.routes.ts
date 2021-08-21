@@ -1,12 +1,13 @@
-import uploadConfig from '@config/uploadConfig';
-import SenderMessageService from '@services/SenderMessageService';
+import uploadConfig from '../config/uploadConfig';
+import SenderMessageService from '../services/SenderMessageService';
 import ScoresService from '../services/ScoresService'
 import { Router } from 'express';
 import multer from 'multer';
 import environment from '../environment/environment';
-import GameSessionService from '@services/GameSessionService';
+import GameSessionService from '../services/GameSessionService';
 import CalculateCredits from '../utils/CalculateCredits';
-import UsersService from '@services/UsersService';
+import UsersService from '../services/UsersService';
+import AppError from '../errors/AppError';
 
 const gameOperationsRouter = Router();
 
@@ -20,11 +21,16 @@ gameOperationsRouter.post(
     const { idFrame } = request.body;
 
     const sendMessageService = new SenderMessageService();
+    const frameImageFilename = request?.file?.filename;
+
+    if (!frameImageFilename) {
+      throw new AppError("Image was not sent", 400);
+    }
 
     await sendMessageService.execute({
       idSession,
       idFrame,
-      frameImageFilename: request.file.filename,
+      frameImageFilename,
     });
 
     return response.sendStatus(204);
