@@ -35,6 +35,13 @@ async function run() {
   const personalizationColorRepository =
     connection.getRepository(PersonalizationColor);
 
+  const count = await userRepository.count();
+
+  if (count > 0) {
+    console.log("Tabela já foi populada com dados.");
+    return
+  }
+
   /*
    *   Usuário padrão
    */
