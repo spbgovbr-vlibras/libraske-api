@@ -28,7 +28,7 @@ authRouter.post('/', dtoValidationMiddleware(LoginUnicoDTO), async (request, res
     } catch (error) {
       if (error instanceof AppError && error.statusCode == 404) {
         if (!user) {
-          user = await UsersServices.createUser({ name, email, cpf, profilePhoto, refreshToken: null });
+          user = await UsersServices.createUser({ name, email, cpf, profilePhoto, refreshToken: null, isGuest: false });
 
           if (!user) {
             throw new AppError("Ocorreu um erro ao registrar um novo usuário.");

@@ -29,6 +29,9 @@ class User {
   @Column()
   credit: number;
 
+  @Column()
+  isGuest: boolean;
+
   @CreateDateColumn()
   created_at: Date;
 

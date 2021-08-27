@@ -11,4 +11,8 @@ userRouter.delete('', async (request, response) => {
 
 })
 
+userRouter.get('', async (request, response) => {
+  return response.json(request.user);
+});
+
 export default userRouter;

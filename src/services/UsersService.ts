@@ -23,6 +23,7 @@ interface ICreateUser {
   profilePhoto: string | null;
   cpf: string;
   refreshToken: string | null;
+  isGuest: boolean;
 }
 
 class UsersService {
@@ -33,7 +34,7 @@ class UsersService {
     this.usersRepository = UserRepository;
   }
 
-  public async createUser({ name, email, cpf, profilePhoto, refreshToken }: ICreateUser): Promise<User> {
+  public async createUser({ name, email, cpf, profilePhoto, refreshToken, isGuest }: ICreateUser): Promise<User> {
 
     const userRepository = this.usersRepository.getInstance();
 
@@ -43,7 +44,8 @@ class UsersService {
       profilePhoto,
       cpf,
       refreshToken,
-      credit: 0
+      credit: 0,
+      isGuest
     })
 
   }

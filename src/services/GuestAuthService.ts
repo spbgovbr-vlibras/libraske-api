@@ -26,7 +26,8 @@ class GuestAuthService {
       email: fakeEmail,
       cpf: fakeCpf,
       profilePhoto: null,
-      refreshToken
+      refreshToken,
+      isGuest: true
     });
 
     return {
