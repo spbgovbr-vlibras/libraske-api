@@ -23,6 +23,7 @@ describe('Game Session Service', () => {
       credit,
       created_at: new Date(),
       updated_at: new Date(),
+      isGuest: false
     }
   }
 
@@ -97,7 +98,7 @@ describe('Game Session Service', () => {
       price
     } = getDefaultData();
 
-    const user = await UsersService.createUser({ name, email, cpf, profilePhoto, refreshToken });
+    const user = await UsersService.createUser({ name, email, cpf, profilePhoto, refreshToken, isGuest: false });
     const song = await SongsService.createSong({ idUser: user.id, name: songName, price, description, idSong, singers, subtitle, thumbnail });
 
     const result = await GameSessionService.createGameSession({ idSong: song.id, idUser: user.id });
@@ -125,7 +126,7 @@ describe('Game Session Service', () => {
       price
     } = getDefaultData();
 
-    const user = await UsersService.createUser({ name, email, cpf, profilePhoto, refreshToken });
+    const user = await UsersService.createUser({ name, email, cpf, profilePhoto, refreshToken, isGuest: false });
     const song = await SongsService.createSong({ idUser: user.id, name: songName, price, description, idSong, singers, subtitle, thumbnail });
 
     const gameSession = await GameSessionService.createGameSession({ idSong: song.id, idUser: user.id });
@@ -168,7 +169,7 @@ describe('Game Session Service', () => {
       price
     } = getDefaultData();
 
-    const user = await UsersService.createUser({ name, email, cpf, profilePhoto, refreshToken });
+    const user = await UsersService.createUser({ name, email, cpf, profilePhoto, refreshToken, isGuest: false });
     const song = await SongsService.createSong({ idUser: user.id, name: songName, price, description, idSong, singers, subtitle, thumbnail });
 
     const firstResult = await GameSessionService.countByUserIdAndSongId(user.id, song.id);
@@ -205,7 +206,7 @@ describe('Game Session Service', () => {
       price
     } = getDefaultData();
 
-    const user = await UsersService.createUser({ name, email, cpf, profilePhoto, refreshToken });
+    const user = await UsersService.createUser({ name, email, cpf, profilePhoto, refreshToken, isGuest: false });
     const song = await SongsService.createSong({ idUser: user.id, name: songName, price, description, idSong, singers, subtitle, thumbnail });
     const gameSession = await GameSessionService.createGameSession({ idSong: song.id, idUser: user.id });
 
@@ -236,7 +237,7 @@ describe('Game Session Service', () => {
       price
     } = getDefaultData();
 
-    const user = await UsersService.createUser({ name, email, cpf, profilePhoto, refreshToken });
+    const user = await UsersService.createUser({ name, email, cpf, profilePhoto, refreshToken, isGuest: false });
     const song = await SongsService.createSong({ idUser: user.id, name: songName, price, description, idSong, singers, subtitle, thumbnail });
     const gameSession = await GameSessionService.createGameSession({ idSong: song.id, idUser: user.id });
 

@@ -18,6 +18,7 @@ describe('Users Service', () => {
       credit,
       created_at: new Date(),
       updated_at: new Date(),
+      isGuest: false
     }
   }
 
@@ -64,7 +65,7 @@ describe('Users Service', () => {
   it('should create an user', async () => {
 
     const { name, email, cpf, profilePhoto, refreshToken } = getDefaultData();
-    const createdUser = await UsersService.createUser({ name, email, cpf, profilePhoto, refreshToken });
+    const createdUser = await UsersService.createUser({ name, email, cpf, profilePhoto, refreshToken, isGuest: false });
 
     expect(createdUser.name).toBe(name);
     expect(createdUser.email).toBe(email);
@@ -79,7 +80,7 @@ describe('Users Service', () => {
   it('should find a user by id', async () => {
 
     const { name, email, cpf, profilePhoto, refreshToken } = getDefaultData();
-    const createdUser = await UsersService.createUser({ name, email, cpf, profilePhoto, refreshToken });
+    const createdUser = await UsersService.createUser({ name, email, cpf, profilePhoto, refreshToken, isGuest: false });
 
     const userFound = await UsersService.findUserByCpfOrId({ id: createdUser.id });
 
@@ -96,7 +97,7 @@ describe('Users Service', () => {
   it('should find a user by cpf', async () => {
 
     const { name, email, cpf, profilePhoto, refreshToken } = getDefaultData();
-    const createdUser = await UsersService.createUser({ name, email, cpf, profilePhoto, refreshToken });
+    const createdUser = await UsersService.createUser({ name, email, cpf, profilePhoto, refreshToken, isGuest: false });
 
     const userFound = await UsersService.findUserByCpfOrId({ cpf: createdUser.cpf }) as User;
 
@@ -115,7 +116,7 @@ describe('Users Service', () => {
     const { name, email, cpf, profilePhoto, refreshToken } = getDefaultData();
     const { name: name2, email: email2, profilePhoto: profilePhoto2, refreshToken: refreshToken2 } = getDefaultData();
 
-    await UsersService.createUser({ name, email, cpf, profilePhoto, refreshToken });
+    await UsersService.createUser({ name, email, cpf, profilePhoto, refreshToken, isGuest: false });
     await UsersService.updateUser({ cpf, name: name2, email: email2, profilePhoto: profilePhoto2, refreshToken: refreshToken2 })
     const updatedUser = await UsersService.findUserByCpfOrId({ cpf });
 
@@ -132,7 +133,7 @@ describe('Users Service', () => {
 
     const { name, email, cpf, profilePhoto, refreshToken } = getDefaultData();
 
-    const createdUser = await UsersService.createUser({ name, email, cpf, profilePhoto, refreshToken });
+    const createdUser = await UsersService.createUser({ name, email, cpf, profilePhoto, refreshToken, isGuest: false });
     const beforeDelete = await UsersService.findUserByCpfOrId({ id: createdUser.id });
     await UsersService.deleteUser(createdUser.id);
 
@@ -150,7 +151,7 @@ describe('Users Service', () => {
   it('should check if a user has enough credits.', async () => {
 
     const { name, email, cpf, profilePhoto, refreshToken } = getDefaultData();
-    const createdUser = await UsersService.createUser({ name, email, cpf, profilePhoto, refreshToken });
+    const createdUser = await UsersService.createUser({ name, email, cpf, profilePhoto, refreshToken, isGuest: false });
 
     const result = await UsersService.checkInsufficientCreditsAndThrow(0, createdUser.id);
 
@@ -161,7 +162,7 @@ describe('Users Service', () => {
   it('should check if a user does not have enough credits.', async () => {
 
     const { name, email, cpf, profilePhoto, refreshToken } = getDefaultData();
-    const createdUser = await UsersService.createUser({ name, email, cpf, profilePhoto, refreshToken });
+    const createdUser = await UsersService.createUser({ name, email, cpf, profilePhoto, refreshToken, isGuest: false });
 
     try {
       await UsersService.checkInsufficientCreditsAndThrow(1, createdUser.id);
@@ -184,7 +185,7 @@ describe('Users Service', () => {
   it('should add credit for a user', async () => {
 
     const { name, email, cpf, profilePhoto, refreshToken } = getDefaultData();
-    const createdUser = await UsersService.createUser({ name, email, cpf, profilePhoto, refreshToken });
+    const createdUser = await UsersService.createUser({ name, email, cpf, profilePhoto, refreshToken, isGuest: false });
     const creditsToAdd = 1234;
 
     const updatedUser = await UsersService.changeCredit({ creditsToChange: creditsToAdd, user: createdUser });
@@ -201,7 +202,7 @@ describe('Users Service', () => {
   it('should remove credit from a user', async () => {
 
     const { name, email, cpf, profilePhoto, refreshToken } = getDefaultData();
-    const createdUser = await UsersService.createUser({ name, email, cpf, profilePhoto, refreshToken });
+    const createdUser = await UsersService.createUser({ name, email, cpf, profilePhoto, refreshToken, isGuest: false });
     const creditsToAdd = 1234;
     const creditsToRemove = 234;
     const finalCredit = creditsToAdd - creditsToRemove;
@@ -221,7 +222,7 @@ describe('Users Service', () => {
   it('should throw an error when there are not enough credits', async () => {
 
     const { name, email, cpf, profilePhoto, refreshToken } = getDefaultData();
-    const createdUser = await UsersService.createUser({ name, email, cpf, profilePhoto, refreshToken });
+    const createdUser = await UsersService.createUser({ name, email, cpf, profilePhoto, refreshToken, isGuest: false });
     const creditsToRemove = 234;
 
     try {

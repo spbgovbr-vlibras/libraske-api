@@ -58,7 +58,7 @@ describe('Song Service', () => {
     const { cpf, email, songName, profilePhoto, idSong, description, singers, thumbnail, subtitle, name, price } = setupFactory();
 
     const user = await UsersService.createUser({
-      cpf, email, profilePhoto, name, refreshToken: null
+      cpf, email, profilePhoto, name, refreshToken: null, isGuest: false
     });
 
     const createdSong = await SongsService.createSong({ idSong, idUser: user.id, description, singers, thumbnail, subtitle, name: songName, price });
@@ -79,7 +79,7 @@ describe('Song Service', () => {
     const { cpf, email, songName, profilePhoto, description, singers, thumbnail, subtitle, name, price } = setupFactory();
     const firstIdSong = DataGenerator.getUUID(), secondIdSong = DataGenerator.getUUID();
 
-    const user = await UsersService.createUser({ cpf, email, profilePhoto, name, refreshToken: null });
+    const user = await UsersService.createUser({ cpf, email, profilePhoto, name, refreshToken: null, isGuest: false });
 
     await SongsService.createSong({ idSong: firstIdSong, idUser: user.id, description, singers, thumbnail, subtitle, name: songName, price });
     await SongsService.createSong({ idSong: secondIdSong, idUser: user.id, description, singers, thumbnail, subtitle, name: songName, price });
@@ -99,7 +99,7 @@ describe('Song Service', () => {
     const id = DataGenerator.getUUID();
     const { cpf, email, songName, profilePhoto, description, singers, thumbnail, subtitle, name, price } = setupFactory();
 
-    const user = await UsersService.createUser({ cpf, email, profilePhoto, name, refreshToken: null });
+    const user = await UsersService.createUser({ cpf, email, profilePhoto, name, refreshToken: null, isGuest: false });
     await SongsService.createSong({ idSong: id, idUser: user.id, description, singers, thumbnail, subtitle, name: songName, price });
 
     const song = await SongsService.findById({ id });
@@ -131,7 +131,7 @@ describe('Song Service', () => {
     const { cpf, email, songName, profilePhoto, description, singers, thumbnail, subtitle, name, price } = setupFactory();
     const id = DataGenerator.getUUID();
 
-    const user = await UsersService.createUser({ cpf, email, profilePhoto, name, refreshToken: null });
+    const user = await UsersService.createUser({ cpf, email, profilePhoto, name, refreshToken: null, isGuest: false });
     await SongsService.createSong({ idSong: id, idUser: user.id, description, singers, thumbnail, subtitle, name: songName, price });
     const beforeTestSongs = await SongsService.listSongs();
 
@@ -162,7 +162,7 @@ describe('Song Service', () => {
     const id = DataGenerator.getUUID();
     const { cpf, email, songName, profilePhoto, description, singers, thumbnail, subtitle, name, price } = setupFactory();
 
-    const user = await UsersService.createUser({ cpf, email, profilePhoto, name, refreshToken: null });
+    const user = await UsersService.createUser({ cpf, email, profilePhoto, name, refreshToken: null, isGuest: false });
     await SongsService.createSong({ idSong: id, idUser: user.id, description, singers, thumbnail, subtitle, name: songName, price });
 
     fs.existsSync = jest.fn().mockReturnValue(true);
