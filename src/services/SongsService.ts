@@ -6,11 +6,11 @@ import fs from 'fs';
 import path from 'path';
 
 interface IFindById {
-  id: string;
+  id: number;
 }
 
 interface ICreateSong {
-  idSong: string;
+  idSong: number;
   idUser: number;
   name: string;
   description: string;
@@ -30,7 +30,7 @@ class SongsService {
 
     await SongsRepository.deleteSongById(song.id);
 
-    const dir = path.resolve(tmpFolder, 'song', id);
+    const dir = path.resolve(tmpFolder, 'song', `${id}`);
 
     if (fs.existsSync(dir)) {
       fs.rmdirSync(dir, { recursive: true });

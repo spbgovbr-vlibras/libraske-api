@@ -16,7 +16,7 @@ describe('Song Service', () => {
 
     return {
       cpf,
-      idSong: DataGenerator.getUUID(),
+      idSong: DataGenerator.getInteger(),
       email: DataGenerator.getEmail(),
       profilePhoto: DataGenerator.getUrl(),
       name: DataGenerator.getFirstName(),
@@ -77,7 +77,7 @@ describe('Song Service', () => {
   it('should return a list of songs', async () => {
 
     const { cpf, email, songName, profilePhoto, description, singers, thumbnail, subtitle, name, price } = setupFactory();
-    const firstIdSong = DataGenerator.getUUID(), secondIdSong = DataGenerator.getUUID();
+    const firstIdSong = 0, secondIdSong = 1;
 
     const user = await UsersService.createUser({ cpf, email, profilePhoto, name, refreshToken: null, isGuest: false });
 
@@ -96,7 +96,7 @@ describe('Song Service', () => {
 
   it('should find a song by id', async () => {
 
-    const id = DataGenerator.getUUID();
+    const id = DataGenerator.getInteger();
     const { cpf, email, songName, profilePhoto, description, singers, thumbnail, subtitle, name, price } = setupFactory();
 
     const user = await UsersService.createUser({ cpf, email, profilePhoto, name, refreshToken: null, isGuest: false });
@@ -116,7 +116,7 @@ describe('Song Service', () => {
 
   it('should fail if a song does not exists', async () => {
 
-    const id = DataGenerator.getUUID();
+    const id = DataGenerator.getInteger();
 
     try {
       await SongsService.findById({ id });
@@ -129,7 +129,7 @@ describe('Song Service', () => {
   it('should delete a song', async () => {
 
     const { cpf, email, songName, profilePhoto, description, singers, thumbnail, subtitle, name, price } = setupFactory();
-    const id = DataGenerator.getUUID();
+    const id = DataGenerator.getInteger();
 
     const user = await UsersService.createUser({ cpf, email, profilePhoto, name, refreshToken: null, isGuest: false });
     await SongsService.createSong({ idSong: id, idUser: user.id, description, singers, thumbnail, subtitle, name: songName, price });
@@ -146,7 +146,7 @@ describe('Song Service', () => {
 
   it(`should fail when trying to delete a song that doesn't exist`, async () => {
 
-    const id = DataGenerator.getUUID();
+    const id = DataGenerator.getInteger();
 
     try {
       await SongsService.deleteSongAndClearFolder({ id });
@@ -159,7 +159,7 @@ describe('Song Service', () => {
 
   it('should delete a fold when deleting a song', async () => {
 
-    const id = DataGenerator.getUUID();
+    const id = DataGenerator.getInteger();
     const { cpf, email, songName, profilePhoto, description, singers, thumbnail, subtitle, name, price } = setupFactory();
 
     const user = await UsersService.createUser({ cpf, email, profilePhoto, name, refreshToken: null, isGuest: false });

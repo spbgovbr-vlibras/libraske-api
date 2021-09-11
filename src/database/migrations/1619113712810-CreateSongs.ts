@@ -8,10 +8,8 @@ export class CreateSongs1619113712810 implements MigrationInterface {
         columns: [
           {
             name: 'id',
-            type: 'uuid',
-            isPrimary: true,
-            generationStrategy: 'uuid',
-            default: 'uuid_generate_v4()',
+            type: 'int',
+            isPrimary: true
           },
           {
             name: 'user_id',

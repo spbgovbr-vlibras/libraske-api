@@ -11,7 +11,7 @@ interface ICreatePontuation {
 }
 interface ICreateGameSession {
   idUser: number;
-  idSong: string;
+  idSong: number;
 }
 
 interface IGetPontuation {
@@ -95,7 +95,7 @@ class GameSessionService {
     return gameSession;
   }
 
-  async countByUserIdAndSongId(userId: number, songId: string): Promise<number> {
+  async countByUserIdAndSongId(userId: number, songId: number): Promise<number> {
     return await GameSessionRepository.countByUserIdAndSongId(userId, songId);
   }
 

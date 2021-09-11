@@ -20,7 +20,7 @@ class GameSession {
 
   // Music relationship
   @Column()
-  song_id: string;
+  song_id: number;
 
   @ManyToOne(() => Music)
   @JoinColumn({ name: 'song_id' })

@@ -7,7 +7,7 @@ import TokenService, { IJwtToken } from '../services/TokenService';
 import UsersService from '../services/UsersService';
 import DataGenerator from '../utils/DataGenerator';
 
-jest.mock('../src/services/UsersService')
+jest.mock('../services/UsersService')
 
 const mockedUsersService = UsersService as jest.Mocked<typeof UsersService>;
 
@@ -82,7 +82,8 @@ describe('Token Service', () => {
       profilePhoto,
       cpf,
       refreshToken,
-      credit: 0
+      credit: 0,
+      isGuest: false
     })
 
     const newAccessToken = await TokenService.updateToken(refreshToken);
@@ -109,7 +110,8 @@ describe('Token Service', () => {
       profilePhoto,
       cpf,
       refreshToken,
-      credit: 0
+      credit: 0,
+      isGuest: false
     })
 
     await TokenService.deleteToken(refreshToken);

@@ -10,14 +10,16 @@ export default function createSongFolder(
   response: Response,
   next: NextFunction,
 ): void {
-  const idSong = uuidv4();
-  const destination = path.resolve(tmpFolder, 'song', idSong);
+  const sonsgFolder = path.join(tmpFolder, "song");
+  const idSong = fs.readdirSync(sonsgFolder).filter(folderPath => fs.lstatSync(path.join(sonsgFolder, folderPath)).isDirectory()).length;
+  const idSongAsString = `${idSong}`;
+  const destination = path.resolve(tmpFolder, 'song', idSongAsString);
 
   if (!fs.existsSync(destination)) {
     fs.mkdirSync(destination, { recursive: true });
   }
 
-  request.idSong = idSong;
+  request.idSong = idSongAsString;
   request.destination = destination;
   next();
 }

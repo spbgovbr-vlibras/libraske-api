@@ -20,7 +20,7 @@ export class CreateGameSessions1619113516040 implements MigrationInterface {
           },
           {
             name: 'song_id',
-            type: 'uuid',
+            type: 'int',
           },
           {
             name: 'pontuation',

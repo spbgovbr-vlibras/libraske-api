@@ -6,14 +6,16 @@ import {
   UpdateDateColumn,
   JoinColumn,
   ManyToOne,
+  PrimaryColumn,
 } from 'typeorm';
 
 import User from './User';
 
 @Entity('songs')
 class Songs {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+
+  @PrimaryColumn()
+  id: number;
 
   // User relationship
   @Column()
