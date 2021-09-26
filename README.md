@@ -5,76 +5,104 @@
 [![Build Status][travis-image]][travis-url]
 [![Downloads Stats][npm-downloads]][npm-url]
 
-One to two paragraph statement about your product and what it does.
-
 ![vlibras-image]
+
+<hr>
+
+## Table of Contents
+
+- [Installation](#installation)
+- [Running API](#running-api)
+- [Running Tests](#running-tests)
+- [Release History](#release-history)
+- [Contributors](#contributors)
+- [License](#license)
+
+
+<hr>
 
 ## Architecture Libraskê
 
 ![](/doc/img/model.png)
 
+<hr>
 
+## Installation 
 
+#### 1 - Clone the repository  
+`git clone https://gitlab.lavid.ufpb.br/vlibras2019/librask-2021/libraske-api.git`
 
-## Installation
+#### 2 - Install [NodeJs](https://nodejs.org/en/)  
 
-OS X & Linux:
+#### Install [Yarn](https://yarnpkg.com/)
 
-```sh
-npm install my-crazy-module --save
+* 
+
+`npm install -g yarn`  
+
+#### 4 - Instalar dependências   
+`yarn` 
+
+#### 5 - Instalar [Postgres](https://computingforgeeks.com/installing-postgresql-database-server-on-ubuntu/) 
+
+```
+  sudo apt -y upgrade
+  sudo apt install postgresql postgresql-client
+  systemctl status postgresql.service 
+
+  sudo su - postgres
+  psql -c "alter user postgres with password 'password'"
+  createdb libraske
 ```
 
-Windows:
-
-```sh
-edit autoexec.bat
+#### 6 - Instalar [RabbitMQ](https://www.vultr.com/docs/install-rabbitmq-server-ubuntu-20-04-lts)
+```
+sudo apt-get install wget apt-transport-https -y
+wget -O- https://www.rabbitmq.com/rabbitmq-release-signing-key.asc | sudo apt-key add -
+echo "deb https://dl.bintray.com/rabbitmq-erlang/debian focal erlang-22.x" | sudo tee /etc/apt/sources.list.d/rabbitmq.list
+sudo apt-get install rabbitmq-server -y --fix-missing
+sudo systemctl status rabbitmq-server
+sudo rabbitmq-plugins enable rabbitmq_management
 ```
 
-## Usage example
+#### 7 - Execute migrations
 
-A few motivating and useful examples of how your product can be used. Spice this up with code blocks and potentially more screenshots.
+`yarn typeorm migration:run`
 
-_For more examples and usage, please refer to the [Wiki][wiki]._
+#### 8 - Execute database seed
 
-## Development setup
+`yarn seed`
 
-Describe how to install all development dependencies and how to run an automated test-suite of some kind. Potentially do this for multiple platforms.
+<hr>
+
+## Running API
+
+`yarn dev`
+
+<hr>
+
+## Running Tests
 
 ```sh
-make install
-npm test
+yarn test --silent
 ```
+
+<hr>
 
 ## Release History
 
-* 0.2.1
-    * CHANGE: Update docs (module code remains unchanged)
-* 0.2.0
-    * CHANGE: Remove `setDefaultXYZ()`
-    * ADD: Add `init()`
-* 0.1.1
-    * FIX: Crash when calling `baz()` (Thanks @GenerousContributorName!)
-* 0.1.0
-    * The first proper release
-    * CHANGE: Rename `foo()` to `bar()`
-* 0.0.1
-    * Work in progress
+0.0.0 - Initial version
 
-## Meta
+<hr>
 
-Your Name – [@YourTwitter](https://twitter.com/dbader_org) – YourEmail@example.com
+## Contributors
 
-Distributed under the XYZ license. See ``LICENSE`` for more information.
+João Vinícius – joaovinicius@lavid.ufpb.br
 
-[https://github.com/yourname/github-link](https://github.com/dbader/)
+<hr>
 
-## Contributing
+## License
 
-1. Fork it (<https://github.com/yourname/yourproject/fork>)
-2. Create your feature branch (`git checkout -b feature/fooBar`)
-3. Commit your changes (`git commit -am 'Add some fooBar'`)
-4. Push to the branch (`git push origin feature/fooBar`)
-5. Create a new Pull Request
 
 <!-- Markdown link & img dfn's -->
 [npm-image]: https://img.shields.io/npm/v/datadog-metrics.svg?style=flat-square
