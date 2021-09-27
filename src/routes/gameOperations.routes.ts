@@ -8,6 +8,7 @@ import GameSessionService from '../services/GameSessionService';
 import CalculateCredits from '../utils/CalculateCredits';
 import UsersService from '../services/UsersService';
 import AppError from '../errors/AppError';
+import { IScore } from '../services/GameSessionService';
 
 const gameOperationsRouter = Router();
 
@@ -88,5 +89,11 @@ gameOperationsRouter.get(
     return response.json({ sessionScore: pontuation.sessionScore });
   },
 );
+
+gameOperationsRouter.get("/:id/pontuation", async (request, response) => {
+  const { id } = request.params;
+  const pontuationData: IScore = await GameSessionService.getScore(parseInt(id));
+  return response.status(200).json(pontuationData);
+});
 
 export default gameOperationsRouter;

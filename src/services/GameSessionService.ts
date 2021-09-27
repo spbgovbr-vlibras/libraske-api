@@ -23,6 +23,10 @@ interface CloseGameSessionResponse {
   sessionScore: number;
 }
 
+export interface IScore {
+  sessionScore: number;
+  pontuations: number[];
+}
 
 class GameSessionService {
 
@@ -40,6 +44,21 @@ class GameSessionService {
     }
 
     return gameSession;
+  }
+
+  async getScore(gameSessionId: number): Promise<IScore> {
+    const gameSession = await this.findGameSession(gameSessionId);
+
+    if (gameSession.isClosed) {
+      throw new AppError('The game session is already closed.', 400)
+    }
+
+    const sessionScore = CalculatePontuations(gameSession.pontuation);
+
+    return {
+      sessionScore,
+      pontuations: gameSession.pontuation
+    }
   }
 
   async closeGameSession({ id }: IGetPontuation): Promise<CloseGameSessionResponse> {
