@@ -1,8 +1,8 @@
 {
 	"info": {
-		"_postman_id": "3cc22938-7531-41e0-bb91-5fb51396d83d",
+		"_postman_id": "01f36e1e-78fe-4b79-835e-7894ec421209",
 		"name": "Libraske",
-		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
@@ -34,7 +34,18 @@
 								}
 							]
 						},
-						"url": "{{base_url}}/libraske/game/frame/acc00645-143d-4c09-8af4-090709aad0e0"
+						"url": {
+							"raw": "{{base_url}}/libraske/game/frame/acc00645-143d-4c09-8af4-090709aad0e0",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"libraske",
+								"game",
+								"frame",
+								"acc00645-143d-4c09-8af4-090709aad0e0"
+							]
+						}
 					},
 					"response": []
 				},
@@ -51,14 +62,25 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"idSong\": \"b97746b3-2065-4077-b9be-313f38f88d95\",\n    \"idUser\": \"{{userId}}\"\n}",
+							"raw": "{\n    \"idSong\": \"00000001-7249-47d1-bfdb-9f0425456179\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "{{base_url}}/libraske/game/pontuation/session"
+						"url": {
+							"raw": "{{base_url}}/libraske/game/pontuation/session",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"libraske",
+								"game",
+								"pontuation",
+								"session"
+							]
+						}
 					},
 					"response": []
 				},
@@ -67,7 +89,59 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": "{{base_url}}/libraske/game/pontuation/session/{id}"
+						"url": {
+							"raw": "{{base_url}}/libraske/game/pontuation/session/{id}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"libraske",
+								"game",
+								"pontuation",
+								"session",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Close Game Session",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/libraske/game/pontuation/session/400ba5fa-62d0-4b02-b0c3-2e7043e20b58",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"libraske",
+								"game",
+								"pontuation",
+								"session",
+								"400ba5fa-62d0-4b02-b0c3-2e7043e20b58"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Consult game session pontuation",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": null
 					},
 					"response": []
 				}
@@ -87,22 +161,64 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/libraske/songs"
+						"url": {
+							"raw": "{{base_url}}/libraske/songs",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"libraske",
+								"songs"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "Consult Song",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [
 							{
 								"key": "Authorization",
 								"value": "Bearer {{accessToken}}",
-								"type": "text"
+								"type": "text",
+								"disabled": true
 							}
 						],
-						"url": "{{base_url}}/libraske/songs/{id}"
+						"body": {
+							"mode": "raw",
+							"raw": "{}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/libraske/songs/b97746b3-2065-4077-b9be-313f38f88d95",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"libraske",
+								"songs",
+								"b97746b3-2065-4077-b9be-313f38f88d95"
+							]
+						}
 					},
 					"response": []
 				},
@@ -147,7 +263,16 @@
 								}
 							]
 						},
-						"url": "{{base_url}}/libraske/songs"
+						"url": {
+							"raw": "{{base_url}}/libraske/songs",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"libraske",
+								"songs"
+							]
+						}
 					},
 					"response": []
 				},
@@ -156,7 +281,16 @@
 					"request": {
 						"method": "PUT",
 						"header": [],
-						"url": "{{base_url}}/libraske/songs"
+						"url": {
+							"raw": "{{base_url}}/libraske/songs",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"libraske",
+								"songs"
+							]
+						}
 					},
 					"response": []
 				},
@@ -165,7 +299,17 @@
 					"request": {
 						"method": "DELETE",
 						"header": [],
-						"url": "{{base_url}}/libraske/songs/{id}"
+						"url": {
+							"raw": "{{base_url}}/libraske/songs/{id}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"libraske",
+								"songs",
+								"{id}"
+							]
+						}
 					},
 					"response": []
 				}
@@ -179,7 +323,25 @@
 					"request": {
 						"method": "POST",
 						"header": [],
-						"url": "{{base_url}}/libraske/auth"
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"code\": \"Osf2O8\",\r\n    \"redirectUri\": \"console-dth.vlibras.gov.br\" \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/libraske/auth",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"libraske",
+								"auth"
+							]
+						}
 					},
 					"response": []
 				},
@@ -193,7 +355,8 @@
 									"var result = pm.response.json();\r",
 									"\r",
 									"pm.environment.set(\"accessToken\", result.accessToken);\r",
-									"pm.environment.set(\"refreshToken\", result.refreshToken);"
+									"pm.environment.set(\"refreshToken\", result.refreshToken);\r",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -202,7 +365,17 @@
 					"request": {
 						"method": "POST",
 						"header": [],
-						"url": "{{base_url}}/libraske/auth/fake-login"
+						"url": {
+							"raw": "{{base_url}}/libraske/auth/fake-login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"libraske",
+								"auth",
+								"fake-login"
+							]
+						}
 					},
 					"response": []
 				},
@@ -220,7 +393,17 @@
 								}
 							}
 						},
-						"url": "{{base_url}}/libraske/auth/logout"
+						"url": {
+							"raw": "{{base_url}}/libraske/auth/logout",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"libraske",
+								"auth",
+								"logout"
+							]
+						}
 					},
 					"response": []
 				},
@@ -252,7 +435,377 @@
 								}
 							}
 						},
-						"url": "{{base_url}}/libraske/auth/refresh"
+						"url": {
+							"raw": "{{base_url}}/libraske/auth/refresh",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"libraske",
+								"auth",
+								"refresh"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Guest Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var result = pm.response.json();\r",
+									"\r",
+									"pm.environment.set(\"accessToken\", result.accessToken);\r",
+									"pm.environment.set(\"refreshToken\", result.refreshToken);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"guestName\": \"abcdeabcdeabcdeabcde\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/libraske/guest-auth",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"libraske",
+								"guest-auth"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Store",
+			"item": [
+				{
+					"name": "Personalization",
+					"item": [
+						{
+							"name": "Buy Personalization",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{accessToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/libraske/store/personalizations/1/buy",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"libraske",
+										"store",
+										"personalizations",
+										"1",
+										"buy"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Bought Personalization",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/libraske/store/song/bought",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"libraske",
+										"store",
+										"song",
+										"bought"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Songs",
+					"item": [
+						{
+							"name": "Buy Songs",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{accessToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/libraske/store/song/buy/00000003-48d0-4039-8f78-7694decab390",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"libraske",
+										"store",
+										"song",
+										"buy",
+										"00000003-48d0-4039-8f78-7694decab390"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Bought Songs",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/libraske/store/song/bought",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"libraske",
+										"store",
+										"song",
+										"bought"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Scores",
+			"item": [
+				{
+					"name": "Best Score By Song",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/libraske/scores/song/00000001-7249-47d1-bfdb-9f0425456179",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"libraske",
+								"scores",
+								"song",
+								"00000001-7249-47d1-bfdb-9f0425456179"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "History by song",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/libraske/scores/song/00000002-7784-4d84-841e-1f2ffae9ace8/history",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"libraske",
+								"scores",
+								"song",
+								"00000002-7784-4d84-841e-1f2ffae9ace8",
+								"history"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Best Scores by User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/libraske/scores/user",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"libraske",
+								"scores",
+								"user"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Delete User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/libraske/users",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"libraske",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": null
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Personalization",
+			"item": [
+				{
+					"name": "CreatePersonalization",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": null
+					},
+					"response": []
+				},
+				{
+					"name": "List Personalization",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": null
+					},
+					"response": []
+				},
+				{
+					"name": "Get Personalization by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": null
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Personalization Group",
+			"item": [
+				{
+					"name": "Get Group By Personalization",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": null
+					},
+					"response": []
+				},
+				{
+					"name": "List Groups",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/libraske/personalizations-group",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"libraske",
+								"personalizations-group"
+							]
+						}
 					},
 					"response": []
 				}
