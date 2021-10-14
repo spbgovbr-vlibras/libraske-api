@@ -10,13 +10,18 @@ export default function createSongFolder(
   response: Response,
   next: NextFunction,
 ): void {
-  const sonsgFolder = path.join(tmpFolder, "song");
-  const idSong = fs.readdirSync(sonsgFolder).filter(folderPath => fs.lstatSync(path.join(sonsgFolder, folderPath)).isDirectory()).length;
+  const songsFolder = path.join(tmpFolder, "song");
+
+  if (!fs.existsSync(songsFolder)) {
+    fs.mkdirSync(songsFolder, { recursive: true });
+  }
+
+  const idSong = fs.readdirSync(songsFolder).filter(folderPath => fs.lstatSync(path.join(songsFolder, folderPath)).isDirectory()).length;
   const idSongAsString = `${idSong}`;
   const destination = path.resolve(tmpFolder, 'song', idSongAsString);
 
-  if (!fs.existsSync(destination)) {
-    fs.mkdirSync(destination, { recursive: true });
+  if (!fs.existsSync(songsFolder)) {
+    fs.mkdirSync(songsFolder, { recursive: true });
   }
 
   request.idSong = idSongAsString;

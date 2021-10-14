@@ -36,8 +36,9 @@ songsRouter.post('/', createSongFolder, (request, response) => {
         throw new AppError("price is required", 400);
       }
 
+      // TODO Criar validador pros campos Thumbnail e subtitle
       const song = await SongsService.createSong({
-        idSong,
+        idSong: parseInt(idSong),
         idUser: request.user.id,
         name,
         description,
@@ -48,6 +49,7 @@ songsRouter.post('/', createSongFolder, (request, response) => {
       });
       return response.json(song);
     } catch (error) {
+      console.log(error);
       return response.status(500).json({ error: error.message })
     }
   });
