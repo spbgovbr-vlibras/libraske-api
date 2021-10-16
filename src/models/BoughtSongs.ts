@@ -29,7 +29,7 @@ class BoughtSongs {
 
   // User relationship
   @Column()
-  song_id: string;
+  song_id: number;
 
   @OneToOne(() => Songs)
   @JoinColumn({ name: 'song_id' })

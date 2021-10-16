@@ -15,7 +15,7 @@ songStore.post("/song/:id/buy", async (request, response) => {
   const { id } = request.params;
   const user = request.user as User;
 
-  const song = await SongsService.findById({ id });
+  const song = await SongsService.findById({ id: parseInt(id) });
 
   await BoughtSongsService.checkAlreadyPurchased(user.id, song.id);
   const credit = await UsersService.checkInsufficientCreditsAndThrow(song.price, user.id);

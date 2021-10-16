@@ -4,7 +4,7 @@ import BoughtSongsRepository from '../repositories/BoughtSongsRepository'
 
 class BoughtSongsService {
 
-  async checkAlreadyPurchased(userId: number, songId: string) {
+  async checkAlreadyPurchased(userId: number, songId: number) {
 
     const alreadyBought = await BoughtSongsRepository.existsBySongIdAndUserId(userId, songId);
 
@@ -21,7 +21,7 @@ class BoughtSongsService {
     return boughtSongs;
   }
 
-  async addBoughtSong(userId: number, songId: string) {
+  async addBoughtSong(userId: number, songId: number) {
 
     await this.checkAlreadyPurchased(userId, songId);
 

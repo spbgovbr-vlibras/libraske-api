@@ -5,7 +5,7 @@ interface IBoughtSongsRepository {
 
   addBoughtSong(boughtSongs: BoughtSongs): Promise<BoughtSongs>
   findByUserId(userId: number): Promise<BoughtSongs[]>;
-  existsBySongIdAndUserId(userId: number, songId: string): Promise<boolean>;
+  existsBySongIdAndUserId(userId: number, songId: number): Promise<boolean>;
   getInstance(): Repository<BoughtSongs>;
 }
 
@@ -19,7 +19,7 @@ class BoughtSongsRepository implements IBoughtSongsRepository {
     return getRepository(BoughtSongs).find({ user_id: userId });
   }
 
-  async existsBySongIdAndUserId(userId: number, songId: string): Promise<boolean> {
+  async existsBySongIdAndUserId(userId: number, songId: number): Promise<boolean> {
     const result = await getRepository(BoughtSongs).find({ user_id: userId, song_id: songId });
 
     return result.length > 0;

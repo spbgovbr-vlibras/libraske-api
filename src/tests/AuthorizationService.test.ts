@@ -64,7 +64,7 @@ describe('Authorization Service', () => {
 
     try {
       await Authorization.authenticateOnLoginUnico({ code, redirectUri });
-    } catch (error) {
+    } catch (error: any) {
       expect(error.statusCode).toBe(500);
       expect(MockedLoginUnico.signUp).toBeCalledTimes(1);
       expect(MockedLoginUnico.signUp).toBeCalledWith({ code, redirectUri });
