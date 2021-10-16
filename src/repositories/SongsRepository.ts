@@ -24,7 +24,7 @@ class SongsRepository implements ISongsRepository {
 
   async listSongs(): Promise<Song[]> {
     return await getRepository(Song).find({
-      select: ['id', 'name', 'description', 'singers', 'thumbnail', 'subtitle', 'price'],
+      select: ['id', 'name', 'description', 'singers', 'thumbnail', 'subtitle', 'price', 'animation', 'song'],
       order: { "id": "ASC", }
     });
   }

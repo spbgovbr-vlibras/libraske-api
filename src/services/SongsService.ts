@@ -15,6 +15,8 @@ interface ICreateSong {
   name: string;
   description: string;
   singers: string;
+  animation: string;
+  song: string;
   thumbnail: string;
   subtitle: string;
   price: number;
@@ -39,20 +41,22 @@ class SongsService {
     return song;
   }
 
-  async createSong({ idSong, idUser, name, description, singers, thumbnail, subtitle, price }: ICreateSong): Promise<Song> {
+  async createSong({ idSong, idUser, name, description, singers, thumbnail, animation, song, subtitle, price }: ICreateSong): Promise<Song> {
 
-    const song = SongsRepository.getInstance().create({
+    const createdSong = SongsRepository.getInstance().create({
       id: idSong,
       user_id: idUser,
       name,
       description,
       singers,
       thumbnail,
+      animation,
+      song,
       subtitle,
       price
     });
 
-    return await SongsRepository.createSong(song);
+    return await SongsRepository.createSong(createdSong);
 
   }
 
@@ -71,10 +75,15 @@ class SongsService {
 
     const songs = await SongsRepository.listSongs();
 
+    console.log(songs);
+
+
     const songModified = songs.map(song => ({
       ...song,
       thumbnail: new URL(`${song.id}/${song.thumbnail}`, URI).href,
       subtitle: new URL(`${song.id}/${song.subtitle}`, URI).href,
+      animation: new URL(`${song.id}/${song.animation}`, URI).href,
+      song: new URL(`${song.id}/${song.song}`, URI).href,
     }));
 
     return songModified;

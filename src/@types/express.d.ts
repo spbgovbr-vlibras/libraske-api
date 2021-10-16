@@ -19,6 +19,16 @@ declare namespace Express {
           filename: string;
         },
       ];
+      animation: [
+        {
+          filename: string;
+        },
+      ];
+      song: [
+        {
+          filename: string;
+        },
+      ];
     };
   }
 }

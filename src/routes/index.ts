@@ -12,6 +12,7 @@ import personalizationRoutes from './personalization.routes';
 import personalizationStoreRoutes from './personalizationStore.routes';
 import personalizationGroupRoutes from './personalizationGroup.routes';
 import guestAuthRouter from './guestAuthentication.routes';
+import personalizationColor from './personalizationColor.routes';
 
 import ensureAuthenticated from "../middlewares/ensureAuthenticated";
 
@@ -27,6 +28,7 @@ routes.use('/scores', ensureAuthenticated, scores);
 routes.use('/users', ensureAuthenticated, userRouter);
 routes.use('/personalizations', ensureAuthenticated, personalizationRoutes);
 routes.use('/personalizations-group', personalizationGroupRoutes);
+routes.use('/personalizations-color', personalizationColor);
 routes.use('/auth', authRoutes);
 routes.use('/guest-auth', guestAuthRouter);
 

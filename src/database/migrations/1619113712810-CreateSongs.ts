@@ -36,6 +36,14 @@ export class CreateSongs1619113712810 implements MigrationInterface {
             type: 'varchar',
           },
           {
+            name: 'animation',
+            type: "varchar"
+          },
+          {
+            name: 'song',
+            type: "varchar"
+          },
+          {
             name: 'created_at',
             type: 'timestamp',
             default: 'now()',

@@ -1,5 +1,5 @@
+import PersonalizationColor from '../models/PersonalizationColor';
 import { getRepository, Repository } from 'typeorm';
-import Personalization from '../models/Personalization';
 
 interface ColorsByPersonalization {
   personalizationId: number;
@@ -9,10 +9,21 @@ interface ColorsByPersonalization {
   code: string;
 }
 interface IPersonalizationColorRepository {
-  getInstance(): Repository<Personalization>;
+  findOneById(id: number): Promise<PersonalizationColor | undefined>;
+  findAll(): Promise<PersonalizationColor[]>;
+  getInstance(): Repository<PersonalizationColor>;
 }
 
 class PersonalizationColorRepository implements IPersonalizationColorRepository {
+
+  async findOneById(id: number): Promise<PersonalizationColor | undefined> {
+    return await this.getInstance().findOne({ where: { personalizationGroup: id } });
+  }
+
+  async findAll(): Promise<PersonalizationColor[]> {
+    return await this.getInstance().find();
+  }
+
   async findColorsByPersonalization(personalizationId: number): Promise<ColorsByPersonalization> {
     const query = `select 
                             p.id as personalizationId, 
@@ -28,8 +39,8 @@ class PersonalizationColorRepository implements IPersonalizationColorRepository 
     return await this.getInstance().query(query);
   }
 
-  getInstance(): Repository<Personalization> {
-    return getRepository(Personalization);
+  getInstance(): Repository<PersonalizationColor> {
+    return getRepository(PersonalizationColor);
   }
 }
 

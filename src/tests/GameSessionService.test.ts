@@ -42,6 +42,8 @@ describe('Game Session Service', () => {
     const singers = DataGenerator.getFirstName();
     const thumbnail = DataGenerator.getRandomFilePath();
     const subtitle = DataGenerator.getRandomFilePath();
+    const animation = DataGenerator.getRandomFilePath();
+    const song = DataGenerator.getRandomFilePath();
     const price = DataGenerator.getInteger();
 
     const defaultUser = createUser(id, name, email, profilePhoto, cpf, refreshToken, credit);
@@ -61,7 +63,9 @@ describe('Game Session Service', () => {
       singers,
       thumbnail,
       subtitle,
-      price
+      price,
+      animation,
+      song
     }
   }
 
@@ -95,16 +99,18 @@ describe('Game Session Service', () => {
       singers,
       thumbnail,
       subtitle,
-      price
+      price,
+      song,
+      animation
     } = getDefaultData();
 
     const user = await UsersService.createUser({ name, email, cpf, profilePhoto, refreshToken, isGuest: false });
-    const song = await SongsService.createSong({ idUser: user.id, name: songName, price, description, idSong, singers, subtitle, thumbnail });
+    const song1 = await SongsService.createSong({ idUser: user.id, name: songName, price, description, animation, song, idSong, singers, subtitle, thumbnail });
 
-    const result = await GameSessionService.createGameSession({ idSong: song.id, idUser: user.id });
+    const result = await GameSessionService.createGameSession({ idSong: song1.id, idUser: user.id });
 
     expect(result).toBeDefined();
-    expect(result.song_id).toBe(song.id);
+    expect(result.song_id).toBe(song1.id);
     expect(result.user_id).toBe(user.id);
     expect(result.isClosed).toBeFalsy();
   })
@@ -123,18 +129,20 @@ describe('Game Session Service', () => {
       singers,
       thumbnail,
       subtitle,
-      price
+      price,
+      animation,
+      song
     } = getDefaultData();
 
     const user = await UsersService.createUser({ name, email, cpf, profilePhoto, refreshToken, isGuest: false });
-    const song = await SongsService.createSong({ idUser: user.id, name: songName, price, description, idSong, singers, subtitle, thumbnail });
+    const song1 = await SongsService.createSong({ idUser: user.id, name: songName, price, description, idSong, singers, subtitle, thumbnail, animation, song });
 
-    const gameSession = await GameSessionService.createGameSession({ idSong: song.id, idUser: user.id });
+    const gameSession = await GameSessionService.createGameSession({ idSong: song1.id, idUser: user.id });
 
     const foundGameSession = await GameSessionService.findGameSession(gameSession.id);
 
     expect(foundGameSession).toBeDefined();
-    expect(foundGameSession.song_id).toBe(song.id);
+    expect(foundGameSession.song_id).toBe(song1.id);
     expect(foundGameSession.user_id).toBe(user.id);
 
   })
@@ -145,7 +153,7 @@ describe('Game Session Service', () => {
 
     try {
       await GameSessionService.findGameSession(id);
-    } catch (error) {
+    } catch (error: any) {
       expect(error).toBeInstanceOf(AppError);
       expect(error.statusCode).toBe(404);
     }
@@ -166,23 +174,25 @@ describe('Game Session Service', () => {
       singers,
       thumbnail,
       subtitle,
-      price
+      price,
+      animation,
+      song
     } = getDefaultData();
 
     const user = await UsersService.createUser({ name, email, cpf, profilePhoto, refreshToken, isGuest: false });
-    const song = await SongsService.createSong({ idUser: user.id, name: songName, price, description, idSong, singers, subtitle, thumbnail });
+    const song1 = await SongsService.createSong({ idUser: user.id, name: songName, price, description, idSong, singers, subtitle, thumbnail, animation, song });
 
-    const firstResult = await GameSessionService.countByUserIdAndSongId(user.id, song.id);
+    const firstResult = await GameSessionService.countByUserIdAndSongId(user.id, song1.id);
 
-    await GameSessionService.createGameSession({ idSong: song.id, idUser: user.id });
+    await GameSessionService.createGameSession({ idSong: song1.id, idUser: user.id });
 
-    const secondResult = await GameSessionService.countByUserIdAndSongId(user.id, song.id);
+    const secondResult = await GameSessionService.countByUserIdAndSongId(user.id, song1.id);
 
-    await GameSessionService.createGameSession({ idSong: song.id, idUser: user.id });
-    await GameSessionService.createGameSession({ idSong: song.id, idUser: user.id });
-    await GameSessionService.createGameSession({ idSong: song.id, idUser: user.id });
+    await GameSessionService.createGameSession({ idSong: song1.id, idUser: user.id });
+    await GameSessionService.createGameSession({ idSong: song1.id, idUser: user.id });
+    await GameSessionService.createGameSession({ idSong: song1.id, idUser: user.id });
 
-    const thirdResult = await GameSessionService.countByUserIdAndSongId(user.id, song.id);
+    const thirdResult = await GameSessionService.countByUserIdAndSongId(user.id, song1.id);
 
     expect(firstResult).toBe(0);
     expect(secondResult).toBe(1);
@@ -203,12 +213,14 @@ describe('Game Session Service', () => {
       singers,
       thumbnail,
       subtitle,
-      price
+      price,
+      animation,
+      song
     } = getDefaultData();
 
     const user = await UsersService.createUser({ name, email, cpf, profilePhoto, refreshToken, isGuest: false });
-    const song = await SongsService.createSong({ idUser: user.id, name: songName, price, description, idSong, singers, subtitle, thumbnail });
-    const gameSession = await GameSessionService.createGameSession({ idSong: song.id, idUser: user.id });
+    const song1 = await SongsService.createSong({ idUser: user.id, name: songName, price, description, idSong, singers, subtitle, thumbnail, animation, song });
+    const gameSession = await GameSessionService.createGameSession({ idSong: song1.id, idUser: user.id });
 
     await GameSessionService.closeGameSession({ id: gameSession.id });
 
@@ -234,19 +246,21 @@ describe('Game Session Service', () => {
       singers,
       thumbnail,
       subtitle,
-      price
+      price,
+      animation,
+      song
     } = getDefaultData();
 
     const user = await UsersService.createUser({ name, email, cpf, profilePhoto, refreshToken, isGuest: false });
-    const song = await SongsService.createSong({ idUser: user.id, name: songName, price, description, idSong, singers, subtitle, thumbnail });
-    const gameSession = await GameSessionService.createGameSession({ idSong: song.id, idUser: user.id });
+    const song1 = await SongsService.createSong({ idUser: user.id, name: songName, price, description, idSong, singers, subtitle, thumbnail, animation, song });
+    const gameSession = await GameSessionService.createGameSession({ idSong: song1.id, idUser: user.id });
 
     await GameSessionService.closeGameSession({ id: gameSession.id });
 
 
     try {
       await GameSessionService.closeGameSession({ id: gameSession.id });
-    } catch (error) {
+    } catch (error: any) {
       expect(error).toBeInstanceOf(AppError);
       expect(error.statusCode).toBe(400)
     }

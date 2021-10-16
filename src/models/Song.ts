@@ -33,6 +33,12 @@ class Songs {
   thumbnail: string;
 
   @Column()
+  animation: string;
+
+  @Column()
+  song: string
+
+  @Column()
   name: string;
 
   @Column()

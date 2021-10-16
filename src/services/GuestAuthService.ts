@@ -10,6 +10,11 @@ interface IGuestCreateAccount {
 }
 
 class GuestAuthService {
+  /**
+   * 
+   * @param guestName 
+   * @return{IGuestCreateAccount}
+   */
   async createGuestAccount(guestName: string): Promise<IGuestCreateAccount> {
     let fakeCpf;
     const fakeEmail = DataGenerator.getUUID() + DataGenerator.getEmail();

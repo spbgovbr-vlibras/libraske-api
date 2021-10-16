@@ -15,7 +15,7 @@ songsRouter.get('/', async (request, response) => {
 
 songsRouter.get('/:id', async (request, response) => {
   const { id } = request.params;
-  const song = await SongsService.findById({ id });
+  const song = await SongsService.findById({ id: parseInt(id) });
 
   return response.json({ song });
 });
@@ -27,6 +27,8 @@ songsRouter.post('/', createSongFolder, (request, response) => {
   uploadSong.fields([
     { name: 'thumbnail', maxCount: 1 },
     { name: 'subtitle', maxCount: 1 },
+    { name: 'animation', maxCount: 1 },
+    { name: 'song', maxCount: 1 },
   ])(request, response, async () => {
     const { name, description, singers, price } = request.body;
 
@@ -45,11 +47,12 @@ songsRouter.post('/', createSongFolder, (request, response) => {
         singers,
         thumbnail: request.files.thumbnail[0].filename,
         subtitle: request.files.subtitle[0].filename,
+        animation: request.files.animation[0].filename,
+        song: request.files.song[0].filename,
         price: parseInt(price)
       });
       return response.json(song);
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
       return response.status(500).json({ error: error.message })
     }
   });
@@ -61,7 +64,7 @@ songsRouter.post('/', createSongFolder, (request, response) => {
 songsRouter.delete('/:id', async (request, response) => {
   const { id } = request.params;
 
-  await SongsService.deleteSongAndClearFolder({ id });
+  await SongsService.deleteSongAndClearFolder({ id: parseInt(id) });
 
   return response.status(200).send();
 });

@@ -139,7 +139,7 @@ describe('Users Service', () => {
 
     try {
       await UsersService.findUserByCpfOrId({ id: createdUser.id });
-    } catch (error) {
+    } catch (error: any) {
       expect(beforeDelete).toBeDefined();
       expect(error).toBeInstanceOf(AppError);
       expect(error.statusCode).toBe(404);
@@ -166,7 +166,7 @@ describe('Users Service', () => {
 
     try {
       await UsersService.checkInsufficientCreditsAndThrow(1, createdUser.id);
-    } catch (error) {
+    } catch (error: any) {
       expect(error).toBeInstanceOf(AppError);
       expect(error.statusCode).toBe(400);
     }
@@ -176,7 +176,7 @@ describe('Users Service', () => {
   it('should generate an error if it is an unsupported user', async () => {
     try {
       await UsersService.findUserByCpfOrId({});
-    } catch (error) {
+    } catch (error: any) {
       expect(error).toBeInstanceOf(AppError);
       expect(error.statusCode).toBe(500);
     }
@@ -227,7 +227,7 @@ describe('Users Service', () => {
 
     try {
       await UsersService.removeCredit({ creditsToChange: creditsToRemove, user: createdUser });
-    } catch (error) {
+    } catch (error: any) {
       expect(error.statusCode).toBe(400);
       expect(error).toBeInstanceOf(AppError);
     }
