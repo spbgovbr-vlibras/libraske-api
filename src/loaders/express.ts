@@ -1,4 +1,3 @@
-import { tmpFolder as staticDirectory } from '../config/uploadConfig';
 import cors from 'cors';
 import express, { Request, Response, NextFunction } from 'express';
 import helmet from 'helmet';
@@ -6,12 +5,16 @@ import morgan from 'morgan';
 import path from 'path';
 import ValidationErrors from '../errors/ValidationErrors';
 import StatusCodeName from '../utils/StatusCodeName';
+import env from '../environment/environment';
 
 import AppError from '../errors/AppError';
 import routes from '../routes';
 import chalk from 'chalk';
+import { SONG_STORAGE } from '@config/applicationFolders';
 
 export default async ({ app }: { app: express.Application }) => {
+  const staticDirectory = env.ROOT_STORAGE;
+
   console.log("Configuring and starting express...");
 
   app.get('/status', (req, res) => {
@@ -28,10 +31,10 @@ export default async ({ app }: { app: express.Application }) => {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
 
+  // app.use(express.static(path.resolve(SONG_STORAGE)));
+  // app.use('/info', express.static(path.resolve(staticDirectory)));
+
   app.use('/libraske', routes);
-  app.use(express.static(path.resolve(staticDirectory, 'img')));
-  app.use(express.static(path.resolve(staticDirectory, 'song')));
-  app.use(express.static(path.resolve(staticDirectory, 'thumbnail')));
 
   app.use(
     (err: Error, request: Request, response: Response, _: NextFunction) => {
@@ -55,11 +58,7 @@ export default async ({ app }: { app: express.Application }) => {
         .json({ status: 'error', message: 'Internal server error' });
     },
   );
-
-  app.use('/info', express.static(path.resolve(staticDirectory, 'song')));
-  app.use('/libraske', routes);
-
   console.log(chalk.green(`Express started!`));
-  // Return the express app
+
   return app;
 };

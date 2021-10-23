@@ -4,6 +4,8 @@ declare namespace Express {
     user: User;
     idSong: string;
     destination: string;
+    multerErrors: MulterValidationError[];
+
     // song: {
     //   id: string;
     //   destination: string;

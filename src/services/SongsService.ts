@@ -1,7 +1,8 @@
 import AppError from "../errors/AppError";
 import Song from "../models/Song";
 import SongsRepository from '../repositories/SongsRepository';
-import { tmpFolder } from '../config/uploadConfig';
+import { songsFolder } from '../config/multer/uploadConfig';
+import env from '../environment/environment';
 import fs from 'fs';
 import path from 'path';
 
@@ -21,9 +22,6 @@ interface ICreateSong {
   subtitle: string;
   price: number;
 }
-
-const URI = process.env.BASE_URI_API || 'http://localhost:3333/info/';
-
 class SongsService {
 
   public async deleteSongAndClearFolder({ id }: IFindById): Promise<Song> {
@@ -32,7 +30,7 @@ class SongsService {
 
     await SongsRepository.deleteSongById(song.id);
 
-    const dir = path.resolve(tmpFolder, 'song', `${id}`);
+    const dir = path.resolve(songsFolder, `${id}`);
 
     if (fs.existsSync(dir)) {
       fs.rmdirSync(dir, { recursive: true });
@@ -73,18 +71,19 @@ class SongsService {
 
   public async listSongs(): Promise<Song[]> {
 
+    const URI = env.BASE_URI_API;
     const songs = await SongsRepository.listSongs();
-
-    console.log(songs);
-
 
     const songModified = songs.map(song => ({
       ...song,
-      thumbnail: new URL(`${song.id}/${song.thumbnail}`, URI).href,
-      subtitle: new URL(`${song.id}/${song.subtitle}`, URI).href,
-      animation: new URL(`${song.id}/${song.animation}`, URI).href,
-      song: new URL(`${song.id}/${song.song}`, URI).href,
+      thumbnail: new URL(`songs/${song.id}/${song.thumbnail}`, URI).href,
+      subtitle: new URL(`songs/${song.id}/${song.subtitle}`, URI).href,
+      animation: new URL(`songs/${song.id}/${song.animation}`, URI).href,
+      song: new URL(`songs/${song.id}/${song.song}`, URI).href,
     }));
+
+    console.log(songModified);
+
 
     return songModified;
   }

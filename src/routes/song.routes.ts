@@ -1,9 +1,11 @@
-import uploadConfig from '../config/uploadConfig';
+import uploadConfig from '../config/multer/uploadConfig';
 import createSongFolder from '../middlewares/createSongFolder';
 import SongsService from '../services/SongsService';
 import { Router } from 'express';
 import multer from 'multer';
 import AppError from '../errors/AppError';
+import { SONG_STORAGE } from '@config/applicationFolders';
+import path from 'path';
 
 const songsRouter = Router();
 
@@ -21,8 +23,9 @@ songsRouter.get('/:id', async (request, response) => {
 });
 
 songsRouter.post('/', createSongFolder, (request, response) => {
-  const uploadSong = multer(uploadConfig({ folder: 'song', request }));
   const { idSong } = request;
+  const currentSongStorage = path.resolve(SONG_STORAGE, idSong);
+  const uploadSong = multer(uploadConfig({ folder: currentSongStorage, request }));
 
   uploadSong.fields([
     { name: 'thumbnail', maxCount: 1 },
@@ -31,6 +34,8 @@ songsRouter.post('/', createSongFolder, (request, response) => {
     { name: 'song', maxCount: 1 },
   ])(request, response, async () => {
     const { name, description, singers, price } = request.body;
+
+    console.log(request.multerErrors);
 
     try {
 
@@ -57,9 +62,6 @@ songsRouter.post('/', createSongFolder, (request, response) => {
     }
   });
 });
-
-// TODO PUT na songsRouter
-// songsRouter.put('/:id', async (request, response) => {});
 
 songsRouter.delete('/:id', async (request, response) => {
   const { id } = request.params;

@@ -1,7 +1,7 @@
-import { tmpFolder } from '../config/uploadConfig';
 import fs from 'fs';
 import path from 'path';
 import Rabbitmq from '../loaders/Rabbitmq';
+import { GAME_IMAGES_STORAGE } from '@config/applicationFolders';
 
 interface IRequest {
   idSession: string;
@@ -29,7 +29,11 @@ class SenderMessage {
     try {
       const channel = Rabbitmq.getSenderChannel;
 
-      const imagePath = path.resolve(tmpFolder, 'img', frameImageFilename);
+      if (!fs.existsSync(GAME_IMAGES_STORAGE)) {
+        fs.mkdirSync(GAME_IMAGES_STORAGE, { recursive: true });
+      }
+
+      const imagePath = path.resolve(GAME_IMAGES_STORAGE, frameImageFilename);
       const frameImage = Buffer.from(fs.readFileSync(imagePath)).toString(
         'base64',
       );

@@ -1,4 +1,4 @@
-import uploadConfig from '../config/uploadConfig';
+import uploadConfig from '../config/multer/uploadConfig';
 import SenderMessageService from '../services/SenderMessageService';
 import ScoresService from '../services/ScoresService'
 import { Router } from 'express';
@@ -9,10 +9,11 @@ import CalculateCredits from '../utils/CalculateCredits';
 import UsersService from '../services/UsersService';
 import AppError from '../errors/AppError';
 import { IScore } from '../services/GameSessionService';
+import { GAME_IMAGES_STORAGE } from '@config/applicationFolders';
 
 const gameOperationsRouter = Router();
 
-const uploadFrame = multer(uploadConfig({ folder: 'img' }));
+const uploadFrame = multer(uploadConfig({ folder: GAME_IMAGES_STORAGE }));
 
 gameOperationsRouter.post(
   '/frame/:idSession',

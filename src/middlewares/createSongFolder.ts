@@ -1,27 +1,27 @@
+import { SONG_STORAGE } from '../config/applicationFolders';
 import { Request, Response, NextFunction } from 'express';
 import fs from 'fs';
 import path from 'path';
-import { v4 as uuidv4 } from 'uuid';
 
-export const tmpFolder = path.resolve(__dirname, '..', '..', 'tmp'); // put in .env
 
 export default function createSongFolder(
   request: Request,
   response: Response,
   next: NextFunction,
 ): void {
-  const songsFolder = path.join(tmpFolder, "song");
 
-  if (!fs.existsSync(songsFolder)) {
-    fs.mkdirSync(songsFolder, { recursive: true });
+  if (!fs.existsSync(SONG_STORAGE)) {
+    console.log(`Criando pasta: ${SONG_STORAGE}`);
+
+    fs.mkdirSync(SONG_STORAGE, { recursive: true });
   }
 
-  const idSong = fs.readdirSync(songsFolder).filter(folderPath => fs.lstatSync(path.join(songsFolder, folderPath)).isDirectory()).length;
+  const idSong = fs.readdirSync(SONG_STORAGE).filter(folderPath => fs.lstatSync(path.join(SONG_STORAGE, folderPath)).isDirectory()).length;
   const idSongAsString = `${idSong}`;
-  const destination = path.resolve(tmpFolder, 'song', idSongAsString);
+  const destination = path.resolve(SONG_STORAGE, idSongAsString);
 
-  if (!fs.existsSync(songsFolder)) {
-    fs.mkdirSync(songsFolder, { recursive: true });
+  if (!fs.existsSync(SONG_STORAGE)) {
+    fs.mkdirSync(SONG_STORAGE, { recursive: true });
   }
 
   request.idSong = idSongAsString;
