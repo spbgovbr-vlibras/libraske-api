@@ -31,8 +31,8 @@ export default async ({ app }: { app: express.Application }) => {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
 
-  // app.use(express.static(path.resolve(SONG_STORAGE)));
-  // app.use('/info', express.static(path.resolve(staticDirectory)));
+  app.use(express.static(path.resolve(SONG_STORAGE)));
+  app.use('/info', express.static(path.resolve(staticDirectory)));
 
   app.use('/libraske', routes);
 
