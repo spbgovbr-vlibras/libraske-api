@@ -36,7 +36,22 @@ class Songs {
   animation: string;
 
   @Column()
-  song: string
+  song: string;
+
+  @Column()
+  trainingAnimation1: string;
+
+  @Column()
+  trainingAnimation2: string;
+
+  @Column()
+  trainingAnimation3: string;
+
+  @Column()
+  trainingAnimation4: string;
+
+  @Column()
+  trainingAnimation5: string;
 
   @Column()
   name: string;

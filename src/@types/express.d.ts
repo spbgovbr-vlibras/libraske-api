@@ -31,6 +31,31 @@ declare namespace Express {
           filename: string;
         },
       ];
+      trainingAnimation1: [
+        {
+          filename: string;
+        },
+      ];
+      trainingAnimation2: [
+        {
+          filename: string;
+        },
+      ];
+      trainingAnimation3: [
+        {
+          filename: string;
+        },
+      ];
+      trainingAnimation4: [
+        {
+          filename: string;
+        },
+      ];
+      trainingAnimation5: [
+        {
+          filename: string;
+        },
+      ];
     };
   }
 }

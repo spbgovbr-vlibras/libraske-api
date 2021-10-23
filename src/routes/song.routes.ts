@@ -26,13 +26,14 @@ const songIsNotValid = (multerErrors: MulterValidationError[]) => {
 
 const songIsNotComplete = (multerFiles: Express.Request) => {
   const files = multerFiles.files;
-  return !files || !files.thumbnail || !files.subtitle || !files.song || !files.animation;
+  return !files || !files.thumbnail || !files.subtitle || !files.song || !files.animation
+    || !files.trainingAnimation1 || !files.trainingAnimation2 || !files.trainingAnimation3 || !files.trainingAnimation4
+    || !files.trainingAnimation5;
 }
 
 
 songsRouter.get('/', async (request, response) => {
   const songs = await SongsService.listSongs();
-
   return response.json({ Items: songs });
 });
 
@@ -53,15 +54,22 @@ songsRouter.post('/', createSongFolder, (request, response) => {
     { name: 'subtitle', maxCount: 1 },
     { name: 'animation', maxCount: 1 },
     { name: 'song', maxCount: 1 },
+    { name: 'trainingAnimation1', maxCount: 1 },
+    { name: 'trainingAnimation2', maxCount: 1 },
+    { name: 'trainingAnimation3', maxCount: 1 },
+    { name: 'trainingAnimation4', maxCount: 1 },
+    { name: 'trainingAnimation5', maxCount: 1 },
   ])(request, response, async () => {
     const { name, description, singers, price } = request.body;
-    const { multerErrors, files } = request;
+    const { multerErrors } = request;
 
     if (songIsNotValid(multerErrors)) {
       removeSongFolder(idSong);
       return response.status(400).json(multerErrors);
     }
     if (songIsNotComplete(request)) {
+      console.log({ files: request.files });
+
       removeSongFolder(idSong);
       return response.status(400).json({ error: 'Missing properties.' });
     }
@@ -83,6 +91,11 @@ songsRouter.post('/', createSongFolder, (request, response) => {
         subtitle: request.files.subtitle[0].filename,
         animation: request.files.animation[0].filename,
         song: request.files.song[0].filename,
+        trainingAnimation1: request.files.trainingAnimation1[0].filename,
+        trainingAnimation2: request.files.trainingAnimation2[0].filename,
+        trainingAnimation3: request.files.trainingAnimation3[0].filename,
+        trainingAnimation4: request.files.trainingAnimation4[0].filename,
+        trainingAnimation5: request.files.trainingAnimation5[0].filename,
         price: parseInt(price)
       });
       return response.json(song);

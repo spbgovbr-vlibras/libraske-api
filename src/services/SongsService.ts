@@ -18,6 +18,11 @@ interface ICreateSong {
   singers: string;
   animation: string;
   song: string;
+  trainingAnimation1: string;
+  trainingAnimation2: string;
+  trainingAnimation3: string;
+  trainingAnimation4: string;
+  trainingAnimation5: string;
   thumbnail: string;
   subtitle: string;
   price: number;
@@ -39,7 +44,22 @@ class SongsService {
     return song;
   }
 
-  async createSong({ idSong, idUser, name, description, singers, thumbnail, animation, song, subtitle, price }: ICreateSong): Promise<Song> {
+  async createSong({
+    idSong,
+    idUser,
+    name,
+    description,
+    singers,
+    thumbnail,
+    animation,
+    song,
+    trainingAnimation1,
+    trainingAnimation2,
+    trainingAnimation3,
+    trainingAnimation4,
+    trainingAnimation5,
+    subtitle,
+    price }: ICreateSong): Promise<Song> {
 
     const createdSong = SongsRepository.getInstance().create({
       id: idSong,
@@ -50,6 +70,11 @@ class SongsService {
       thumbnail,
       animation,
       song,
+      trainingAnimation1,
+      trainingAnimation2,
+      trainingAnimation3,
+      trainingAnimation4,
+      trainingAnimation5,
       subtitle,
       price
     });
@@ -80,11 +105,12 @@ class SongsService {
       subtitle: new URL(`songs/${song.id}/${song.subtitle}`, URI).href,
       animation: new URL(`songs/${song.id}/${song.animation}`, URI).href,
       song: new URL(`songs/${song.id}/${song.song}`, URI).href,
+      trainingAnimation1: new URL(`songs/${song.id}/${song.trainingAnimation1}`, URI).href,
+      trainingAnimation2: new URL(`songs/${song.id}/${song.trainingAnimation2}`, URI).href,
+      trainingAnimation3: new URL(`songs/${song.id}/${song.trainingAnimation3}`, URI).href,
+      trainingAnimation4: new URL(`songs/${song.id}/${song.trainingAnimation4}`, URI).href,
+      trainingAnimation5: new URL(`songs/${song.id}/${song.trainingAnimation5}`, URI).href,
     }));
-
-    console.log(songModified);
-
-
     return songModified;
   }
 
