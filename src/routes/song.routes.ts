@@ -4,10 +4,31 @@ import SongsService from '../services/SongsService';
 import { Router } from 'express';
 import multer from 'multer';
 import AppError from '../errors/AppError';
-import { SONG_STORAGE } from '@config/applicationFolders';
+import { SONG_STORAGE } from '../config/applicationFolders';
 import path from 'path';
+import fs from 'fs';
+import { MulterValidationError } from '../config/multer/validators';
 
 const songsRouter = Router();
+
+const removeSongFolder = (songId: string) => {
+  const folder = path.resolve(SONG_STORAGE, songId);
+  if (fs.existsSync(folder)) {
+    console.log(`Removing folder : ${folder}`);
+    fs.rmdirSync(folder, { recursive: true });
+  }
+}
+
+const songIsNotValid = (multerErrors: MulterValidationError[]) => {
+  const result = multerErrors.filter(item => item.errors.length > 0);
+  return result.length > 0;
+}
+
+const songIsNotComplete = (multerFiles: Express.Request) => {
+  const files = multerFiles.files;
+  return !files || !files.thumbnail || !files.subtitle || !files.song || !files.animation;
+}
+
 
 songsRouter.get('/', async (request, response) => {
   const songs = await SongsService.listSongs();
@@ -34,8 +55,16 @@ songsRouter.post('/', createSongFolder, (request, response) => {
     { name: 'song', maxCount: 1 },
   ])(request, response, async () => {
     const { name, description, singers, price } = request.body;
+    const { multerErrors, files } = request;
 
-    console.log(request.multerErrors);
+    if (songIsNotValid(multerErrors)) {
+      removeSongFolder(idSong);
+      return response.status(400).json(multerErrors);
+    }
+    if (songIsNotComplete(request)) {
+      removeSongFolder(idSong);
+      return response.status(400).json({ error: 'Missing properties.' });
+    }
 
     try {
 
