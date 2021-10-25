@@ -42,6 +42,7 @@ describe('Game Session Service', () => {
     const singers = DataGenerator.getFirstName();
     const thumbnail = DataGenerator.getRandomFilePath();
     const subtitle = DataGenerator.getRandomFilePath();
+    const trainingAnimation = DataGenerator.getRandomFilePath();
     const animation = DataGenerator.getRandomFilePath();
     const song = DataGenerator.getRandomFilePath();
     const price = DataGenerator.getInteger();
@@ -65,7 +66,8 @@ describe('Game Session Service', () => {
       subtitle,
       price,
       animation,
-      song
+      song,
+      trainingAnimation
     }
   }
 
@@ -101,11 +103,35 @@ describe('Game Session Service', () => {
       subtitle,
       price,
       song,
-      animation
+      animation,
+      trainingAnimation
     } = getDefaultData();
 
-    const user = await UsersService.createUser({ name, email, cpf, profilePhoto, refreshToken, isGuest: false });
-    const song1 = await SongsService.createSong({ idUser: user.id, name: songName, price, description, animation, song, idSong, singers, subtitle, thumbnail });
+    const user = await UsersService.createUser({
+      name,
+      email,
+      cpf,
+      profilePhoto,
+      refreshToken,
+      isGuest: false
+    });
+    const song1 = await SongsService.createSong({
+      idUser: user.id,
+      name: songName,
+      price,
+      description,
+      animation,
+      song,
+      idSong,
+      singers,
+      subtitle,
+      thumbnail,
+      trainingAnimation1: trainingAnimation,
+      trainingAnimation2: trainingAnimation,
+      trainingAnimation3: trainingAnimation,
+      trainingAnimation4: trainingAnimation,
+      trainingAnimation5: trainingAnimation,
+    });
 
     const result = await GameSessionService.createGameSession({ idSong: song1.id, idUser: user.id });
 
@@ -131,11 +157,35 @@ describe('Game Session Service', () => {
       subtitle,
       price,
       animation,
-      song
+      song,
+      trainingAnimation
     } = getDefaultData();
 
-    const user = await UsersService.createUser({ name, email, cpf, profilePhoto, refreshToken, isGuest: false });
-    const song1 = await SongsService.createSong({ idUser: user.id, name: songName, price, description, idSong, singers, subtitle, thumbnail, animation, song });
+    const user = await UsersService.createUser({
+      name,
+      email,
+      cpf,
+      profilePhoto,
+      refreshToken,
+      isGuest: false
+    });
+    const song1 = await SongsService.createSong({
+      idUser: user.id,
+      name: songName,
+      price,
+      description,
+      idSong,
+      singers,
+      subtitle,
+      thumbnail,
+      animation,
+      song,
+      trainingAnimation1: trainingAnimation,
+      trainingAnimation2: trainingAnimation,
+      trainingAnimation3: trainingAnimation,
+      trainingAnimation4: trainingAnimation,
+      trainingAnimation5: trainingAnimation,
+    });
 
     const gameSession = await GameSessionService.createGameSession({ idSong: song1.id, idUser: user.id });
 
@@ -176,11 +226,35 @@ describe('Game Session Service', () => {
       subtitle,
       price,
       animation,
-      song
+      song,
+      trainingAnimation
     } = getDefaultData();
 
-    const user = await UsersService.createUser({ name, email, cpf, profilePhoto, refreshToken, isGuest: false });
-    const song1 = await SongsService.createSong({ idUser: user.id, name: songName, price, description, idSong, singers, subtitle, thumbnail, animation, song });
+    const user = await UsersService.createUser({
+      name,
+      email,
+      cpf,
+      profilePhoto,
+      refreshToken,
+      isGuest: false
+    });
+    const song1 = await SongsService.createSong({
+      idUser: user.id,
+      name: songName,
+      price,
+      description,
+      idSong,
+      singers,
+      subtitle,
+      thumbnail,
+      animation,
+      song,
+      trainingAnimation1: trainingAnimation,
+      trainingAnimation2: trainingAnimation,
+      trainingAnimation3: trainingAnimation,
+      trainingAnimation4: trainingAnimation,
+      trainingAnimation5: trainingAnimation,
+    });
 
     const firstResult = await GameSessionService.countByUserIdAndSongId(user.id, song1.id);
 
@@ -215,11 +289,35 @@ describe('Game Session Service', () => {
       subtitle,
       price,
       animation,
-      song
+      song,
+      trainingAnimation
     } = getDefaultData();
 
-    const user = await UsersService.createUser({ name, email, cpf, profilePhoto, refreshToken, isGuest: false });
-    const song1 = await SongsService.createSong({ idUser: user.id, name: songName, price, description, idSong, singers, subtitle, thumbnail, animation, song });
+    const user = await UsersService.createUser({
+      name,
+      email,
+      cpf,
+      profilePhoto,
+      refreshToken,
+      isGuest: false
+    });
+    const song1 = await SongsService.createSong({
+      idUser: user.id,
+      name: songName,
+      price,
+      description,
+      idSong,
+      singers,
+      subtitle,
+      thumbnail,
+      animation,
+      song,
+      trainingAnimation1: trainingAnimation,
+      trainingAnimation2: trainingAnimation,
+      trainingAnimation3: trainingAnimation,
+      trainingAnimation4: trainingAnimation,
+      trainingAnimation5: trainingAnimation,
+    });
     const gameSession = await GameSessionService.createGameSession({ idSong: song1.id, idUser: user.id });
 
     await GameSessionService.closeGameSession({ id: gameSession.id });
@@ -248,11 +346,35 @@ describe('Game Session Service', () => {
       subtitle,
       price,
       animation,
-      song
+      song,
+      trainingAnimation
     } = getDefaultData();
 
-    const user = await UsersService.createUser({ name, email, cpf, profilePhoto, refreshToken, isGuest: false });
-    const song1 = await SongsService.createSong({ idUser: user.id, name: songName, price, description, idSong, singers, subtitle, thumbnail, animation, song });
+    const user = await UsersService.createUser({
+      name,
+      email,
+      cpf,
+      profilePhoto,
+      refreshToken,
+      isGuest: false
+    });
+    const song1 = await SongsService.createSong({
+      idUser: user.id,
+      name: songName,
+      price,
+      description,
+      idSong,
+      singers,
+      subtitle,
+      thumbnail,
+      animation,
+      song,
+      trainingAnimation1: trainingAnimation,
+      trainingAnimation2: trainingAnimation,
+      trainingAnimation3: trainingAnimation,
+      trainingAnimation4: trainingAnimation,
+      trainingAnimation5: trainingAnimation,
+    });
     const gameSession = await GameSessionService.createGameSession({ idSong: song1.id, idUser: user.id });
 
     await GameSessionService.closeGameSession({ id: gameSession.id });

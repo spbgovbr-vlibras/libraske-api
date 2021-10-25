@@ -18,7 +18,7 @@
     "dev": "cross-env NODE_ENV=dev ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules src/server.ts",
     "dth": "cross-env ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules src/server.ts",
     "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js",
-    "test": "cross-env NODE_ENV=test jest",
+    "test": "cross-env NODE_ENV=dev jest",
     "seed": "cross-env NODE_ENV=dev ts-node-dev src/database/seeds/DatabaseSeed.ts",
     "seed-dth": "cross-env ts-node-dev src/database/seeds/DatabaseSeed.ts",
     "prod": "tsc && cross-env NODE_ENV=dev ts-node dist/server.js"

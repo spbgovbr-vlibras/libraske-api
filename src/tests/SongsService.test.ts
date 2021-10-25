@@ -26,6 +26,7 @@ describe('Song Service', () => {
       animation: DataGenerator.getRandomFilePath(),
       song: DataGenerator.getRandomFilePath(),
       subtitle: DataGenerator.getRandomFilePath(),
+      trainingAnimation: DataGenerator.getRandomFilePath(),
       price: DataGenerator.getInteger(),
     }
   }
@@ -56,13 +57,42 @@ describe('Song Service', () => {
 
   it('should create a song', async () => {
 
-    const { cpf, email, songName, profilePhoto, idSong, description, singers, thumbnail, animation, song, subtitle, name, price } = setupFactory();
+    const { cpf,
+      email,
+      songName,
+      profilePhoto,
+      idSong,
+      description,
+      singers,
+      thumbnail,
+      animation,
+      song,
+      subtitle,
+      name,
+      price,
+      trainingAnimation } = setupFactory();
 
     const user = await UsersService.createUser({
       cpf, email, profilePhoto, name, refreshToken: null, isGuest: false
     });
 
-    const createdSong = await SongsService.createSong({ idSong, idUser: user.id, description, singers, thumbnail, subtitle, animation, song, name: songName, price });
+    const createdSong = await SongsService.createSong({
+      idSong,
+      idUser: user.id,
+      description,
+      singers,
+      thumbnail,
+      subtitle,
+      animation,
+      song,
+      name: songName,
+      price,
+      trainingAnimation1: trainingAnimation,
+      trainingAnimation2: trainingAnimation,
+      trainingAnimation3: trainingAnimation,
+      trainingAnimation4: trainingAnimation,
+      trainingAnimation5: trainingAnimation,
+    });
 
     expect(createdSong.id).toBe(idSong);
     expect(createdSong.user_id).toBe(user.id);
@@ -77,13 +107,58 @@ describe('Song Service', () => {
 
   it('should return a list of songs', async () => {
 
-    const { cpf, email, songName, profilePhoto, description, singers, thumbnail, subtitle, animation, song, name, price } = setupFactory();
+    const { cpf,
+      email,
+      songName,
+      profilePhoto,
+      description,
+      singers,
+      thumbnail,
+      subtitle,
+      animation,
+      song,
+      name,
+      price,
+      trainingAnimation } = setupFactory();
     const firstIdSong = 0, secondIdSong = 1;
 
     const user = await UsersService.createUser({ cpf, email, profilePhoto, name, refreshToken: null, isGuest: false });
 
-    await SongsService.createSong({ idSong: firstIdSong, idUser: user.id, description, singers, thumbnail, animation, song, subtitle, name: songName, price });
-    await SongsService.createSong({ idSong: secondIdSong, idUser: user.id, description, singers, thumbnail, animation, song, subtitle, name: songName, price });
+    await SongsService.createSong({
+      idSong: firstIdSong,
+      idUser: user.id,
+      description,
+      singers,
+      thumbnail,
+      animation,
+      song,
+      subtitle,
+      name: songName,
+      trainingAnimation1: trainingAnimation,
+      trainingAnimation2: trainingAnimation,
+      trainingAnimation3: trainingAnimation,
+      trainingAnimation4: trainingAnimation,
+      trainingAnimation5: trainingAnimation,
+      price
+    });
+
+    await SongsService.createSong({
+      idSong: secondIdSong,
+      idUser: user.id,
+      description,
+      singers,
+      thumbnail,
+      animation,
+      song,
+      subtitle,
+      name: songName,
+      trainingAnimation1: trainingAnimation,
+      trainingAnimation2: trainingAnimation,
+      trainingAnimation3: trainingAnimation,
+      trainingAnimation4: trainingAnimation,
+      trainingAnimation5: trainingAnimation,
+      price
+    });
 
     const listOfSongs = await SongsService.listSongs();
 
@@ -98,10 +173,45 @@ describe('Song Service', () => {
   it('should find a song by id', async () => {
 
     const id = DataGenerator.getInteger();
-    const { cpf, email, songName, profilePhoto, description, singers, thumbnail, subtitle, animation, song, name, price } = setupFactory();
+    const { cpf,
+      email,
+      songName,
+      profilePhoto,
+      description,
+      singers,
+      thumbnail,
+      subtitle,
+      animation,
+      song,
+      name,
+      price,
+      trainingAnimation } = setupFactory();
 
-    const user = await UsersService.createUser({ cpf, email, profilePhoto, name, refreshToken: null, isGuest: false });
-    await SongsService.createSong({ idSong: id, idUser: user.id, description, singers, thumbnail, subtitle, animation, song, name: songName, price });
+    const user = await UsersService.createUser({
+      cpf,
+      email,
+      profilePhoto,
+      name,
+      refreshToken: null,
+      isGuest: false
+    });
+    await SongsService.createSong({
+      idSong: id,
+      idUser: user.id,
+      description,
+      singers,
+      thumbnail,
+      subtitle,
+      animation,
+      song,
+      name: songName,
+      price,
+      trainingAnimation1: trainingAnimation,
+      trainingAnimation2: trainingAnimation,
+      trainingAnimation3: trainingAnimation,
+      trainingAnimation4: trainingAnimation,
+      trainingAnimation5: trainingAnimation,
+    });
 
     const song1 = await SongsService.findById({ id });
 
@@ -129,11 +239,46 @@ describe('Song Service', () => {
 
   it('should delete a song', async () => {
 
-    const { cpf, email, songName, profilePhoto, description, singers, thumbnail, subtitle, animation, song, name, price } = setupFactory();
+    const { cpf,
+      email,
+      songName,
+      profilePhoto,
+      description,
+      singers,
+      thumbnail,
+      subtitle,
+      animation,
+      song,
+      name,
+      price,
+      trainingAnimation } = setupFactory();
     const id = DataGenerator.getInteger();
 
-    const user = await UsersService.createUser({ cpf, email, profilePhoto, name, refreshToken: null, isGuest: false });
-    await SongsService.createSong({ idSong: id, idUser: user.id, description, singers, thumbnail, subtitle, animation, song, name: songName, price });
+    const user = await UsersService.createUser({
+      cpf,
+      email,
+      profilePhoto,
+      name,
+      refreshToken: null,
+      isGuest: false
+    });
+    await SongsService.createSong({
+      idSong: id,
+      idUser: user.id,
+      description,
+      singers,
+      thumbnail,
+      subtitle,
+      animation,
+      song,
+      name: songName,
+      price,
+      trainingAnimation1: trainingAnimation,
+      trainingAnimation2: trainingAnimation,
+      trainingAnimation3: trainingAnimation,
+      trainingAnimation4: trainingAnimation,
+      trainingAnimation5: trainingAnimation,
+    });
     const beforeTestSongs = await SongsService.listSongs();
 
     await SongsService.deleteSongAndClearFolder({ id });
@@ -161,10 +306,45 @@ describe('Song Service', () => {
   it('should delete a fold when deleting a song', async () => {
 
     const id = DataGenerator.getInteger();
-    const { cpf, email, songName, profilePhoto, description, singers, thumbnail, subtitle, animation, song, name, price } = setupFactory();
+    const { cpf,
+      email,
+      songName,
+      profilePhoto,
+      description,
+      singers,
+      thumbnail,
+      subtitle,
+      animation,
+      song,
+      name,
+      price,
+      trainingAnimation } = setupFactory();
 
-    const user = await UsersService.createUser({ cpf, email, profilePhoto, name, refreshToken: null, isGuest: false });
-    await SongsService.createSong({ idSong: id, idUser: user.id, description, singers, thumbnail, subtitle, animation, song, name: songName, price });
+    const user = await UsersService.createUser({
+      cpf,
+      email,
+      profilePhoto,
+      name,
+      refreshToken: null,
+      isGuest: false
+    });
+    await SongsService.createSong({
+      idSong: id,
+      idUser: user.id,
+      description,
+      singers,
+      thumbnail,
+      subtitle,
+      animation,
+      song,
+      name: songName,
+      price,
+      trainingAnimation1: trainingAnimation,
+      trainingAnimation2: trainingAnimation,
+      trainingAnimation3: trainingAnimation,
+      trainingAnimation4: trainingAnimation,
+      trainingAnimation5: trainingAnimation,
+    });
 
     fs.existsSync = jest.fn().mockReturnValue(true);
     fs.rmdirSync = jest.fn();

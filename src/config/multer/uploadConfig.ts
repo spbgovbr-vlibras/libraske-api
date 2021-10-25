@@ -21,9 +21,6 @@ export const songsFolder = path.resolve(env.SONG_STORAGE);
 export default function storage({ folder, request }: ITypeFolder): IStorage {
   let destination = path.resolve(folder);
 
-  console.log({ destination });
-
-
   return {
     directory: destination,
     storage: multer.diskStorage({
