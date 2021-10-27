@@ -8,6 +8,7 @@ import { SONG_STORAGE } from '../config/applicationFolders';
 import path from 'path';
 import fs from 'fs';
 import { MulterValidationError } from '../config/multer/validators';
+import BoughtSongsService from '@services/BoughtSongsService';
 
 const songsRouter = Router();
 
@@ -33,8 +34,19 @@ const songIsNotComplete = (multerFiles: Express.Request) => {
 
 
 songsRouter.get('/', async (request, response) => {
+  const { id } = request.user;
   const songs = await SongsService.listSongs();
-  return response.json({ Items: songs });
+  const boughtSongs = await BoughtSongsService.getAvailableSongs(parseInt(id));
+  const unlockedSongIds = boughtSongs.map(song => song.song_id);
+
+  const unlockedSongs = songs.map(item => {
+    return {
+      ...item,
+      isUnlocked: unlockedSongIds.includes(item.id) || item.price === 0 // Se a música foi comprada ou o valor é 0
+    }
+  });
+
+  return response.json({ Items: unlockedSongs });
 });
 
 songsRouter.get('/:id', async (request, response) => {
