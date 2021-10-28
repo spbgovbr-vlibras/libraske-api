@@ -7,12 +7,14 @@ interface IRequest {
   idSession: string;
   idFrame: string;
   frameImageFilename: string;
+  songId: number;
 }
 
 interface IMessage {
   idSession: string;
   idFrame: string;
   frameImage: string;
+  videoId: number;
 }
 
 const QUEUE = process.env.RABBITMQ_QUEUE_SENDER || 'frame_sender';
@@ -25,6 +27,7 @@ class SenderMessage {
     idSession,
     idFrame,
     frameImageFilename,
+    songId
   }: IRequest): Promise<void> {
     try {
       const channel = Rabbitmq.getSenderChannel;
@@ -40,8 +43,10 @@ class SenderMessage {
       const data: IMessage = {
         idSession,
         idFrame,
-        frameImage,
+        videoId: songId,
+        frameImage
       };
+
       const bufferedData = Buffer.from(
         typeof data === 'object' ? JSON.stringify(data) : data,
       );
