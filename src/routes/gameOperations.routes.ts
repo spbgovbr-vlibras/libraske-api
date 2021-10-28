@@ -21,7 +21,11 @@ gameOperationsRouter.post(
   async (request, response) => {
     const { idSession } = request.params;
     const { idFrame } = request.body;
-    const { song_id } = await GameSessionService.findGameSession(parseInt(idSession));
+
+    // GAMBIARRA PRA APRESENTACAO
+    const sessionByUser = await GameSessionService.findGameSessionByUserId(request.user.id) as any;
+    const sessionId = sessionByUser[0].max;
+    const { song_id } = await GameSessionService.findGameSession(parseInt(sessionId));
 
     const sendMessageService = new SenderMessageService();
     const frameImageFilename = request?.file?.filename;
@@ -31,7 +35,7 @@ gameOperationsRouter.post(
     }
 
     await sendMessageService.execute({
-      idSession,
+      idSession: sessionId,
       idFrame,
       frameImageFilename,
       songId: song_id

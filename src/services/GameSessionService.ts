@@ -116,6 +116,10 @@ class GameSessionService {
 
   async countByUserIdAndSongId(userId: number, songId: number): Promise<number> {
     return await GameSessionRepository.countByUserIdAndSongId(userId, songId);
+
+  }
+  async findGameSessionByUserId(userId: number): Promise<number> {
+    return await GameSessionRepository.findGameSessionByUserId(userId);
   }
 
 }
