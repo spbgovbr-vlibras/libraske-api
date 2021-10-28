@@ -21,6 +21,7 @@ gameOperationsRouter.post(
   async (request, response) => {
     const { idSession } = request.params;
     const { idFrame } = request.body;
+    const { song_id } = await GameSessionService.findGameSession(parseInt(idSession));
 
     const sendMessageService = new SenderMessageService();
     const frameImageFilename = request?.file?.filename;
@@ -33,9 +34,10 @@ gameOperationsRouter.post(
       idSession,
       idFrame,
       frameImageFilename,
+      songId: song_id
     });
 
-    return response.sendStatus(204);
+    return response.sendStatus(201);
   },
 );
 
