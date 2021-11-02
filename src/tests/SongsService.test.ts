@@ -27,6 +27,7 @@ describe('Song Service', () => {
       song: DataGenerator.getRandomFilePath(),
       subtitle: DataGenerator.getRandomFilePath(),
       trainingAnimation: DataGenerator.getRandomFilePath(),
+      trainingPhrase: DataGenerator.getRandomWord(),
       price: DataGenerator.getInteger(),
     }
   }
@@ -70,7 +71,9 @@ describe('Song Service', () => {
       subtitle,
       name,
       price,
-      trainingAnimation } = setupFactory();
+      trainingAnimation,
+      trainingPhrase
+    } = setupFactory();
 
     const user = await UsersService.createUser({
       cpf, email, profilePhoto, name, refreshToken: null, isGuest: false
@@ -92,6 +95,11 @@ describe('Song Service', () => {
       trainingAnimation3: trainingAnimation,
       trainingAnimation4: trainingAnimation,
       trainingAnimation5: trainingAnimation,
+      trainingPhrase1: trainingPhrase,
+      trainingPhrase2: trainingPhrase,
+      trainingPhrase3: trainingPhrase,
+      trainingPhrase4: trainingPhrase,
+      trainingPhrase5: trainingPhrase,
     });
 
     expect(createdSong.id).toBe(idSong);
@@ -119,7 +127,8 @@ describe('Song Service', () => {
       song,
       name,
       price,
-      trainingAnimation } = setupFactory();
+      trainingAnimation,
+      trainingPhrase } = setupFactory();
     const firstIdSong = 0, secondIdSong = 1;
 
     const user = await UsersService.createUser({ cpf, email, profilePhoto, name, refreshToken: null, isGuest: false });
@@ -139,6 +148,11 @@ describe('Song Service', () => {
       trainingAnimation3: trainingAnimation,
       trainingAnimation4: trainingAnimation,
       trainingAnimation5: trainingAnimation,
+      trainingPhrase1: trainingPhrase,
+      trainingPhrase2: trainingPhrase,
+      trainingPhrase3: trainingPhrase,
+      trainingPhrase4: trainingPhrase,
+      trainingPhrase5: trainingPhrase,
       price
     });
 
@@ -157,6 +171,11 @@ describe('Song Service', () => {
       trainingAnimation3: trainingAnimation,
       trainingAnimation4: trainingAnimation,
       trainingAnimation5: trainingAnimation,
+      trainingPhrase1: trainingPhrase,
+      trainingPhrase2: trainingPhrase,
+      trainingPhrase3: trainingPhrase,
+      trainingPhrase4: trainingPhrase,
+      trainingPhrase5: trainingPhrase,
       price
     });
 
@@ -185,7 +204,8 @@ describe('Song Service', () => {
       song,
       name,
       price,
-      trainingAnimation } = setupFactory();
+      trainingAnimation,
+      trainingPhrase } = setupFactory();
 
     const user = await UsersService.createUser({
       cpf,
@@ -211,6 +231,11 @@ describe('Song Service', () => {
       trainingAnimation3: trainingAnimation,
       trainingAnimation4: trainingAnimation,
       trainingAnimation5: trainingAnimation,
+      trainingPhrase1: trainingPhrase,
+      trainingPhrase2: trainingPhrase,
+      trainingPhrase3: trainingPhrase,
+      trainingPhrase4: trainingPhrase,
+      trainingPhrase5: trainingPhrase,
     });
 
     const song1 = await SongsService.findById({ id });
@@ -251,7 +276,8 @@ describe('Song Service', () => {
       song,
       name,
       price,
-      trainingAnimation } = setupFactory();
+      trainingAnimation,
+      trainingPhrase } = setupFactory();
     const id = DataGenerator.getInteger();
 
     const user = await UsersService.createUser({
@@ -278,6 +304,11 @@ describe('Song Service', () => {
       trainingAnimation3: trainingAnimation,
       trainingAnimation4: trainingAnimation,
       trainingAnimation5: trainingAnimation,
+      trainingPhrase1: trainingPhrase,
+      trainingPhrase2: trainingPhrase,
+      trainingPhrase3: trainingPhrase,
+      trainingPhrase4: trainingPhrase,
+      trainingPhrase5: trainingPhrase,
     });
     const beforeTestSongs = await SongsService.listSongs();
 
@@ -318,7 +349,8 @@ describe('Song Service', () => {
       song,
       name,
       price,
-      trainingAnimation } = setupFactory();
+      trainingAnimation,
+      trainingPhrase } = setupFactory();
 
     const user = await UsersService.createUser({
       cpf,
@@ -344,6 +376,11 @@ describe('Song Service', () => {
       trainingAnimation3: trainingAnimation,
       trainingAnimation4: trainingAnimation,
       trainingAnimation5: trainingAnimation,
+      trainingPhrase1: trainingPhrase,
+      trainingPhrase2: trainingPhrase,
+      trainingPhrase3: trainingPhrase,
+      trainingPhrase4: trainingPhrase,
+      trainingPhrase5: trainingPhrase,
     });
 
     fs.existsSync = jest.fn().mockReturnValue(true);

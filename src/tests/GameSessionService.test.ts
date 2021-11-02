@@ -46,6 +46,7 @@ describe('Game Session Service', () => {
     const animation = DataGenerator.getRandomFilePath();
     const song = DataGenerator.getRandomFilePath();
     const price = DataGenerator.getInteger();
+    const trainingPhrase = DataGenerator.getRandomWord();
 
     const defaultUser = createUser(id, name, email, profilePhoto, cpf, refreshToken, credit);
 
@@ -67,7 +68,8 @@ describe('Game Session Service', () => {
       price,
       animation,
       song,
-      trainingAnimation
+      trainingAnimation,
+      trainingPhrase
     }
   }
 
@@ -104,7 +106,8 @@ describe('Game Session Service', () => {
       price,
       song,
       animation,
-      trainingAnimation
+      trainingAnimation,
+      trainingPhrase
     } = getDefaultData();
 
     const user = await UsersService.createUser({
@@ -131,6 +134,11 @@ describe('Game Session Service', () => {
       trainingAnimation3: trainingAnimation,
       trainingAnimation4: trainingAnimation,
       trainingAnimation5: trainingAnimation,
+      trainingPhrase1: trainingPhrase,
+      trainingPhrase2: trainingPhrase,
+      trainingPhrase3: trainingPhrase,
+      trainingPhrase4: trainingPhrase,
+      trainingPhrase5: trainingPhrase,
     });
 
     const result = await GameSessionService.createGameSession({ idSong: song1.id, idUser: user.id });
@@ -158,7 +166,8 @@ describe('Game Session Service', () => {
       price,
       animation,
       song,
-      trainingAnimation
+      trainingAnimation,
+      trainingPhrase
     } = getDefaultData();
 
     const user = await UsersService.createUser({
@@ -185,6 +194,11 @@ describe('Game Session Service', () => {
       trainingAnimation3: trainingAnimation,
       trainingAnimation4: trainingAnimation,
       trainingAnimation5: trainingAnimation,
+      trainingPhrase1: trainingPhrase,
+      trainingPhrase2: trainingPhrase,
+      trainingPhrase3: trainingPhrase,
+      trainingPhrase4: trainingPhrase,
+      trainingPhrase5: trainingPhrase,
     });
 
     const gameSession = await GameSessionService.createGameSession({ idSong: song1.id, idUser: user.id });
@@ -227,7 +241,8 @@ describe('Game Session Service', () => {
       price,
       animation,
       song,
-      trainingAnimation
+      trainingAnimation,
+      trainingPhrase
     } = getDefaultData();
 
     const user = await UsersService.createUser({
@@ -254,6 +269,11 @@ describe('Game Session Service', () => {
       trainingAnimation3: trainingAnimation,
       trainingAnimation4: trainingAnimation,
       trainingAnimation5: trainingAnimation,
+      trainingPhrase1: trainingPhrase,
+      trainingPhrase2: trainingPhrase,
+      trainingPhrase3: trainingPhrase,
+      trainingPhrase4: trainingPhrase,
+      trainingPhrase5: trainingPhrase,
     });
 
     const firstResult = await GameSessionService.countByUserIdAndSongId(user.id, song1.id);
@@ -290,7 +310,8 @@ describe('Game Session Service', () => {
       price,
       animation,
       song,
-      trainingAnimation
+      trainingAnimation,
+      trainingPhrase
     } = getDefaultData();
 
     const user = await UsersService.createUser({
@@ -317,6 +338,11 @@ describe('Game Session Service', () => {
       trainingAnimation3: trainingAnimation,
       trainingAnimation4: trainingAnimation,
       trainingAnimation5: trainingAnimation,
+      trainingPhrase1: trainingPhrase,
+      trainingPhrase2: trainingPhrase,
+      trainingPhrase3: trainingPhrase,
+      trainingPhrase4: trainingPhrase,
+      trainingPhrase5: trainingPhrase,
     });
     const gameSession = await GameSessionService.createGameSession({ idSong: song1.id, idUser: user.id });
 
@@ -347,7 +373,8 @@ describe('Game Session Service', () => {
       price,
       animation,
       song,
-      trainingAnimation
+      trainingAnimation,
+      trainingPhrase
     } = getDefaultData();
 
     const user = await UsersService.createUser({
@@ -374,6 +401,11 @@ describe('Game Session Service', () => {
       trainingAnimation3: trainingAnimation,
       trainingAnimation4: trainingAnimation,
       trainingAnimation5: trainingAnimation,
+      trainingPhrase1: trainingPhrase,
+      trainingPhrase2: trainingPhrase,
+      trainingPhrase3: trainingPhrase,
+      trainingPhrase4: trainingPhrase,
+      trainingPhrase5: trainingPhrase,
     });
     const gameSession = await GameSessionService.createGameSession({ idSong: song1.id, idUser: user.id });
 

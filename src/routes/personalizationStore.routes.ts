@@ -30,7 +30,7 @@ boughtPersonalizationRouter.post('/personalizations-group/:id', dtoValidationMid
   const boughtpersonalization = BoughtPersonalizationRepository.getInstance().create({
     personalization_group_id: personalizationGroupId,
     user_id: user.id,
-    isActive,
+    isActive: isActive || false,
   });
 
   const connection = getConnection();

@@ -64,14 +64,12 @@ async function run() {
     name: 'pele',
     user_id: 1,
     description: '',
-    price: 500,
   });
   await personalizationRepository.save({
     id: 2,
     name: 'olhos',
     user_id: 1,
     description: '',
-    price: 500,
   });
 
   await personalizationRepository.save({
@@ -79,7 +77,6 @@ async function run() {
     name: 'cabelo',
     user_id: 1,
     description: '',
-    price: 500,
   });
 
   await personalizationRepository.save({
@@ -87,7 +84,6 @@ async function run() {
     name: 'camisa',
     user_id: 1,
     description: '',
-    price: 500,
   });
 
   await personalizationRepository.save({
@@ -95,7 +91,6 @@ async function run() {
     name: 'calça',
     user_id: 1,
     description: '',
-    price: 500,
   });
 
   await personalizationGroupRepository.save({ name: 'Grupo Pele 1', personalization_id: 1, price: 0 });
@@ -120,44 +115,44 @@ async function run() {
   await personalizationGroupRepository.save({ name: 'Grupo Olhos 9', personalization_id: 2, price: 0 });
   await personalizationGroupRepository.save({ name: 'Grupo Olhos 10', personalization_id: 2, price: 0 });
 
-  await personalizationGroupRepository.save({ name: 'Grupo Cabelo 1', personalization_id: 3, price: 500 });
-  await personalizationGroupRepository.save({ name: 'Grupo Cabelo 2', personalization_id: 3, price: 500 });
-  await personalizationGroupRepository.save({ name: 'Grupo Cabelo 3', personalization_id: 3, price: 500 });
-  await personalizationGroupRepository.save({ name: 'Grupo Cabelo 4', personalization_id: 3, price: 500 });
-  await personalizationGroupRepository.save({ name: 'Grupo Cabelo 5', personalization_id: 3, price: 500 });
-  await personalizationGroupRepository.save({ name: 'Grupo Cabelo 6', personalization_id: 3, price: 500 });
-  await personalizationGroupRepository.save({ name: 'Grupo Cabelo 7', personalization_id: 3, price: 500 });
-  await personalizationGroupRepository.save({ name: 'Grupo Cabelo 8', personalization_id: 3, price: 500 });
-  await personalizationGroupRepository.save({ name: 'Grupo Cabelo 9', personalization_id: 3, price: 500 });
-  await personalizationGroupRepository.save({ name: 'Grupo Cabelo 10', personalization_id: 3, price: 500 });
-  await personalizationGroupRepository.save({ name: 'Grupo Cabelo 11', personalization_id: 3, price: 500 });
-  await personalizationGroupRepository.save({ name: 'Grupo Cabelo 12', personalization_id: 3, price: 500 });
+  await personalizationGroupRepository.save({ name: 'Grupo Cabelo 1', personalization_id: 3, price: 25 });
+  await personalizationGroupRepository.save({ name: 'Grupo Cabelo 2', personalization_id: 3, price: 25 });
+  await personalizationGroupRepository.save({ name: 'Grupo Cabelo 3', personalization_id: 3, price: 25 });
+  await personalizationGroupRepository.save({ name: 'Grupo Cabelo 4', personalization_id: 3, price: 25 });
+  await personalizationGroupRepository.save({ name: 'Grupo Cabelo 5', personalization_id: 3, price: 25 });
+  await personalizationGroupRepository.save({ name: 'Grupo Cabelo 6', personalization_id: 3, price: 25 });
+  await personalizationGroupRepository.save({ name: 'Grupo Cabelo 7', personalization_id: 3, price: 25 });
+  await personalizationGroupRepository.save({ name: 'Grupo Cabelo 8', personalization_id: 3, price: 25 });
+  await personalizationGroupRepository.save({ name: 'Grupo Cabelo 9', personalization_id: 3, price: 25 });
+  await personalizationGroupRepository.save({ name: 'Grupo Cabelo 10', personalization_id: 3, price: 25 });
+  await personalizationGroupRepository.save({ name: 'Grupo Cabelo 11', personalization_id: 3, price: 25 });
+  await personalizationGroupRepository.save({ name: 'Grupo Cabelo 12', personalization_id: 3, price: 25 });
 
-  await personalizationGroupRepository.save({ name: 'Grupo Camisa 1', personalization_id: 4, price: 500 });
-  await personalizationGroupRepository.save({ name: 'Grupo Camisa 2', personalization_id: 4, price: 500 });
-  await personalizationGroupRepository.save({ name: 'Grupo Camisa 3', personalization_id: 4, price: 500 });
-  await personalizationGroupRepository.save({ name: 'Grupo Camisa 4', personalization_id: 4, price: 500 });
-  await personalizationGroupRepository.save({ name: 'Grupo Camisa 5', personalization_id: 4, price: 500 });
-  await personalizationGroupRepository.save({ name: 'Grupo Camisa 6', personalization_id: 4, price: 500 });
-  await personalizationGroupRepository.save({ name: 'Grupo Camisa 7', personalization_id: 4, price: 500 });
-  await personalizationGroupRepository.save({ name: 'Grupo Camisa 8', personalization_id: 4, price: 500 });
-  await personalizationGroupRepository.save({ name: 'Grupo Camisa 9', personalization_id: 4, price: 500 });
-  await personalizationGroupRepository.save({ name: 'Grupo Camisa 10', personalization_id: 4, price: 500 });
-  await personalizationGroupRepository.save({ name: 'Grupo Camisa 11', personalization_id: 4, price: 500 });
-  await personalizationGroupRepository.save({ name: 'Grupo Camisa 12', personalization_id: 4, price: 500 });
+  await personalizationGroupRepository.save({ name: 'Grupo Camisa 1', personalization_id: 4, price: 25 });
+  await personalizationGroupRepository.save({ name: 'Grupo Camisa 2', personalization_id: 4, price: 25 });
+  await personalizationGroupRepository.save({ name: 'Grupo Camisa 3', personalization_id: 4, price: 25 });
+  await personalizationGroupRepository.save({ name: 'Grupo Camisa 4', personalization_id: 4, price: 25 });
+  await personalizationGroupRepository.save({ name: 'Grupo Camisa 5', personalization_id: 4, price: 25 });
+  await personalizationGroupRepository.save({ name: 'Grupo Camisa 6', personalization_id: 4, price: 25 });
+  await personalizationGroupRepository.save({ name: 'Grupo Camisa 7', personalization_id: 4, price: 25 });
+  await personalizationGroupRepository.save({ name: 'Grupo Camisa 8', personalization_id: 4, price: 25 });
+  await personalizationGroupRepository.save({ name: 'Grupo Camisa 9', personalization_id: 4, price: 25 });
+  await personalizationGroupRepository.save({ name: 'Grupo Camisa 10', personalization_id: 4, price: 25 });
+  await personalizationGroupRepository.save({ name: 'Grupo Camisa 11', personalization_id: 4, price: 25 });
+  await personalizationGroupRepository.save({ name: 'Grupo Camisa 12', personalization_id: 4, price: 25 });
 
-  await personalizationGroupRepository.save({ name: 'Grupo Calça 1', personalization_id: 5, price: 500 });
-  await personalizationGroupRepository.save({ name: 'Grupo Calça 2', personalization_id: 5, price: 500 });
-  await personalizationGroupRepository.save({ name: 'Grupo Calça 3', personalization_id: 5, price: 500 });
-  await personalizationGroupRepository.save({ name: 'Grupo Calça 4', personalization_id: 5, price: 500 });
-  await personalizationGroupRepository.save({ name: 'Grupo Calça 5', personalization_id: 5, price: 500 });
-  await personalizationGroupRepository.save({ name: 'Grupo Calça 6', personalization_id: 5, price: 500 });
-  await personalizationGroupRepository.save({ name: 'Grupo Calça 7', personalization_id: 5, price: 500 });
-  await personalizationGroupRepository.save({ name: 'Grupo Calça 8', personalization_id: 5, price: 500 });
-  await personalizationGroupRepository.save({ name: 'Grupo Calça 9', personalization_id: 5, price: 500 });
-  await personalizationGroupRepository.save({ name: 'Grupo Calça 10', personalization_id: 5, price: 500 });
-  await personalizationGroupRepository.save({ name: 'Grupo Calça 11', personalization_id: 5, price: 500 });
-  await personalizationGroupRepository.save({ name: 'Grupo Calça 12', personalization_id: 5, price: 500 });
+  await personalizationGroupRepository.save({ name: 'Grupo Calça 1', personalization_id: 5, price: 25 });
+  await personalizationGroupRepository.save({ name: 'Grupo Calça 2', personalization_id: 5, price: 25 });
+  await personalizationGroupRepository.save({ name: 'Grupo Calça 3', personalization_id: 5, price: 25 });
+  await personalizationGroupRepository.save({ name: 'Grupo Calça 4', personalization_id: 5, price: 25 });
+  await personalizationGroupRepository.save({ name: 'Grupo Calça 5', personalization_id: 5, price: 25 });
+  await personalizationGroupRepository.save({ name: 'Grupo Calça 6', personalization_id: 5, price: 25 });
+  await personalizationGroupRepository.save({ name: 'Grupo Calça 7', personalization_id: 5, price: 25 });
+  await personalizationGroupRepository.save({ name: 'Grupo Calça 8', personalization_id: 5, price: 25 });
+  await personalizationGroupRepository.save({ name: 'Grupo Calça 9', personalization_id: 5, price: 25 });
+  await personalizationGroupRepository.save({ name: 'Grupo Calça 10', personalization_id: 5, price: 25 });
+  await personalizationGroupRepository.save({ name: 'Grupo Calça 11', personalization_id: 5, price: 25 });
+  await personalizationGroupRepository.save({ name: 'Grupo Calça 12', personalization_id: 5, price: 25 });
 
 
   // Cores da Pele
@@ -289,7 +284,7 @@ async function run() {
   await personalizationColorRepository.save({ personalization_group_id: 21, code: '#FF434C', isDefault: false });
   await personalizationColorRepository.save({ personalization_group_id: 21, code: '#FF1E1E', isDefault: true });
   await personalizationColorRepository.save({ personalization_group_id: 21, code: '#B10000', isDefault: false });
-  await personalizationColorRepository.save({ personalization_group_id: 21, code: '#550000', isDefault: false });
+  await personalizationColorRepository.save({ personalization_group_id: 21, code: '#52500', isDefault: false });
 
   await personalizationColorRepository.save({ personalization_group_id: 22, code: '#FFD6C3', isDefault: false });
   await personalizationColorRepository.save({ personalization_group_id: 22, code: '#FF7F43', isDefault: false });
@@ -335,7 +330,7 @@ async function run() {
 
   await personalizationColorRepository.save({ personalization_group_id: 29, code: '#CDA6E7', isDefault: false });
   await personalizationColorRepository.save({ personalization_group_id: 29, code: '#AF40F8', isDefault: false });
-  await personalizationColorRepository.save({ personalization_group_id: 29, code: '#9500F7', isDefault: true });
+  await personalizationColorRepository.save({ personalization_group_id: 29, code: '#925F7', isDefault: true });
   await personalizationColorRepository.save({ personalization_group_id: 29, code: '#7000AC', isDefault: false });
   await personalizationColorRepository.save({ personalization_group_id: 29, code: '#360052', isDefault: false });
 
@@ -347,7 +342,7 @@ async function run() {
 
   await personalizationColorRepository.save({ personalization_group_id: 31, code: '#F6BACD', isDefault: false });
   await personalizationColorRepository.save({ personalization_group_id: 31, code: '#F63F79', isDefault: false });
-  await personalizationColorRepository.save({ personalization_group_id: 31, code: '#F5004D', isDefault: true });
+  await personalizationColorRepository.save({ personalization_group_id: 31, code: '#F254D', isDefault: true });
   await personalizationColorRepository.save({ personalization_group_id: 31, code: '#AA002D', isDefault: false });
   await personalizationColorRepository.save({ personalization_group_id: 31, code: '#520016', isDefault: false });
 
@@ -363,7 +358,7 @@ async function run() {
   await personalizationColorRepository.save({ personalization_group_id: 33, code: '#FF434C', isDefault: false });
   await personalizationColorRepository.save({ personalization_group_id: 33, code: '#FF1E1E', isDefault: true });
   await personalizationColorRepository.save({ personalization_group_id: 33, code: '#B10000', isDefault: false });
-  await personalizationColorRepository.save({ personalization_group_id: 33, code: '#550000', isDefault: false });
+  await personalizationColorRepository.save({ personalization_group_id: 33, code: '#52500', isDefault: false });
 
   await personalizationColorRepository.save({ personalization_group_id: 34, code: '#FFD6C3', isDefault: false });
   await personalizationColorRepository.save({ personalization_group_id: 34, code: '#FF7F43', isDefault: false });
@@ -409,7 +404,7 @@ async function run() {
 
   await personalizationColorRepository.save({ personalization_group_id: 41, code: '#CDA6E7', isDefault: false });
   await personalizationColorRepository.save({ personalization_group_id: 41, code: '#AF41F8', isDefault: false });
-  await personalizationColorRepository.save({ personalization_group_id: 41, code: '#9500F7', isDefault: true });
+  await personalizationColorRepository.save({ personalization_group_id: 41, code: '#925F7', isDefault: true });
   await personalizationColorRepository.save({ personalization_group_id: 41, code: '#7000AC', isDefault: false });
   await personalizationColorRepository.save({ personalization_group_id: 41, code: '#360052', isDefault: false });
 
@@ -421,7 +416,7 @@ async function run() {
 
   await personalizationColorRepository.save({ personalization_group_id: 43, code: '#F6BACD', isDefault: false });
   await personalizationColorRepository.save({ personalization_group_id: 43, code: '#F63F79', isDefault: false });
-  await personalizationColorRepository.save({ personalization_group_id: 43, code: '#F5004D', isDefault: true });
+  await personalizationColorRepository.save({ personalization_group_id: 43, code: '#F254D', isDefault: true });
   await personalizationColorRepository.save({ personalization_group_id: 43, code: '#AA002D', isDefault: false });
   await personalizationColorRepository.save({ personalization_group_id: 43, code: '#520016', isDefault: false });
 
@@ -437,7 +432,7 @@ async function run() {
   await personalizationColorRepository.save({ personalization_group_id: 45, code: '#FF434C', isDefault: false });
   await personalizationColorRepository.save({ personalization_group_id: 45, code: '#FF1E1E', isDefault: true });
   await personalizationColorRepository.save({ personalization_group_id: 45, code: '#B10000', isDefault: false });
-  await personalizationColorRepository.save({ personalization_group_id: 45, code: '#550000', isDefault: false });
+  await personalizationColorRepository.save({ personalization_group_id: 45, code: '#52500', isDefault: false });
 
   await personalizationColorRepository.save({ personalization_group_id: 46, code: '#FFD6C3', isDefault: false });
   await personalizationColorRepository.save({ personalization_group_id: 46, code: '#FF7F43', isDefault: false });
@@ -483,7 +478,7 @@ async function run() {
 
   await personalizationColorRepository.save({ personalization_group_id: 53, code: '#CDA6E7', isDefault: false });
   await personalizationColorRepository.save({ personalization_group_id: 53, code: '#AF40F8', isDefault: false });
-  await personalizationColorRepository.save({ personalization_group_id: 53, code: '#9500F7', isDefault: true });
+  await personalizationColorRepository.save({ personalization_group_id: 53, code: '#925F7', isDefault: true });
   await personalizationColorRepository.save({ personalization_group_id: 53, code: '#7000AC', isDefault: false });
   await personalizationColorRepository.save({ personalization_group_id: 53, code: '#360052', isDefault: false });
 
@@ -495,7 +490,7 @@ async function run() {
 
   await personalizationColorRepository.save({ personalization_group_id: 55, code: '#F6BACD', isDefault: false });
   await personalizationColorRepository.save({ personalization_group_id: 55, code: '#F63F79', isDefault: false });
-  await personalizationColorRepository.save({ personalization_group_id: 55, code: '#F5004D', isDefault: true });
+  await personalizationColorRepository.save({ personalization_group_id: 55, code: '#F254D', isDefault: true });
   await personalizationColorRepository.save({ personalization_group_id: 55, code: '#AA002D', isDefault: false });
   await personalizationColorRepository.save({ personalization_group_id: 55, code: '#520016', isDefault: false });
 
@@ -504,7 +499,6 @@ async function run() {
   await personalizationColorRepository.save({ personalization_group_id: 56, code: '#676767', isDefault: true });
   await personalizationColorRepository.save({ personalization_group_id: 56, code: '#3D3D3D', isDefault: false });
   await personalizationColorRepository.save({ personalization_group_id: 56, code: '#191919', isDefault: false });
-
 
 }
 

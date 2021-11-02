@@ -77,12 +77,12 @@ gameOperationsRouter.patch(
     const timesPlayed = await GameSessionService.countByUserIdAndSongId(gameSession.user_id, gameSession.song_id);
 
     // Calculando créditos do usuário
-    const creditsToChange = CalculateCredits(timesPlayed, sessionScore, bonusValue);
+    const { score, bonusValue: bonus } = CalculateCredits(timesPlayed, sessionScore, bonusValue);
 
     // Atualizando dados do usuário
-    const { credit } = await UsersService.changeCredit({ creditsToChange, user: request.user });
+    const { credit } = await UsersService.changeCredit({ creditsToChange: score, user: request.user });
 
-    return response.status(201).json({ credit });
+    return response.status(201).json({ credit, finalPontuation: score, bonus });
   },
 );
 

@@ -10,7 +10,7 @@ import UsersRepository from '../repositories/UsersRepository';
 
 const songStore = Router();
 
-songStore.post("/song/:id/buy", async (request, response) => {
+songStore.post("/song/:id", async (request, response) => {
 
   const { id } = request.params;
   const user = request.user as User;

@@ -64,6 +64,26 @@ export class CreateSongs1619113712810 implements MigrationInterface {
             type: "varchar"
           },
           {
+            name: 'trainingPhrase1',
+            type: "varchar"
+          },
+          {
+            name: 'trainingPhrase2',
+            type: "varchar"
+          },
+          {
+            name: 'trainingPhrase3',
+            type: "varchar"
+          },
+          {
+            name: 'trainingPhrase4',
+            type: "varchar"
+          },
+          {
+            name: 'trainingPhrase5',
+            type: "varchar"
+          },
+          {
             name: 'created_at',
             type: 'timestamp',
             default: 'now()',

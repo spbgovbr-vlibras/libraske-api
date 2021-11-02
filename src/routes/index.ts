@@ -27,8 +27,8 @@ routes.use('/bought-personalizations', ensureAuthenticated, boughtPersonalizatio
 routes.use('/scores', ensureAuthenticated, scores);
 routes.use('/users', ensureAuthenticated, userRouter);
 routes.use('/personalizations', ensureAuthenticated, personalizationRoutes);
-routes.use('/personalizations-group', personalizationGroupRoutes);
-routes.use('/personalizations-color', personalizationColor);
+routes.use('/personalizations-group', ensureAuthenticated, personalizationGroupRoutes);
+routes.use('/personalizations-color', ensureAuthenticated, personalizationColor);
 routes.use('/auth', authRoutes);
 routes.use('/guest-auth', guestAuthRouter);
 

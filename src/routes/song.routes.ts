@@ -21,8 +21,13 @@ const removeSongFolder = (songId: string) => {
 }
 
 const songIsNotValid = (multerErrors: MulterValidationError[]) => {
-  const result = multerErrors.filter(item => item.errors.length > 0);
-  return result.length > 0;
+  try {
+    const result = multerErrors.filter(item => item.errors.length > 0);
+    return result.length > 0;
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
 }
 
 const songIsNotComplete = (multerFiles: Express.Request) => {
@@ -72,7 +77,17 @@ songsRouter.post('/', createSongFolder, (request, response) => {
     { name: 'trainingAnimation4', maxCount: 1 },
     { name: 'trainingAnimation5', maxCount: 1 },
   ])(request, response, async () => {
-    const { name, description, singers, price } = request.body;
+    const {
+      name,
+      description,
+      singers,
+      price,
+      trainingPhrase1,
+      trainingPhrase2,
+      trainingPhrase3,
+      trainingPhrase4,
+      trainingPhrase5
+    } = request.body;
     const { multerErrors } = request;
 
     if (songIsNotValid(multerErrors)) {
@@ -92,7 +107,6 @@ songsRouter.post('/', createSongFolder, (request, response) => {
         throw new AppError("price is required", 400);
       }
 
-      // TODO Criar validador pros campos Thumbnail e subtitle
       const song = await SongsService.createSong({
         idSong: parseInt(idSong),
         idUser: request.user.id,
@@ -108,7 +122,12 @@ songsRouter.post('/', createSongFolder, (request, response) => {
         trainingAnimation3: request.files.trainingAnimation3[0].filename,
         trainingAnimation4: request.files.trainingAnimation4[0].filename,
         trainingAnimation5: request.files.trainingAnimation5[0].filename,
-        price: parseInt(price)
+        price: parseInt(price),
+        trainingPhrase1,
+        trainingPhrase2,
+        trainingPhrase3,
+        trainingPhrase4,
+        trainingPhrase5
       });
       return response.json(song);
     } catch (error: any) {

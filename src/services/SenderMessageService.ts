@@ -40,6 +40,7 @@ class SenderMessage {
       const frameImage = Buffer.from(fs.readFileSync(imagePath)).toString(
         'base64',
       );
+
       const data: IMessage = {
         idSession,
         idFrame,

@@ -29,13 +29,13 @@
 								},
 								{
 									"key": "idFrame",
-									"value": "6",
+									"value": "1",
 									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "{{base_url}}/libraske/game/frame/acc00645-143d-4c09-8af4-090709aad0e0",
+							"raw": "{{base_url}}/libraske/game/frame/1",
 							"host": [
 								"{{base_url}}"
 							],
@@ -43,7 +43,7 @@
 								"libraske",
 								"game",
 								"frame",
-								"acc00645-143d-4c09-8af4-090709aad0e0"
+								"1"
 							]
 						}
 					},
@@ -62,7 +62,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"idSong\": \"00000001-7249-47d1-bfdb-9f0425456179\"\n}",
+							"raw": "{\n    \"idSong\": \"0\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -87,10 +87,20 @@
 				{
 					"name": "Consult Pontuation Game Session",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/libraske/game/pontuation/session/{id}",
+							"raw": "{{base_url}}/libraske/game/pontuation/session/1",
 							"host": [
 								"{{base_url}}"
 							],
@@ -99,7 +109,7 @@
 								"game",
 								"pontuation",
 								"session",
-								"{id}"
+								"1"
 							]
 						}
 					},
@@ -121,7 +131,7 @@
 						"method": "PATCH",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/libraske/game/pontuation/session/400ba5fa-62d0-4b02-b0c3-2e7043e20b58",
+							"raw": "{{base_url}}/libraske/game/pontuation/session/1",
 							"host": [
 								"{{base_url}}"
 							],
@@ -130,7 +140,7 @@
 								"game",
 								"pontuation",
 								"session",
-								"400ba5fa-62d0-4b02-b0c3-2e7043e20b58"
+								"1"
 							]
 						}
 					},
@@ -139,9 +149,30 @@
 				{
 					"name": "Consult game session pontuation",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
-						"url": null
+						"url": {
+							"raw": "{{base_url}}/libraske/game/1/pontuation",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"libraske",
+								"game",
+								"1",
+								"pontuation"
+							]
+						}
 					},
 					"response": []
 				}
@@ -209,68 +240,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{base_url}}/libraske/songs/b97746b3-2065-4077-b9be-313f38f88d95",
+							"raw": "{{base_url}}/libraske/songs/1",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"libraske",
 								"songs",
-								"b97746b3-2065-4077-b9be-313f38f88d95"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Create Song",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{accessToken}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "name",
-									"value": "Batom de Cereja",
-									"type": "text"
-								},
-								{
-									"key": "description",
-									"value": "lorem ipsum is simply dummy text of the printing and typesetting industry. lorem ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-									"type": "text"
-								},
-								{
-									"key": "singers",
-									"value": "Israel & Rodolffo",
-									"type": "text"
-								},
-								{
-									"key": "thumbnail",
-									"type": "file",
-									"src": "/C:/Users/Joao/Pictures/pexels-photo-531321.jpeg"
-								},
-								{
-									"key": "subtitle",
-									"type": "file",
-									"src": "/C:/Users/Joao/Pictures/subtitle.txt"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{base_url}}/libraske/songs",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"libraske",
-								"songs"
+								"1"
 							]
 						}
 					},
@@ -308,6 +285,153 @@
 								"libraske",
 								"songs",
 								"{id}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Song - Exemplo",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "",
+									"description": "Nome da Música",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "",
+									"description": "Descrição",
+									"type": "text"
+								},
+								{
+									"key": "singers",
+									"value": "",
+									"description": "Cantor(es)",
+									"type": "text"
+								},
+								{
+									"key": "thumbnail",
+									"description": "Imagem que vai aparecer no jogo",
+									"type": "file",
+									"src": []
+								},
+								{
+									"key": "subtitle",
+									"description": "Legenda da música",
+									"type": "file",
+									"src": []
+								},
+								{
+									"key": "price",
+									"value": "0",
+									"description": "Preço da música",
+									"type": "text"
+								},
+								{
+									"key": "animation",
+									"description": "Bundle com as animações da música",
+									"type": "file",
+									"src": []
+								},
+								{
+									"key": "song",
+									"description": "Arquivo MP3",
+									"type": "file",
+									"src": []
+								},
+								{
+									"key": "trainingAnimation1",
+									"description": "Bundle de Treino",
+									"type": "file",
+									"src": []
+								},
+								{
+									"key": "trainingAnimation2",
+									"description": "Bundle de Treino",
+									"type": "file",
+									"src": []
+								},
+								{
+									"key": "trainingAnimation3",
+									"description": "Bundle de Treino",
+									"type": "file",
+									"src": []
+								},
+								{
+									"key": "trainingAnimation4",
+									"description": "Bundle de Treino",
+									"type": "file",
+									"src": []
+								},
+								{
+									"key": "trainingAnimation5",
+									"description": "Bundle de Treino",
+									"type": "file",
+									"src": []
+								},
+								{
+									"key": "trainingPhrase1",
+									"value": "",
+									"description": "Frase de Treino",
+									"type": "text"
+								},
+								{
+									"key": "trainingPhrase2",
+									"value": "",
+									"description": "Frase de Treino",
+									"type": "text"
+								},
+								{
+									"key": "trainingPhrase3",
+									"value": "",
+									"description": "Frase de Treino",
+									"type": "text"
+								},
+								{
+									"key": "trainingPhrase4",
+									"value": "",
+									"description": "Frase de Treino",
+									"type": "text"
+								},
+								{
+									"key": "trainingPhrase5",
+									"value": "",
+									"description": "Frase de Treino",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/libraske/songs",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"libraske",
+								"songs"
 							]
 						}
 					},
@@ -515,16 +639,15 @@
 								"method": "POST",
 								"header": [],
 								"url": {
-									"raw": "{{base_url}}/libraske/store/personalizations/1/buy",
+									"raw": "{{base_url}}/libraske/store/personalizations-group/25",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"libraske",
 										"store",
-										"personalizations",
-										"1",
-										"buy"
+										"personalizations-group",
+										"25"
 									]
 								}
 							},
@@ -533,18 +656,26 @@
 						{
 							"name": "Get Bought Personalization",
 							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{accessToken}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{base_url}}/libraske/store/song/bought",
+									"raw": "{{base_url}}/libraske/bought-personalizations",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"libraske",
-										"store",
-										"song",
-										"bought"
+										"bought-personalizations"
 									]
 								}
 							},
@@ -571,7 +702,7 @@
 								"method": "POST",
 								"header": [],
 								"url": {
-									"raw": "{{base_url}}/libraske/store/song/buy/00000003-48d0-4039-8f78-7694decab390",
+									"raw": "{{base_url}}/libraske/store/song/0",
 									"host": [
 										"{{base_url}}"
 									],
@@ -579,8 +710,7 @@
 										"libraske",
 										"store",
 										"song",
-										"buy",
-										"00000003-48d0-4039-8f78-7694decab390"
+										"0"
 									]
 								}
 							},
@@ -589,6 +719,16 @@
 						{
 							"name": "Get Bought Songs",
 							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{accessToken}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "GET",
 								"header": [],
 								"url": {
@@ -629,7 +769,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/libraske/scores/song/00000001-7249-47d1-bfdb-9f0425456179",
+							"raw": "{{base_url}}/libraske/scores/song/1",
 							"host": [
 								"{{base_url}}"
 							],
@@ -637,7 +777,7 @@
 								"libraske",
 								"scores",
 								"song",
-								"00000001-7249-47d1-bfdb-9f0425456179"
+								"1"
 							]
 						}
 					},
@@ -659,7 +799,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/libraske/scores/song/00000002-7784-4d84-841e-1f2ffae9ace8/history",
+							"raw": "{{base_url}}/libraske/scores/song/1/history",
 							"host": [
 								"{{base_url}}"
 							],
@@ -667,7 +807,7 @@
 								"libraske",
 								"scores",
 								"song",
-								"00000002-7784-4d84-841e-1f2ffae9ace8",
+								"1",
 								"history"
 							]
 						}
@@ -739,9 +879,28 @@
 				{
 					"name": "Get User",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
-						"url": null
+						"url": {
+							"raw": "{{base_url}}/libraske/users",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"libraske",
+								"users"
+							]
+						}
 					},
 					"response": []
 				}
@@ -753,27 +912,85 @@
 				{
 					"name": "CreatePersonalization",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
-						"url": null
+						"url": {
+							"raw": "{{base_url}}/libraske/personalizations",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"libraske",
+								"personalizations"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "List Personalization",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
-						"url": null
+						"url": {
+							"raw": "{{base_url}}/libraske/personalizations",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"libraske",
+								"personalizations"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "Get Personalization by ID",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
-						"url": null
+						"url": {
+							"raw": "{{base_url}}/libraske/personalizations/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"libraske",
+								"personalizations",
+								"1"
+							]
+						}
 					},
 					"response": []
 				}
@@ -804,6 +1021,39 @@
 							"path": [
 								"libraske",
 								"personalizations-group"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Personalization Color",
+			"item": [
+				{
+					"name": "Get Personalizations",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/libraske/personalizations-color",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"libraske",
+								"personalizations-color"
 							]
 						}
 					},

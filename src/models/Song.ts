@@ -54,6 +54,21 @@ class Songs {
   trainingAnimation5: string;
 
   @Column()
+  trainingPhrase1: string;
+
+  @Column()
+  trainingPhrase2: string;
+
+  @Column()
+  trainingPhrase3: string;
+
+  @Column()
+  trainingPhrase4: string;
+
+  @Column()
+  trainingPhrase5: string;
+
+  @Column()
   name: string;
 
   @Column()
