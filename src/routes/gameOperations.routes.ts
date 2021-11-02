@@ -82,7 +82,7 @@ gameOperationsRouter.patch(
     // Atualizando dados do usuário
     const { credit } = await UsersService.changeCredit({ creditsToChange: score, user: request.user });
 
-    return response.status(201).json({ credit, finalPontuation: score, bonus });
+    return response.status(201).json({ credit, finalPontuation: score - bonus, bonus });
   },
 );
 
