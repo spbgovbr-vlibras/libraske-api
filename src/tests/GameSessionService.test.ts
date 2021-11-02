@@ -411,7 +411,6 @@ describe('Game Session Service', () => {
 
     await GameSessionService.closeGameSession({ id: gameSession.id });
 
-
     try {
       await GameSessionService.closeGameSession({ id: gameSession.id });
     } catch (error: any) {
