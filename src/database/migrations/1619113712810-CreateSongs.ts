@@ -60,10 +60,6 @@ export class CreateSongs1619113712810 implements MigrationInterface {
             type: "varchar"
           },
           {
-            name: 'trainingAnimation5',
-            type: "varchar"
-          },
-          {
             name: 'trainingPhrase1',
             type: "varchar"
           },
@@ -77,10 +73,6 @@ export class CreateSongs1619113712810 implements MigrationInterface {
           },
           {
             name: 'trainingPhrase4',
-            type: "varchar"
-          },
-          {
-            name: 'trainingPhrase5',
             type: "varchar"
           },
           {

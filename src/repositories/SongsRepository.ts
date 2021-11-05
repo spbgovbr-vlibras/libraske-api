@@ -37,12 +37,10 @@ class SongsRepository implements ISongsRepository {
         'trainingAnimation2',
         'trainingAnimation3',
         'trainingAnimation4',
-        'trainingAnimation5',
         'trainingPhrase1',
         'trainingPhrase2',
         'trainingPhrase3',
         'trainingPhrase4',
-        'trainingPhrase5',
       ],
       order: { "id": "ASC", }
     });

@@ -22,12 +22,10 @@ interface ICreateSong {
   trainingAnimation2: string;
   trainingAnimation3: string;
   trainingAnimation4: string;
-  trainingAnimation5: string;
   trainingPhrase1: string;
   trainingPhrase2: string;
   trainingPhrase3: string;
   trainingPhrase4: string;
-  trainingPhrase5: string;
   thumbnail: string;
   subtitle: string;
   price: number;
@@ -62,12 +60,10 @@ class SongsService {
     trainingAnimation2,
     trainingAnimation3,
     trainingAnimation4,
-    trainingAnimation5,
     trainingPhrase1,
     trainingPhrase2,
     trainingPhrase3,
     trainingPhrase4,
-    trainingPhrase5,
     subtitle,
     price }: ICreateSong): Promise<Song> {
 
@@ -84,12 +80,10 @@ class SongsService {
       trainingAnimation2,
       trainingAnimation3,
       trainingAnimation4,
-      trainingAnimation5,
       trainingPhrase1,
       trainingPhrase2,
       trainingPhrase3,
       trainingPhrase4,
-      trainingPhrase5,
       subtitle,
       price
     });
@@ -124,7 +118,6 @@ class SongsService {
       trainingAnimation2: new URL(`songs/${song.id}/${song.trainingAnimation2}`, URI).href,
       trainingAnimation3: new URL(`songs/${song.id}/${song.trainingAnimation3}`, URI).href,
       trainingAnimation4: new URL(`songs/${song.id}/${song.trainingAnimation4}`, URI).href,
-      trainingAnimation5: new URL(`songs/${song.id}/${song.trainingAnimation5}`, URI).href,
     }));
     return songModified;
   }
