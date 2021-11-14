@@ -48,7 +48,7 @@ songsRouter.get('/', async (request, response) => {
       ...item,
       isUnlocked: unlockedSongIds.includes(item.id) || item.price === 0 // Se a música foi comprada ou o valor é 0
     }
-  });
+  }).sort((first, second) => first.price < second.price ? -1 : 1)
 
   return response.json({ Items: unlockedSongs });
 });

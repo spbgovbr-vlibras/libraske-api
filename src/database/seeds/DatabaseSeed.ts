@@ -1,3 +1,4 @@
+import Songs from '../../models/Song';
 import { createConnection } from 'typeorm';
 import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
 import environment from '../../environment/environment';
@@ -6,6 +7,7 @@ import PersonalizationColor from '../../models/PersonalizationColor';
 import PersonalizationGroup from '../../models/PersonalizationGroup';
 import User from '../../models/User';
 import '../index';
+import { songsSeed } from './SeedSongs';
 
 const options: PostgresConnectionOptions = {
   type: 'postgres',
@@ -19,6 +21,7 @@ const options: PostgresConnectionOptions = {
     Personalization,
     PersonalizationGroup,
     PersonalizationColor,
+    Songs
   ],
   synchronize: false,
   logging: environment.TYPEORM_LOGGING === 'true',
@@ -500,6 +503,7 @@ async function run() {
   await personalizationColorRepository.save({ personalization_group_id: 56, code: '#3D3D3D', isDefault: false });
   await personalizationColorRepository.save({ personalization_group_id: 56, code: '#191919', isDefault: false });
 
+  songsSeed();
 }
 
 run();
