@@ -1,5 +1,5 @@
 import chalk from 'chalk';
-import { ConnectionOptions, createConnection } from 'typeorm';
+import { ConnectionOptions, createConnection, getConnection } from 'typeorm';
 
 import environment from '../environment/environment';
 
@@ -30,3 +30,14 @@ export const startDatabase = async (): Promise<void> => {
 
   console.log(chalk.green(`Database started!`));
 };
+
+export const isConnectionAlive = async () => {
+  const connection = getConnection();
+  try {
+    await connection.query("SELECT 1");
+    return true;
+  } catch (err) {
+    console.log(err);
+    return false;
+  }
+}
