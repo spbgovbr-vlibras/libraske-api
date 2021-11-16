@@ -63,7 +63,10 @@ personalizationColor.post('/:id/activate', async (request, response) => {
   const boughtPersonalization = await BoughtPersonalizationService.getAvailablePersonalization(user.id);
   const boughtPersonalizationByPersonalizationId = boughtPersonalization[`${personalization.id}`]
 
-  if (boughtPersonalizationByPersonalizationId == undefined || (personalization.id != PELE && personalization.id != OLHOS)) {
+  console.log(boughtPersonalizationByPersonalizationId);
+
+
+  if (boughtPersonalizationByPersonalizationId == undefined && (personalization.id != PELE && personalization.id != OLHOS)) {
     throw new AppError("Personalization not purchased.", 400);
   }
   await UsersService.activateColor(user.id, personalization.name, personalizationColor.code);
