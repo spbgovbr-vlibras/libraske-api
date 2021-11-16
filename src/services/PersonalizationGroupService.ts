@@ -15,14 +15,13 @@ class PersonalizationGroupService {
     return group;
   }
 
-  async findAllByPersonalizationId(personalizationId: number) {
+  async findAllGroupsByPersonalizationId(personalizationId: number) {
     return await PersonalizationGroupRepository.findByPersonalizationId(personalizationId);
   }
 
   async findAll() {
     return await PersonalizationGroupRepository.findAll();
   }
-
 }
 
 export default new PersonalizationGroupService();

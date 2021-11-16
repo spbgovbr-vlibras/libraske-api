@@ -23,6 +23,10 @@ class PersonalizationColorService {
     return await PersonalizationColorRepository.findAll();
   }
 
+  async findAllColorsByPersonalization(personalizationId: number) {
+    return await PersonalizationColorRepository.findAllColorsByPersonalization(personalizationId);
+  }
+
 }
 
 export default new PersonalizationColorService();

@@ -39,6 +39,15 @@ class PersonalizationColorRepository implements IPersonalizationColorRepository 
     return await this.getInstance().query(query);
   }
 
+  async findAllColorsByPersonalization(personalizationId: number) {
+    const query = `
+      select pc.id, pc.code, pc.personalization_group_id, pc."isDefault" from personalization_color pc
+      inner join personalization_group pg on pc.personalization_group_id = pg.id
+      where pg.personalization_id = ${personalizationId}
+    `
+    return await this.getInstance().query(query);
+  }
+
   getInstance(): Repository<PersonalizationColor> {
     return getRepository(PersonalizationColor);
   }
