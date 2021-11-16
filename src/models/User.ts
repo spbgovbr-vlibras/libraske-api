@@ -37,6 +37,21 @@ class User {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @Column({ nullable: true, type: 'text' })
+  pele: string | null;
+
+  @Column({ nullable: true, type: 'text' })
+  olhos: string | null;
+
+  @Column({ nullable: true, type: 'text' })
+  cabelo: string | null;
+
+  @Column({ nullable: true, type: 'text' })
+  camisa: string | null;
+
+  @Column({ nullable: true, type: 'text' })
+  calça: string | null;
 }
 
 export default User;

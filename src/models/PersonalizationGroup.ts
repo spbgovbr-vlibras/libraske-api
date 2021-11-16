@@ -4,6 +4,7 @@ import {
   Column,
   OneToMany,
   JoinColumn,
+  ManyToOne,
 } from 'typeorm';
 import Personalization from './Personalization';
 
@@ -19,7 +20,7 @@ class PersonalizationGroup {
   @Column()
   personalization_id: number;
 
-  @OneToMany(() => Personalization, personalizationGroup => PersonalizationGroup)
+  @ManyToOne(() => Personalization, personalization => personalization.personalizationGroup)
   @JoinColumn({ name: 'personalization_id' })
   personalization: Personalization;
 

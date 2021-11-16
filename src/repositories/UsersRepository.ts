@@ -15,6 +15,15 @@ class UsersRepository implements IUsersRepository {
     return await getRepository(User).findOne({ cpf });
   }
 
+  async activateColor(userId: number, columnName: string, colorCode: string) {
+    const query = `
+    update users
+    set ${columnName} = '${colorCode}'
+    where users.id = ${userId}
+   `
+    await this.getInstance().query(query);
+  }
+
   getInstance(): Repository<User> {
     return getRepository(User);
   }

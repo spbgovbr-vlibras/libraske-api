@@ -42,9 +42,14 @@ describe('Personalization Color Service', () => {
       profilePhoto: null,
       refreshToken: null,
       created_at: new Date(),
-      updated_at: new Date()
+      updated_at: new Date(),
+      cabelo: null,
+      pele: null,
+      olhos: null,
+      calça: null,
+      camisa: null
     }
-    const personalization: Personalization = { id: 1, name: "Teste", description: "Teste", user_id: 1, user };
+    const personalization: Personalization = { id: 1, name: "Teste", description: "Teste", user_id: 1, user, personalizationGroup: [] };
     const personalizationGroup: PersonalizationGroup = { id: 1, name: "Teste", personalization_id: 1, price: 500, personalization }
     const data: PersonalizationColor = { id: 1, code: "#123123", isDefault: false, personalization_group_id: 1, personalizationGroup };
     const data1: PersonalizationColor = { id: 2, code: "#321321", isDefault: false, personalization_group_id: 1, personalizationGroup };

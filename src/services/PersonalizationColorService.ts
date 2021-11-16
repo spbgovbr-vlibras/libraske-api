@@ -6,10 +6,10 @@ class PersonalizationColorService {
 
   async findOneById(id: number): Promise<PersonalizationColor> {
 
-    const group = await PersonalizationColorRepository.findOneById(id);
+    const group = await PersonalizationColorRepository.findColorById(id);
 
     if (!group) {
-      throw new AppError('Personalization group not found', 404);
+      throw new AppError('Personalization Color not found', 404);
     }
 
     return group;

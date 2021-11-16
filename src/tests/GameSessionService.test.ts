@@ -23,7 +23,12 @@ describe('Game Session Service', () => {
       credit,
       created_at: new Date(),
       updated_at: new Date(),
-      isGuest: false
+      isGuest: false,
+      cabelo: null,
+      pele: null,
+      olhos: null,
+      calça: null,
+      camisa: null
     }
   }
 

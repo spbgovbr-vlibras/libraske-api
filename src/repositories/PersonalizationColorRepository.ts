@@ -16,6 +16,10 @@ interface IPersonalizationColorRepository {
 
 class PersonalizationColorRepository implements IPersonalizationColorRepository {
 
+  async findColorById(id: number): Promise<PersonalizationColor | undefined> {
+    return await this.getInstance().findOne(id);
+  }
+
   async findOneById(id: number): Promise<PersonalizationColor | undefined> {
     return await this.getInstance().findOne({ where: { personalizationGroup: id } });
   }
