@@ -11,7 +11,6 @@ import loaders from './loaders';
 const PORT = environment?.PORT || 3333;
 
 // TODO Ajustar URL do Rabbit
-// TODO Checkar antes de fazer os seeds
 
 async function startServer() {
   const app = express();

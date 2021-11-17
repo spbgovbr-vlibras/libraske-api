@@ -40,29 +40,22 @@
 
 `npm install -g yarn`  
 
-#### 4 - Instalar dependências   
+#### 4 - Install dependencies
 `yarn` 
 
-#### 5 - Instalar [Postgres](https://computingforgeeks.com/installing-postgresql-database-server-on-ubuntu/) 
+
+#### 5 - PostgreSQL with Docker
 
 ```
-  sudo apt -y upgrade
-  sudo apt install postgresql postgresql-client
-  systemctl status postgresql.service 
-
-  sudo su - postgres
-  psql -c "alter user postgres with password 'password'"
-  createdb libraske
+docker run -d --name libraske-postgres -e POSTGRES_PASSWORD=postgres -p 5432:5432  postgres
+docker start libraske-postgres
 ```
 
-#### 6 - Instalar [RabbitMQ](https://www.vultr.com/docs/install-rabbitmq-server-ubuntu-20-04-lts)
+#### 6 - RabbitMQ with Docker
+
 ```
-sudo apt-get install wget apt-transport-https -y
-wget -O- https://www.rabbitmq.com/rabbitmq-release-signing-key.asc | sudo apt-key add -
-echo "deb https://dl.bintray.com/rabbitmq-erlang/debian focal erlang-22.x" | sudo tee /etc/apt/sources.list.d/rabbitmq.list
-sudo apt-get install rabbitmq-server -y --fix-missing
-sudo systemctl status rabbitmq-server
-sudo rabbitmq-plugins enable rabbitmq_management
+docker run -d -p 15672:15672 -p 5672:5672 --name rabbitmq rabbitmq:3-management
+docker start rabbitmq
 ```
 
 #### 7 - Execute migrations
