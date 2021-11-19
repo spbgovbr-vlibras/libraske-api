@@ -287,7 +287,7 @@ async function run() {
   await personalizationColorRepository.save({ personalization_group_id: 21, code: '#FF434C', isDefault: false });
   await personalizationColorRepository.save({ personalization_group_id: 21, code: '#FF1E1E', isDefault: true });
   await personalizationColorRepository.save({ personalization_group_id: 21, code: '#B10000', isDefault: false });
-  await personalizationColorRepository.save({ personalization_group_id: 21, code: '#52500', isDefault: false });
+  await personalizationColorRepository.save({ personalization_group_id: 21, code: '#550000', isDefault: false });
 
   await personalizationColorRepository.save({ personalization_group_id: 22, code: '#FFD6C3', isDefault: false });
   await personalizationColorRepository.save({ personalization_group_id: 22, code: '#FF7F43', isDefault: false });
@@ -333,7 +333,7 @@ async function run() {
 
   await personalizationColorRepository.save({ personalization_group_id: 29, code: '#CDA6E7', isDefault: false });
   await personalizationColorRepository.save({ personalization_group_id: 29, code: '#AF40F8', isDefault: false });
-  await personalizationColorRepository.save({ personalization_group_id: 29, code: '#925F7', isDefault: true });
+  await personalizationColorRepository.save({ personalization_group_id: 29, code: '#9500F7', isDefault: true });
   await personalizationColorRepository.save({ personalization_group_id: 29, code: '#7000AC', isDefault: false });
   await personalizationColorRepository.save({ personalization_group_id: 29, code: '#360052', isDefault: false });
 
@@ -345,7 +345,7 @@ async function run() {
 
   await personalizationColorRepository.save({ personalization_group_id: 31, code: '#F6BACD', isDefault: false });
   await personalizationColorRepository.save({ personalization_group_id: 31, code: '#F63F79', isDefault: false });
-  await personalizationColorRepository.save({ personalization_group_id: 31, code: '#F254D', isDefault: true });
+  await personalizationColorRepository.save({ personalization_group_id: 31, code: '#F5004D', isDefault: true });
   await personalizationColorRepository.save({ personalization_group_id: 31, code: '#AA002D', isDefault: false });
   await personalizationColorRepository.save({ personalization_group_id: 31, code: '#520016', isDefault: false });
 
@@ -361,7 +361,7 @@ async function run() {
   await personalizationColorRepository.save({ personalization_group_id: 33, code: '#FF434C', isDefault: false });
   await personalizationColorRepository.save({ personalization_group_id: 33, code: '#FF1E1E', isDefault: true });
   await personalizationColorRepository.save({ personalization_group_id: 33, code: '#B10000', isDefault: false });
-  await personalizationColorRepository.save({ personalization_group_id: 33, code: '#52500', isDefault: false });
+  await personalizationColorRepository.save({ personalization_group_id: 33, code: '#550000', isDefault: false });
 
   await personalizationColorRepository.save({ personalization_group_id: 34, code: '#FFD6C3', isDefault: false });
   await personalizationColorRepository.save({ personalization_group_id: 34, code: '#FF7F43', isDefault: false });
@@ -407,7 +407,7 @@ async function run() {
 
   await personalizationColorRepository.save({ personalization_group_id: 41, code: '#CDA6E7', isDefault: false });
   await personalizationColorRepository.save({ personalization_group_id: 41, code: '#AF41F8', isDefault: false });
-  await personalizationColorRepository.save({ personalization_group_id: 41, code: '#925F7', isDefault: true });
+  await personalizationColorRepository.save({ personalization_group_id: 41, code: '#9500F7', isDefault: true });
   await personalizationColorRepository.save({ personalization_group_id: 41, code: '#7000AC', isDefault: false });
   await personalizationColorRepository.save({ personalization_group_id: 41, code: '#360052', isDefault: false });
 
@@ -419,7 +419,7 @@ async function run() {
 
   await personalizationColorRepository.save({ personalization_group_id: 43, code: '#F6BACD', isDefault: false });
   await personalizationColorRepository.save({ personalization_group_id: 43, code: '#F63F79', isDefault: false });
-  await personalizationColorRepository.save({ personalization_group_id: 43, code: '#F254D', isDefault: true });
+  await personalizationColorRepository.save({ personalization_group_id: 43, code: '#F5004D', isDefault: true });
   await personalizationColorRepository.save({ personalization_group_id: 43, code: '#AA002D', isDefault: false });
   await personalizationColorRepository.save({ personalization_group_id: 43, code: '#520016', isDefault: false });
 
@@ -435,7 +435,7 @@ async function run() {
   await personalizationColorRepository.save({ personalization_group_id: 45, code: '#FF434C', isDefault: false });
   await personalizationColorRepository.save({ personalization_group_id: 45, code: '#FF1E1E', isDefault: true });
   await personalizationColorRepository.save({ personalization_group_id: 45, code: '#B10000', isDefault: false });
-  await personalizationColorRepository.save({ personalization_group_id: 45, code: '#52500', isDefault: false });
+  await personalizationColorRepository.save({ personalization_group_id: 45, code: '#550000', isDefault: false });
 
   await personalizationColorRepository.save({ personalization_group_id: 46, code: '#FFD6C3', isDefault: false });
   await personalizationColorRepository.save({ personalization_group_id: 46, code: '#FF7F43', isDefault: false });
@@ -481,7 +481,7 @@ async function run() {
 
   await personalizationColorRepository.save({ personalization_group_id: 53, code: '#CDA6E7', isDefault: false });
   await personalizationColorRepository.save({ personalization_group_id: 53, code: '#AF40F8', isDefault: false });
-  await personalizationColorRepository.save({ personalization_group_id: 53, code: '#925F7', isDefault: true });
+  await personalizationColorRepository.save({ personalization_group_id: 53, code: '#9500F7', isDefault: true });
   await personalizationColorRepository.save({ personalization_group_id: 53, code: '#7000AC', isDefault: false });
   await personalizationColorRepository.save({ personalization_group_id: 53, code: '#360052', isDefault: false });
 
@@ -493,7 +493,7 @@ async function run() {
 
   await personalizationColorRepository.save({ personalization_group_id: 55, code: '#F6BACD', isDefault: false });
   await personalizationColorRepository.save({ personalization_group_id: 55, code: '#F63F79', isDefault: false });
-  await personalizationColorRepository.save({ personalization_group_id: 55, code: '#F254D', isDefault: true });
+  await personalizationColorRepository.save({ personalization_group_id: 55, code: '#F5004D', isDefault: true });
   await personalizationColorRepository.save({ personalization_group_id: 55, code: '#AA002D', isDefault: false });
   await personalizationColorRepository.save({ personalization_group_id: 55, code: '#520016', isDefault: false });
 
