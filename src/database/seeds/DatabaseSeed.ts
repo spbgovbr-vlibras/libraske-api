@@ -91,7 +91,7 @@ async function run() {
 
   await personalizationRepository.save({
     id: 5,
-    name: 'calça',
+    name: 'calca',
     user_id: 1,
     description: '',
   });
@@ -144,18 +144,18 @@ async function run() {
   await personalizationGroupRepository.save({ name: 'Grupo Camisa 11', personalization_id: 4, price: 25 });
   await personalizationGroupRepository.save({ name: 'Grupo Camisa 12', personalization_id: 4, price: 25 });
 
-  await personalizationGroupRepository.save({ name: 'Grupo Calça 1', personalization_id: 5, price: 25 });
-  await personalizationGroupRepository.save({ name: 'Grupo Calça 2', personalization_id: 5, price: 25 });
-  await personalizationGroupRepository.save({ name: 'Grupo Calça 3', personalization_id: 5, price: 25 });
-  await personalizationGroupRepository.save({ name: 'Grupo Calça 4', personalization_id: 5, price: 25 });
-  await personalizationGroupRepository.save({ name: 'Grupo Calça 5', personalization_id: 5, price: 25 });
-  await personalizationGroupRepository.save({ name: 'Grupo Calça 6', personalization_id: 5, price: 25 });
-  await personalizationGroupRepository.save({ name: 'Grupo Calça 7', personalization_id: 5, price: 25 });
-  await personalizationGroupRepository.save({ name: 'Grupo Calça 8', personalization_id: 5, price: 25 });
-  await personalizationGroupRepository.save({ name: 'Grupo Calça 9', personalization_id: 5, price: 25 });
-  await personalizationGroupRepository.save({ name: 'Grupo Calça 10', personalization_id: 5, price: 25 });
-  await personalizationGroupRepository.save({ name: 'Grupo Calça 11', personalization_id: 5, price: 25 });
-  await personalizationGroupRepository.save({ name: 'Grupo Calça 12', personalization_id: 5, price: 25 });
+  await personalizationGroupRepository.save({ name: 'Grupo Calca 1', personalization_id: 5, price: 25 });
+  await personalizationGroupRepository.save({ name: 'Grupo Calca 2', personalization_id: 5, price: 25 });
+  await personalizationGroupRepository.save({ name: 'Grupo Calca 3', personalization_id: 5, price: 25 });
+  await personalizationGroupRepository.save({ name: 'Grupo Calca 4', personalization_id: 5, price: 25 });
+  await personalizationGroupRepository.save({ name: 'Grupo Calca 5', personalization_id: 5, price: 25 });
+  await personalizationGroupRepository.save({ name: 'Grupo Calca 6', personalization_id: 5, price: 25 });
+  await personalizationGroupRepository.save({ name: 'Grupo Calca 7', personalization_id: 5, price: 25 });
+  await personalizationGroupRepository.save({ name: 'Grupo Calca 8', personalization_id: 5, price: 25 });
+  await personalizationGroupRepository.save({ name: 'Grupo Calca 9', personalization_id: 5, price: 25 });
+  await personalizationGroupRepository.save({ name: 'Grupo Calca 10', personalization_id: 5, price: 25 });
+  await personalizationGroupRepository.save({ name: 'Grupo Calca 11', personalization_id: 5, price: 25 });
+  await personalizationGroupRepository.save({ name: 'Grupo Calca 12', personalization_id: 5, price: 25 });
 
 
   // Cores da Pele

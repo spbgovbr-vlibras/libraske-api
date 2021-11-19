@@ -27,7 +27,7 @@ describe('Game Session Service', () => {
       cabelo: null,
       pele: null,
       olhos: null,
-      calça: null,
+      calca: null,
       camisa: null
     }
   }

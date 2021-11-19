@@ -46,7 +46,7 @@ describe('Personalization Color Service', () => {
       cabelo: null,
       pele: null,
       olhos: null,
-      calça: null,
+      calca: null,
       camisa: null
     }
     const personalization: Personalization = { id: 1, name: "Teste", description: "Teste", user_id: 1, user, personalizationGroup: [] };

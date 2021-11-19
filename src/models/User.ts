@@ -51,7 +51,7 @@ class User {
   camisa: string | null;
 
   @Column({ nullable: true, type: 'text' })
-  calça: string | null;
+  calca: string | null;
 }
 
 export default User;

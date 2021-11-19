@@ -41,7 +41,7 @@ export class AddColorConfigurationToUser1637097398372 implements MigrationInterf
       }))
     await queryRunner.addColumn('users',
       new TableColumn({
-        name: "calça",
+        name: "calca",
         type: "varchar",
         default: null,
         isNullable: true
@@ -53,7 +53,7 @@ export class AddColorConfigurationToUser1637097398372 implements MigrationInterf
     await queryRunner.dropColumn('users', 'olhos');
     await queryRunner.dropColumn('users', 'cabelo');
     await queryRunner.dropColumn('users', 'camisa');
-    await queryRunner.dropColumn('users', 'calça');
+    await queryRunner.dropColumn('users', 'calca');
   }
 
 }
