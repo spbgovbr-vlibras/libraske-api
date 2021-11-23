@@ -182,6 +182,28 @@ export const songsSeed = async () => {
     },
     {
       "id": 8,
+      "singers": "Gilberto Gil",
+      "thumbnail": "711a2b8599e360a1ea61-thumbnail.9_thumb_oslodum.png",
+      "animation": "79db1d400d99a0c27e45-animation.OSLODUM",
+      "song": "121d45e9c2bb821ba03d-song.9_audio_Oslodum.mp3",
+      "trainingAnimation1": "91a50502a3a9f4034534-trainingAnimation1.EU_VOU_PRA_OSLO",
+      "trainingAnimation2": "da3121d04804faaa45a7-trainingAnimation2.PRA_SAIR_NO_OSLODUM",
+      "trainingAnimation3": "83cd517346216bc58376-trainingAnimation3.O_BLOCO_ASTRO",
+      "trainingAnimation4": "7621d3d63431b5d89fd1-trainingAnimation4.DA_TERRA_DO_BACALHAU",
+      "trainingPhrase1": "Eu vou pra Oslo",
+      "trainingPhrase2": "Pra sair no Oslodum",
+      "trainingPhrase3": "O bloco astro",
+      "trainingPhrase4": "Da terra do bacalhau",
+      "name": "Oslodum",
+      "description": "Música composta e interpretada pelo cantor brasileiro Gilberto Gil. Foi lançada no ano de 1988, como parte do álbum “O Sol de Oslo”.",
+      "subtitle": "c16e79768d610145a242-subtitle.9_letra_Oslodum.txt",
+      "price": 300,
+      "created_at": new Date(),
+      "updated_at": new Date(),
+      "user_id": 1
+    },
+    {
+      "id": 9,
       "user_id": 1,
       "name": "Maria Bonita",
       "description": "Marchinha de carnaval composta por Jorge de Altinho e interpretada por Diassis Martins.",
@@ -203,7 +225,7 @@ export const songsSeed = async () => {
       "price": 350
     },
     {
-      "id": 9,
+      "id": 10,
       "user_id": 1,
       "name": "Hino Nacional",
       "description": "A letra foi escrita por Joaquim Osório Duque Estrada e a música elaborada por Francisco Manuel da Silva. O Hino Nacional Brasileiro foi criado em 1831 e é um dos símbolos oficiais da República Federativa do Brasil.",
@@ -224,6 +246,7 @@ export const songsSeed = async () => {
       "updated_at": new Date(),
       "price": 500
     }
+
   ]
 
   const songsRepository = getConnection().getRepository(Songs);
