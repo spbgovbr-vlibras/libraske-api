@@ -63,6 +63,12 @@ class SenderMessage {
       console.log(error);
     }
   }
+
+  async getNumberOfConsumers() {
+    const channel = Rabbitmq.getSenderChannel;
+    const { consumerCount } = await channel.assertQueue(QUEUE, assertQueueOptions);
+    return consumerCount;
+  }
 }
 
 export default SenderMessage;
