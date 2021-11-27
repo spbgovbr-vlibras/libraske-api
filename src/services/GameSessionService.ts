@@ -85,9 +85,11 @@ class GameSessionService {
     const senderMessageService = new SenderMessage();
     const numberOfConnectedProcessors = await senderMessageService.getNumberOfConsumers();
 
-    if (numberOfConnectedProcessors == 0) {
-      throw new AppError("MediaPipe is not connected", 503);
-    }
+    console.log({ numberOfConnectedProcessors });
+
+    // if (numberOfConnectedProcessors == 0) {
+    //   throw new AppError("MediaPipe is not connected", 503);
+    // }
 
     const song = await this.songsService.findById({ id: idSong });
     const user = await this.usersService.findUserByCpfOrId({ id: idUser });
