@@ -68,6 +68,16 @@ docker start rabbitmq
 
 <hr>
 
+#### 9 - Unzip songs folder
+
+You need to unzip the `tmp.zip` file into some folder. After unzipping, update the following environment variables to the location where it was unzipped as shown below:
+
+```
+ROOT_STORAGE='/some-folder/tmp'
+SONG_STORAGE='/some-folder/tmp/songs'
+GAME_IMAGES_STORAGE='/some-folder/tmp/images'
+```
+
 ## Running API
 
 `yarn dev`
