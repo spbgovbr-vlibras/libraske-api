@@ -3,6 +3,8 @@
 node_modules/
 build/
 temp/
+pgdata/
+dist/
 
 tmp/*
 tmp/img/*
@@ -11,3 +13,8 @@ tmp/song/*
 !tmp/.gitkeep
 !tmp/img/.gitkeep
 !tmp/song/.gitkeep
+
+*.log
+*.lock
+yarn.lock
+coverage/

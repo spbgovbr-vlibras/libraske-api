@@ -10,11 +10,12 @@ export class CreateForeignKeyUserToGameSession1619118577337
         columnNames: ['user_id'],
         referencedTableName: 'users',
         referencedColumnNames: ['id'],
+        onDelete: "CASCADE"
       }),
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropForeignKey('users', 'UserGameSessions');
+    await queryRunner.dropForeignKey('game_sessions', 'UserGameSessions');
   }
 }

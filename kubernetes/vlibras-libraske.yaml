@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+#kubectl expose deployment vlibras-central-dictionary --port=80 --type=ClusterIP
+kind: Deployment
+metadata:
+  name: vlibras-libraske
+  labels:
+    app: vlibras-libraske
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vlibras-libraske
+  template:
+    metadata:
+      labels:
+        app: vlibras-libraske
+    spec:
+      containers:
+        - image: vlibras/vlibras-libraske-api:0.0.1
+          name: libraske-api
+          env:
+            - name: Client_id
+              value: "libraske-dth.vlibras.gov.br"
+            - name: SEcret
+              value: "AKf-eU_2q59i8mwA7MRVV3t1I0AJPILO7ypI9ELwjMzxkX3KavZ7LsPkQpY76YLQk40i3nyTR4tEn689ZYjBE3g"
+            - name: PORT
+              value: "80"
+            - name: LOGIN_UNICO_BASE_URL
+              value: "https://sso.staging.acesso.gov.br"
+            - name: LOGIN_UNICO_CLIENT
+              value: "libraske-dth.vlibras.gov.br"
+            - name: LOGIN_UNICO_SECRET
+              value: "AKf-eU_2q59i8mwA7MRVV3t1I0AJPILO7ypI9ELwjMzxkX3KavZ7LsPkQpY76YLQk40i3nyTR4tEn689ZYjBE3g"
+            - name: ACCESS_SECRET
+              value: "0.s1441t9vw48"
+            - name: REFRESH_SECRET
+              value: "0.l3356rqi24"
+            - name: ACCESS_TOKEN_EXPIRATION
+              value: "1d"
+            - name: REFRESH_TOKEN_EXPIRATION
+              value: "1d"
+            - name: POSTGRES_DATABASE
+              value: "postgres"
+            - name: POSTGRES_USER
+              value: "postgres"
+            - name: POSTGRES_PASSWORD
+              value: "3WVigQGS8W"
+            - name: RABBITMQ
+              value: "amqp://vlibras:vlibraschangeme@vlibras-rabbitmqha-discovery"
+            - name: RABBITMQ_USER
+              value: "vlibras"
+            - name: RABBITMQ_PASSWORD
+              value: "vlibraschangeme"              
+            - name: RABBITMQ_SENDER
+              value: "sender"
+            - name: RABBITMQ_RECEIVER
+              value: "receiver"
+            - name: RABBITMQ_QUEUE_SENDER
+              value: "frame_sender"
+            - name: RABBITMQ_QUEUE_RECEIVER
+              value: "frame_receiver"
+            - name: BONUS_VALUE
+              value: "10"
+          volumeMounts:
+            - name: libraske-config
+              mountPath: /libraske/src/environment/.env.dev
+              subPath: .env.dev
+      volumes:
+        - configMap:
+            items:
+            - key: .env.dev
+              path: .env.dev
+            name: libraske-config
+          name: libraske-config

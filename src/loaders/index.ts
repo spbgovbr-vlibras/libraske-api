@@ -1,13 +1,15 @@
 import express from 'express';
-
+import { startDatabase } from '../database';
 import expressLoader from './express';
-// // import '../database';
+import Rabbitmq from './Rabbitmq';
+
 
 export default async ({
   expressApp,
 }: {
   expressApp: express.Application;
 }): Promise<void> => {
+  await startDatabase();
+  await Rabbitmq.createRabbitDefaultUsage();
   await expressLoader({ app: expressApp });
-  console.log('Express Initialized');
 };

@@ -5,76 +5,107 @@
 [![Build Status][travis-image]][travis-url]
 [![Downloads Stats][npm-downloads]][npm-url]
 
-One to two paragraph statement about your product and what it does.
-
 ![vlibras-image]
+
+<hr>
+
+## Table of Contents
+
+- [Installation](#installation)
+- [Running API](#running-api)
+- [Running Tests](#running-tests)
+- [Release History](#release-history)
+- [Contributors](#contributors)
+- [License](#license)
+
+
+<hr>
 
 ## Architecture Libraskê
 
 ![](/doc/img/model.png)
 
+<hr>
+
+## Installation 
+
+#### 1 - Clone the repository  
+`git clone https://gitlab.lavid.ufpb.br/vlibras2019/librask-2021/libraske-api.git`
+
+#### 2 - Install [NodeJs](https://nodejs.org/en/)  
+
+#### Install [Yarn](https://yarnpkg.com/)
+
+* 
+
+`npm install -g yarn`  
+
+#### 4 - Install dependencies
+`yarn` 
 
 
+#### 5 - PostgreSQL with Docker
 
-## Installation
-
-OS X & Linux:
-
-```sh
-npm install my-crazy-module --save
+```
+docker run -d --name libraske-postgres -e POSTGRES_PASSWORD=postgres -p 5432:5432  postgres
+docker start libraske-postgres
 ```
 
-Windows:
+#### 6 - RabbitMQ with Docker
 
-```sh
-edit autoexec.bat
+```
+docker run -d -p 15672:15672 -p 5672:5672 --name rabbitmq rabbitmq:3-management
+docker start rabbitmq
 ```
 
-## Usage example
+#### 7 - Execute migrations
 
-A few motivating and useful examples of how your product can be used. Spice this up with code blocks and potentially more screenshots.
+`yarn typeorm migration:run`
 
-_For more examples and usage, please refer to the [Wiki][wiki]._
+#### 8 - Execute database seed
 
-## Development setup
+`yarn seed`
 
-Describe how to install all development dependencies and how to run an automated test-suite of some kind. Potentially do this for multiple platforms.
+<hr>
+
+#### 9 - Unzip songs folder
+
+You need to unzip the `tmp.zip` file into some folder. After unzipping, update the following environment variables to the location where it was unzipped as shown below:
+
+```
+ROOT_STORAGE='/some-folder/tmp'
+SONG_STORAGE='/some-folder/tmp/songs'
+GAME_IMAGES_STORAGE='/some-folder/tmp/images'
+```
+
+## Running API
+
+`yarn dev`
+
+<hr>
+
+## Running Tests
 
 ```sh
-make install
-npm test
+yarn test --silent
 ```
+
+<hr>
 
 ## Release History
 
-* 0.2.1
-    * CHANGE: Update docs (module code remains unchanged)
-* 0.2.0
-    * CHANGE: Remove `setDefaultXYZ()`
-    * ADD: Add `init()`
-* 0.1.1
-    * FIX: Crash when calling `baz()` (Thanks @GenerousContributorName!)
-* 0.1.0
-    * The first proper release
-    * CHANGE: Rename `foo()` to `bar()`
-* 0.0.1
-    * Work in progress
+0.0.0 - Initial version
 
-## Meta
+<hr>
 
-Your Name – [@YourTwitter](https://twitter.com/dbader_org) – YourEmail@example.com
+## Contributors
 
-Distributed under the XYZ license. See ``LICENSE`` for more information.
+João Vinícius – joaovinicius@lavid.ufpb.br
 
-[https://github.com/yourname/github-link](https://github.com/dbader/)
+<hr>
 
-## Contributing
+## License
 
-1. Fork it (<https://github.com/yourname/yourproject/fork>)
-2. Create your feature branch (`git checkout -b feature/fooBar`)
-3. Commit your changes (`git commit -am 'Add some fooBar'`)
-4. Push to the branch (`git push origin feature/fooBar`)
-5. Create a new Pull Request
 
 <!-- Markdown link & img dfn's -->
 [npm-image]: https://img.shields.io/npm/v/datadog-metrics.svg?style=flat-square

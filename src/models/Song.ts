@@ -6,18 +6,20 @@ import {
   UpdateDateColumn,
   JoinColumn,
   ManyToOne,
+  PrimaryColumn,
 } from 'typeorm';
 
 import User from './User';
 
-@Entity('game_session')
-class Song {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+@Entity('songs')
+class Songs {
+
+  @PrimaryColumn()
+  id: number;
 
   // User relationship
   @Column()
-  user_id: string;
+  user_id: number;
 
   @ManyToOne(() => User)
   @JoinColumn({ name: 'user_id' })
@@ -25,10 +27,40 @@ class Song {
   // end
 
   @Column()
-  signers: string;
+  singers: string;
 
   @Column()
   thumbnail: string;
+
+  @Column()
+  animation: string;
+
+  @Column()
+  song: string;
+
+  @Column()
+  trainingAnimation1: string;
+
+  @Column()
+  trainingAnimation2: string;
+
+  @Column()
+  trainingAnimation3: string;
+
+  @Column()
+  trainingAnimation4: string;
+
+  @Column()
+  trainingPhrase1: string;
+
+  @Column()
+  trainingPhrase2: string;
+
+  @Column()
+  trainingPhrase3: string;
+
+  @Column()
+  trainingPhrase4: string;
 
   @Column()
   name: string;
@@ -44,6 +76,9 @@ class Song {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @Column()
+  price: number;
 }
 
-export default Song;
+export default Songs;

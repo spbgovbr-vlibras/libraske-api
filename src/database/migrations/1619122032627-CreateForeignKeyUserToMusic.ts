@@ -4,17 +4,18 @@ export class CreateForeignKeyUserToMusic1619122032627
   implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createForeignKey(
-      'game_sessions',
+      'songs',
       new TableForeignKey({
-        name: 'UserMusic',
+        name: 'UserSong',
         columnNames: ['user_id'],
         referencedTableName: 'users',
         referencedColumnNames: ['id'],
+        onDelete: "CASCADE"
       }),
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropForeignKey('users', 'UserGameSessions');
+    await queryRunner.dropForeignKey('songs', 'UserSong');
   }
 }

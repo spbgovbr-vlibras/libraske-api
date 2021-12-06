@@ -6,36 +6,48 @@ import {
   UpdateDateColumn,
   JoinColumn,
   ManyToOne,
+  OneToOne,
 } from 'typeorm';
+import Scores from './Scores';
 
-import Song from './Song';
+import Music from './Song';
 import User from './User';
 
-@Entity('game_session')
+@Entity('game_sessions')
 class GameSession {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn('increment')
+  id: number;
 
   // Music relationship
   @Column()
-  song_id: string;
+  song_id: number;
 
-  @ManyToOne(() => Song)
+  @ManyToOne(() => Music)
   @JoinColumn({ name: 'song_id' })
-  song: Song;
+  song: Music;
   // end
+
+  @Column()
+  isClosed: boolean;
 
   // User relationship
   @Column()
-  user_id: string;
+  user_id: number;
 
   @ManyToOne(() => User)
   @JoinColumn({ name: 'user_id' })
   user: User;
   // end
 
-  @Column()
-  pontuation: number;
+  @Column('int', { array: true })
+  pontuation: number[];
+
+
+  //Score relationship
+
+  @OneToOne(() => Scores, gameSession => GameSession)
+  score: Scores;
+
 
   @CreateDateColumn()
   created_at: Date;
