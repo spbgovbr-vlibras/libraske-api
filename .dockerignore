@@ -1,3 +1,5 @@
+Dockerfile
+kubernetes/
 node_modules
 .vscode
 .git
