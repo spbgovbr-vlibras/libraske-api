@@ -86,7 +86,6 @@
     "cors": "^2.8.5",
     "cpf": "^2.0.1",
     "cpf-cnpj-validator": "^1.0.3",
-    "dicer": "^0.3.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-async-errors": "^3.1.1",
@@ -99,7 +98,7 @@
     "lodash": "^4.17.21",
     "minimist": "^1.2.5",
     "morgan": "^1.10.0",
-    "multer": "^1.4.2",
+    "multer": "2.0.0",
     "pg": "^8.6.0",
     "qs": "^6.10.1",
     "reflect-metadata": "^0.1.13",
@@ -107,7 +106,7 @@
     "sqlite3": "^5.0.2",
     "sucrase": "^3.20.1",
     "ts-jest": "^27.0.3",
-    "typeorm": "^0.2.32",
+    "typeorm": "^0.3.24",
     "uuid": "^8.3.2",
     "xml2js": "0.5.0"
   },
@@ -118,6 +117,6 @@
   },
   "resolutions": {
     "**/xml2js": "0.5.0",
-    "**/dicer": "^0.3.1"
+    "@types/express-serve-static-core": "^4.19.6"
   }
 }
