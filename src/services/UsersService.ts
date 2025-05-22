@@ -50,6 +50,10 @@ class UsersService {
 
   }
 
+  public async activateColor(userId: number, columnName: string, colorCode: string) {
+    await UserRepository.activateColor(userId, columnName, colorCode);
+  }
+
   public async findUserByCpfOrId({ id, cpf }: IFindUserCpfOrId): Promise<User> {
 
     let user;

@@ -6,10 +6,6 @@ declare namespace Express {
     destination: string;
     multerErrors: MulterValidationError[];
 
-    // song: {
-    //   id: string;
-    //   destination: string;
-    // };
     files: {
       thumbnail: [
         {
@@ -47,11 +43,6 @@ declare namespace Express {
         },
       ];
       trainingAnimation4: [
-        {
-          filename: string;
-        },
-      ];
-      trainingAnimation5: [
         {
           filename: string;
         },

@@ -23,6 +23,15 @@ class UsersRepository implements IUsersRepository {
     return (await this.ormRepository.findOne({ where: { cpf } })) ?? undefined;
   }
 
+  async activateColor(userId: number, columnName: string, colorCode: string) {
+    const query = `
+    update users
+    set ${columnName} = '${colorCode}'
+    where users.id = ${userId}
+   `
+    await this.getInstance().query(query);
+  }
+
   getInstance(): Repository<User> {
     return this.ormRepository;
   }

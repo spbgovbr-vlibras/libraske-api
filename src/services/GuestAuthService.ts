@@ -11,8 +11,8 @@ interface IGuestCreateAccount {
 
 class GuestAuthService {
   /**
-   * 
-   * @param guestName 
+   *
+   * @param guestName
    * @return{IGuestCreateAccount}
    */
   async createGuestAccount(guestName: string): Promise<IGuestCreateAccount> {

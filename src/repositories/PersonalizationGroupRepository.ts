@@ -22,7 +22,7 @@ class PersonalizationGroupRepository implements IPersonalizationGroupRepository 
   }
 
   async findAll(): Promise<PersonalizationGroup[]> {
-    return await this.getInstance().find();
+    return await this.getInstance().find({ relations: ["personalization"] });
   }
 
   getInstance(): Repository<PersonalizationGroup> {

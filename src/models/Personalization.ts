@@ -4,7 +4,9 @@ import {
   Column,
   ManyToOne,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
+import PersonalizationGroup from './PersonalizationGroup';
 import User from './User';
 
 @Entity('personalizations')
@@ -24,6 +26,9 @@ class Personalization {
 
   @Column({ nullable: true, type: 'text' })
   description: string | null;
+
+  @OneToMany(() => PersonalizationGroup, personalizationGroup => personalizationGroup.personalization)
+  personalizationGroup: PersonalizationGroup[]
 
 }
 

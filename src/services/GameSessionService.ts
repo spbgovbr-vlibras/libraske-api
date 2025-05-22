@@ -4,6 +4,7 @@ import GameSessionRepository from "../repositories/GameSessionRepository";
 import CalculatePontuations from '../utils/CalculatePontuation';
 import UsersService from "./UsersService";
 import SongsService from "./SongsService";
+import SenderMessage from "./SenderMessageService";
 
 interface ICreatePontuation {
   idGameSession: number;
@@ -81,7 +82,12 @@ class GameSessionService {
 
   async createGameSession({ idUser, idSong }: ICreateGameSession): Promise<GameSession> {
 
-    //TODO Validar se o usuário tem a música liberada.
+    const senderMessageService = new SenderMessage();
+    const numberOfConnectedProcessors = await senderMessageService.getNumberOfConsumers();
+
+    if (numberOfConnectedProcessors == 0) {
+      throw new AppError("MediaPipe is not connected", 503);
+    }
 
     const song = await this.songsService.findById({ id: idSong });
     const user = await this.usersService.findUserByCpfOrId({ id: idUser });

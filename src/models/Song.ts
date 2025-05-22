@@ -51,9 +51,6 @@ class Songs {
   trainingAnimation4: string;
 
   @Column()
-  trainingAnimation5: string;
-
-  @Column()
   trainingPhrase1: string;
 
   @Column()
@@ -64,9 +61,6 @@ class Songs {
 
   @Column()
   trainingPhrase4: string;
-
-  @Column()
-  trainingPhrase5: string;
 
   @Column()
   name: string;

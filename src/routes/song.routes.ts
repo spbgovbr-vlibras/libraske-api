@@ -35,8 +35,7 @@ const songIsNotValid = (multerErrors?: MulterValidationError[]) => {
 const songIsNotComplete = (multerFiles: Express.Request) => {
   const files = multerFiles.files;
   return !files || !files.thumbnail || !files.subtitle || !files.song || !files.animation
-    || !files.trainingAnimation1 || !files.trainingAnimation2 || !files.trainingAnimation3 || !files.trainingAnimation4
-    || !files.trainingAnimation5;
+    || !files.trainingAnimation1 || !files.trainingAnimation2 || !files.trainingAnimation3 || !files.trainingAnimation4;
 }
 
 
@@ -51,7 +50,7 @@ songsRouter.get('/', async (request, response) => {
       ...item,
       isUnlocked: unlockedSongIds.includes(item.id) || item.price === 0 // Se a música foi comprada ou o valor é 0
     }
-  });
+  }).sort((first, second) => first.price < second.price ? -1 : 1)
 
   return response.json({ Items: unlockedSongs });
 });
@@ -77,7 +76,6 @@ songsRouter.post('/', createSongFolder, (request, response) => {
     { name: 'trainingAnimation2', maxCount: 1 },
     { name: 'trainingAnimation3', maxCount: 1 },
     { name: 'trainingAnimation4', maxCount: 1 },
-    { name: 'trainingAnimation5', maxCount: 1 },
   ])(request, response, async () => {
     const {
       name,
@@ -123,13 +121,11 @@ songsRouter.post('/', createSongFolder, (request, response) => {
         trainingAnimation2: request.files.trainingAnimation2[0].filename,
         trainingAnimation3: request.files.trainingAnimation3[0].filename,
         trainingAnimation4: request.files.trainingAnimation4[0].filename,
-        trainingAnimation5: request.files.trainingAnimation5[0].filename,
         price: parseInt(price),
         trainingPhrase1,
         trainingPhrase2,
         trainingPhrase3,
-        trainingPhrase4,
-        trainingPhrase5
+        trainingPhrase4
       });
       return response.json(song);
     } catch (error: any) {
