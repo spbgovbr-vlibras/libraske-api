@@ -1,5 +1,6 @@
-import { getRepository, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import BoughtSongs from '../models/BoughtSongs';
+import { AppDataSource } from 'src/database';
 
 interface IBoughtSongsRepository {
 
@@ -11,22 +12,28 @@ interface IBoughtSongsRepository {
 
 class BoughtSongsRepository implements IBoughtSongsRepository {
 
+  private readonly ormRepository: Repository<BoughtSongs>;
+
+  constructor() {
+    this.ormRepository = AppDataSource.getRepository(BoughtSongs);
+  }
+
   async addBoughtSong(boughtSongs: BoughtSongs): Promise<BoughtSongs> {
-    return await getRepository(BoughtSongs).save(boughtSongs);
+    return await this.ormRepository.save(boughtSongs);
   }
 
   async findByUserId(userId: number): Promise<BoughtSongs[]> {
-    return getRepository(BoughtSongs).find({ user_id: userId });
+    return this.ormRepository.find({ where: { user_id: userId } });
   }
 
   async existsBySongIdAndUserId(userId: number, songId: number): Promise<boolean> {
-    const result = await getRepository(BoughtSongs).find({ user_id: userId, song_id: songId });
+    const result = await this.ormRepository.find({ where: { user_id: userId, song_id: songId } });
 
     return result.length > 0;
   }
 
   getInstance(): Repository<BoughtSongs> {
-    return getRepository(BoughtSongs);
+    return this.ormRepository;
   }
 }
 
