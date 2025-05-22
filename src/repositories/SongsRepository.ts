@@ -1,5 +1,6 @@
-import { getRepository, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import Song from '../models/Song';
+import { AppDataSource } from 'src/database';
 
 interface ISongsRepository {
   findOneById(id: number): Promise<Song | undefined>;
@@ -10,20 +11,26 @@ interface ISongsRepository {
 }
 
 class SongsRepository implements ISongsRepository {
+
+  private readonly ormRepository: Repository<Song>;
+
+  constructor() {
+    this.ormRepository = AppDataSource.getRepository(Song);
+  }
   async findOneById(id: number): Promise<Song | undefined> {
-    return await getRepository(Song).findOne(id);
+    return (await this.ormRepository.findOne({ where: { id } })) ?? undefined;
   }
 
   async deleteSongById(id: number): Promise<void> {
-    await getRepository(Song).delete(id);
+    await this.ormRepository.delete(id);
   }
 
   async createSong(song: Song): Promise<Song> {
-    return await getRepository(Song).save(song);
+    return await this.ormRepository.save(song);
   }
 
   async listSongs(): Promise<Song[]> {
-    return await getRepository(Song).find({
+    return await this.ormRepository.find({
       select: ['id',
         'name',
         'description',
@@ -49,7 +56,7 @@ class SongsRepository implements ISongsRepository {
   }
 
   getInstance(): Repository<Song> {
-    return getRepository(Song);
+    return this.ormRepository
   }
 }
 

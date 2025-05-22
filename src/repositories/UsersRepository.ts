@@ -1,22 +1,30 @@
-import { getRepository, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import User from '../models/User';
+import { AppDataSource } from '../database';
+
 interface IUsersRepository {
-  findOneById(id: number): Promise<User | undefined>
-  findOneByCpf(cpf: string): Promise<User | undefined>
+  findOneById(id: number): Promise<User | undefined>;
+  findOneByCpf(cpf: string): Promise<User | undefined>;
   getInstance(): Repository<User>;
 }
 
 class UsersRepository implements IUsersRepository {
+  private readonly ormRepository: Repository<User>;
+
+  constructor() {
+    this.ormRepository = AppDataSource.getRepository(User);
+  }
+
   async findOneById(id: number): Promise<User | undefined> {
-    return await getRepository(User).findOne({ id });
+    return (await this.ormRepository.findOne({ where: { id } })) ?? undefined;
   }
 
   async findOneByCpf(cpf: string): Promise<User | undefined> {
-    return await getRepository(User).findOne({ cpf });
+    return (await this.ormRepository.findOne({ where: { cpf } })) ?? undefined;
   }
 
   getInstance(): Repository<User> {
-    return getRepository(User);
+    return this.ormRepository;
   }
 }
 

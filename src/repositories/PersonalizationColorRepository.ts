@@ -1,5 +1,6 @@
+import { AppDataSource } from 'src/database';
 import PersonalizationColor from '../models/PersonalizationColor';
-import { getRepository, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 
 interface ColorsByPersonalization {
   personalizationId: number;
@@ -15,9 +16,14 @@ interface IPersonalizationColorRepository {
 }
 
 class PersonalizationColorRepository implements IPersonalizationColorRepository {
+  private readonly ormRepository: Repository<PersonalizationColor>;
+
+  constructor() {
+    this.ormRepository = AppDataSource.getRepository(PersonalizationColor);
+  }
 
   async findOneById(id: number): Promise<PersonalizationColor | undefined> {
-    return await this.getInstance().findOne({ where: { personalizationGroup: id } });
+    return (await this.getInstance().findOne({ where: { personalizationGroup: { id } } })) ?? undefined;
   }
 
   async findAll(): Promise<PersonalizationColor[]> {
@@ -40,7 +46,7 @@ class PersonalizationColorRepository implements IPersonalizationColorRepository 
   }
 
   getInstance(): Repository<PersonalizationColor> {
-    return getRepository(PersonalizationColor);
+    return this.ormRepository;
   }
 }
 
