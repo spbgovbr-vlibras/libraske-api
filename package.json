@@ -25,8 +25,8 @@
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.14.5",
-    "@commitlint/cli": "^9.1.2",
-    "@commitlint/config-conventional": "^9.1.2",
+    "@commitlint/cli": "^16.2.4",
+    "@commitlint/config-conventional": "^16.2.1",
     "@types/amqplib": "^0.5.17",
     "@types/bcryptjs": "^2.4.2",
     "@types/cors": "^2.8.10",
@@ -98,12 +98,12 @@
     "lodash": "^4.17.21",
     "minimist": "^1.2.5",
     "morgan": "^1.10.0",
-    "multer": "2.0.0",
+    "multer": "2.0.1",
     "pg": "^8.6.0",
     "qs": "^6.10.1",
     "reflect-metadata": "^0.1.13",
     "short-uuid": "^4.1.0",
-    "sqlite3": "^5.0.2",
+    "sqlite3": "^5.1.7",
     "sucrase": "^3.20.1",
     "ts-jest": "^27.0.3",
     "typeorm": "^0.3.24",
@@ -117,6 +117,7 @@
   },
   "resolutions": {
     "**/xml2js": "0.5.0",
-    "@types/express-serve-static-core": "^4.19.6"
+    "@types/express-serve-static-core": "^4.19.6",
+    "**/semver": "^7.5.2"
   }
 }
