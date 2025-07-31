@@ -6,7 +6,7 @@ COPY . /libraske/
 
 WORKDIR /libraske/
 
-#RUN yarn install
+RUN yarn install
 
 RUN npm install
 
