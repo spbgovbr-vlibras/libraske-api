@@ -1,12 +1,12 @@
-FROM node:14.17
+FROM node:20
 
 RUN apt-get update && apt-get install -y unzip zip ssh python3 curl git-core curl build-essential openssl libssl-dev
 
-copy . /libraske/
+COPY . /libraske/
 
 WORKDIR /libraske/
 
-RUN yarn install
+#RUN yarn install
 
 RUN npm install
 
