@@ -35,3 +35,14 @@ export const startDatabase = async (): Promise<void> => {
     process.exit(1);
   }
 };
+
+export const isConnectionAlive = async () => {
+  const connection = getConnection();
+  try {
+    await connection.query("SELECT 1");
+    return true;
+  } catch (err) {
+    console.log(err);
+    return false;
+  }
+}

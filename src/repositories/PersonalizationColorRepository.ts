@@ -22,6 +22,10 @@ class PersonalizationColorRepository implements IPersonalizationColorRepository 
     this.ormRepository = AppDataSource.getRepository(PersonalizationColor);
   }
 
+  async findColorById(id: number): Promise<PersonalizationColor | undefined> {
+    return await this.getInstance().findOne(id);
+  }
+
   async findOneById(id: number): Promise<PersonalizationColor | undefined> {
     return (await this.getInstance().findOne({ where: { personalizationGroup: { id } } })) ?? undefined;
   }
@@ -42,6 +46,15 @@ class PersonalizationColorRepository implements IPersonalizationColorRepository 
                         inner join personalization_color pc on pc.personalization_group_id = pg.id 
                         where p.id = ${personalizationId}`;
 
+    return await this.getInstance().query(query);
+  }
+
+  async findAllColorsByPersonalization(personalizationId: number) {
+    const query = `
+      select pc.id, pc.code, pc.personalization_group_id, pc."isDefault" from personalization_color pc
+      inner join personalization_group pg on pc.personalization_group_id = pg.id
+      where pg.personalization_id = ${personalizationId}
+    `
     return await this.getInstance().query(query);
   }
 

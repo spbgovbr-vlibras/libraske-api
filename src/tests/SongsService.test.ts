@@ -94,12 +94,10 @@ describe('Song Service', () => {
       trainingAnimation2: trainingAnimation,
       trainingAnimation3: trainingAnimation,
       trainingAnimation4: trainingAnimation,
-      trainingAnimation5: trainingAnimation,
       trainingPhrase1: trainingPhrase,
       trainingPhrase2: trainingPhrase,
       trainingPhrase3: trainingPhrase,
       trainingPhrase4: trainingPhrase,
-      trainingPhrase5: trainingPhrase,
     });
 
     expect(createdSong.id).toBe(idSong);
@@ -147,12 +145,10 @@ describe('Song Service', () => {
       trainingAnimation2: trainingAnimation,
       trainingAnimation3: trainingAnimation,
       trainingAnimation4: trainingAnimation,
-      trainingAnimation5: trainingAnimation,
       trainingPhrase1: trainingPhrase,
       trainingPhrase2: trainingPhrase,
       trainingPhrase3: trainingPhrase,
       trainingPhrase4: trainingPhrase,
-      trainingPhrase5: trainingPhrase,
       price
     });
 
@@ -170,12 +166,10 @@ describe('Song Service', () => {
       trainingAnimation2: trainingAnimation,
       trainingAnimation3: trainingAnimation,
       trainingAnimation4: trainingAnimation,
-      trainingAnimation5: trainingAnimation,
       trainingPhrase1: trainingPhrase,
       trainingPhrase2: trainingPhrase,
       trainingPhrase3: trainingPhrase,
       trainingPhrase4: trainingPhrase,
-      trainingPhrase5: trainingPhrase,
       price
     });
 
@@ -230,12 +224,10 @@ describe('Song Service', () => {
       trainingAnimation2: trainingAnimation,
       trainingAnimation3: trainingAnimation,
       trainingAnimation4: trainingAnimation,
-      trainingAnimation5: trainingAnimation,
       trainingPhrase1: trainingPhrase,
       trainingPhrase2: trainingPhrase,
       trainingPhrase3: trainingPhrase,
       trainingPhrase4: trainingPhrase,
-      trainingPhrase5: trainingPhrase,
     });
 
     const song1 = await SongsService.findById({ id });
@@ -303,12 +295,10 @@ describe('Song Service', () => {
       trainingAnimation2: trainingAnimation,
       trainingAnimation3: trainingAnimation,
       trainingAnimation4: trainingAnimation,
-      trainingAnimation5: trainingAnimation,
       trainingPhrase1: trainingPhrase,
       trainingPhrase2: trainingPhrase,
       trainingPhrase3: trainingPhrase,
       trainingPhrase4: trainingPhrase,
-      trainingPhrase5: trainingPhrase,
     });
     const beforeTestSongs = await SongsService.listSongs();
 
@@ -375,12 +365,10 @@ describe('Song Service', () => {
       trainingAnimation2: trainingAnimation,
       trainingAnimation3: trainingAnimation,
       trainingAnimation4: trainingAnimation,
-      trainingAnimation5: trainingAnimation,
       trainingPhrase1: trainingPhrase,
       trainingPhrase2: trainingPhrase,
       trainingPhrase3: trainingPhrase,
       trainingPhrase4: trainingPhrase,
-      trainingPhrase5: trainingPhrase,
     });
 
     fs.existsSync = jest.fn().mockReturnValue(true);

@@ -132,7 +132,7 @@ describe('Token Service', () => {
 
     try {
       TokenService.verifyRefreshToken(refreshToken);
-    } catch (error) {
+    } catch (error: any) {
       expect(error.statusCode).toBe(401);
       expect(error.message.toLowerCase()).toContain("expirou");
     }
@@ -142,7 +142,7 @@ describe('Token Service', () => {
 
     try {
       TokenService.verifyRefreshToken(DataGenerator.getFirstName());
-    } catch (error) {
+    } catch (error: any) {
       expect(error.statusCode).toBe(403);
       expect(error.message.toLowerCase()).toContain("inválido");
     }

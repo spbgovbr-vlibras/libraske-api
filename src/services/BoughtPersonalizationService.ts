@@ -36,6 +36,16 @@ class BoughtPersonalizationService {
 
     return groupBy(allBoughtPersonalization, 'personalization_id');
   }
+
+  async getAvailablePersonalizationIds(userId: number): Promise<number[]> {
+    const ids = await BoughtPersonalizationRepository.getBoughtPersonalizationIds(userId);
+
+    if (ids.length == 0) {
+      return []
+    }
+
+    return ids.map(item => item.personalization_group_id);
+  }
 }
 
 export default new BoughtPersonalizationService();

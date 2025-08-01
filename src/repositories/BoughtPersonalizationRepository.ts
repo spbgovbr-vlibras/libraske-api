@@ -86,6 +86,14 @@ class BoughtPersonalizationRepository implements BoughtIPersonalizationRepositor
     return await this.getInstance().query(query);
   }
 
+  async getBoughtPersonalizationIds(userId: number): Promise<BoughtPersonalization[]> {
+    const query = `
+      select personalization_group_id from "boughtPersonalization"
+      where user_id = ${userId}
+    `
+    return await this.getInstance().query(query);
+  }
+
   getInstance(): Repository<BoughtPersonalization> {
     return this.ormRepository;
   }

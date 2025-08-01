@@ -6,7 +6,7 @@ const personalizationGroupRouter = Router();
 personalizationGroupRouter.get('/:id', async (request, response) => {
   const { id } = request.params;
 
-  const result = await PersonalizationGroupService.findAllByPersonalizationId(parseInt(id));
+  const result = await PersonalizationGroupService.findAllGroupsByPersonalizationId(parseInt(id));
 
   return response.status(200).json(result)
 })

@@ -11,6 +11,7 @@ import AppError from '../errors/AppError';
 import routes from '../routes';
 import chalk from 'chalk';
 import { SONG_STORAGE } from '@config/applicationFolders';
+import { isConnectionAlive } from 'src/database';
 
 export default async ({ app }: { app: express.Application }) => {
   const staticDirectory = env.ROOT_STORAGE;
@@ -35,6 +36,11 @@ export default async ({ app }: { app: express.Application }) => {
   app.use('/info', express.static(path.resolve(staticDirectory)));
 
   app.use('/libraske', routes);
+  app.use('/health-check', async (req, res) => {
+    res.status(200).json({
+      isDatabaseConnectionAlive: await isConnectionAlive()
+    });
+  })
 
   app.use(
     (err: Error, request: Request, response: Response, _: NextFunction) => {
