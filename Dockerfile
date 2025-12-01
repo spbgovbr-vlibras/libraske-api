@@ -1,7 +1,8 @@
-FROM node:14.17
+FROM 14.21.3-bullseye
 
 RUN apt-get update && apt-get install -y unzip zip ssh python3 curl git-core curl build-essential openssl libssl-dev
 
+COPY . /libraske/
 
 WORKDIR /libraske/
 
