@@ -81,7 +81,7 @@ authRouter.post('/logout', async (request, response) => {
 authRouter.post('/fake-login', async (request, response) => {
   try {
     // TODO Remover endpoint futuramente.
-    const user = await UsersRepository.getInstance().findOne();
+    const user = await UsersRepository.getInstance().findOne({ where: {} });
 
     if (!user) {
       throw new AppError('Cadastre pelo menos um usuário no banco.')

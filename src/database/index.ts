@@ -1,34 +1,39 @@
 import chalk from 'chalk';
-import { ConnectionOptions, createConnection, getConnection } from 'typeorm';
+import { DataSource, DataSourceOptions } from 'typeorm';
 
 import environment from '../environment/environment';
 
-const options = {
+const dataSourceOptions: DataSourceOptions = {
   name: environment.TYPEORM_CONNECTION_NAME,
-  type: environment.TYPEORM_CONNECTION,
+  type: environment.TYPEORM_CONNECTION as any,
   host: environment.TYPEORM_HOST,
-  port: environment.TYPEORM_PORT,
+  port: environment.TYPEORM_PORT as any,
   username: environment.TYPEORM_USERNAME,
   password: environment.TYPEORM_PASSWORD,
   database: environment.TYPEORM_DATABASE,
-  entities: [environment.TYPEORM_ENTITIES, environment.TYPEORM_ENTITIES.replace("ts", "js")],
+  entities: [environment.TYPEORM_ENTITIES, environment.TYPEORM_ENTITIES.replace(".ts", ".js")],
   migrations: [environment.TYPEORM_MIGRATIONS],
-  cli: {
-    migrationsDir: environment.TYPEORM_MIGRATIONS_DIR,
-  },
   logging: environment.TYPEORM_LOGGING === 'true',
-  synchronize: environment.TYPEORM_SYNCHRONIZE === 'true'
-} as ConnectionOptions;
+  synchronize: environment.TYPEORM_SYNCHRONIZE === 'true',
+};
 
-console.log({ options });
+console.log({ options: dataSourceOptions });
 
+export const AppDataSource = new DataSource(dataSourceOptions);
 
 export const startDatabase = async (): Promise<void> => {
-  console.log(chalk.white(`Starting database...`));
+  console.log(chalk.white(`Starting database connection...`));
 
-  await createConnection(options);
-
-  console.log(chalk.green(`Database started!`));
+  try {
+    await AppDataSource.initialize();
+    console.log(chalk.green(`Data Source has been initialized successfully!`));
+    if (AppDataSource.isInitialized) {
+      console.log(chalk.green(`Database started!`));
+    }
+  } catch (error) {
+    console.error(chalk.red(`Error during Data Source initialization:`), error);
+    process.exit(1);
+  }
 };
 
 export const isConnectionAlive = async () => {

@@ -9,7 +9,7 @@
   "main": "src/server.js",
   "license": "MIT",
   "engines": {
-    "node": "^14"
+    "node": ">=14"
   },
   "scripts": {
     "build": "tsc",
@@ -25,8 +25,8 @@
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.14.5",
-    "@commitlint/cli": "^9.1.2",
-    "@commitlint/config-conventional": "^9.1.2",
+    "@commitlint/cli": "^16.2.4",
+    "@commitlint/config-conventional": "^16.2.1",
     "@types/amqplib": "^0.5.17",
     "@types/bcryptjs": "^2.4.2",
     "@types/cors": "^2.8.10",
@@ -55,6 +55,7 @@
     "jsdoc": "^3.6.7",
     "lint-staged": "^11.0.0",
     "prettier": "^2.2.1",
+    "ts-node": "10.9.2",
     "ts-node-dev": "^1.1.6",
     "tsconfig-paths": "^3.9.0",
     "typescript": "^4.3.4"
@@ -73,18 +74,20 @@
     ]
   },
   "dependencies": {
-    "@types/jest": "^26.0.23",
+    "@types/jest": "^27.0.0",
     "@types/lodash": "^4.14.171",
     "amqplib": "^0.7.1",
-    "axios": "^0.21.1",
+    "axios": "^1.9.0",
     "bcryptjs": "^2.4.3",
     "chalk": "^4.1.1",
     "class-sanitizer": "^1.0.1",
     "class-transformer": "^0.4.0",
-    "class-validator": "^0.13.1",
+    "class-validator": "^0.14.2",
     "cors": "^2.8.5",
     "cpf": "^2.0.1",
     "cpf-cnpj-validator": "^1.0.3",
+    "cross-spawn": "^7.0.5",
+    "dot-prop": "^4.2.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-async-errors": "^3.1.1",
@@ -92,25 +95,32 @@
     "figlet": "^1.5.0",
     "helmet": "^4.4.1",
     "jsdoc-plugin-typescript": "^2.0.6",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.2",
     "jwk-to-pem": "^2.0.5",
     "lodash": "^4.17.21",
     "minimist": "^1.2.5",
     "morgan": "^1.10.0",
-    "multer": "^1.4.2",
+    "multer": "^2.0.2",
     "pg": "^8.6.0",
     "qs": "^6.10.1",
     "reflect-metadata": "^0.1.13",
+    "semver": "^7.5.2",
     "short-uuid": "^4.1.0",
-    "sqlite3": "^5.0.2",
+    "sqlite3": "^5.1.7",
     "sucrase": "^3.20.1",
-    "ts-jest": "^27.0.3",
-    "typeorm": "^0.2.32",
-    "uuid": "^8.3.2"
+    "ts-jest": "^27.1.5",
+    "typeorm": "^0.3.24",
+    "uuid": "^8.3.2",
+    "xml2js": "0.5.0"
   },
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
+  },
+  "resolutions": {
+    "**/xml2js": "0.5.0",
+    "@types/express-serve-static-core": "^4.19.6",
+    "**/semver": "^7.5.2"
   }
 }

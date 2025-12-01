@@ -1,5 +1,6 @@
-import { getRepository, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import BoughtPersonalization from '../models/BoughtPersonalization';
+import { AppDataSource } from 'src/database';
 
 interface BoughtIPersonalizationRepository {
 
@@ -11,11 +12,19 @@ interface BoughtIPersonalizationRepository {
 }
 
 class BoughtPersonalizationRepository implements BoughtIPersonalizationRepository {
+  private readonly ormRepository: Repository<BoughtPersonalization>;
+
+  constructor() {
+    this.ormRepository = AppDataSource.getRepository(BoughtPersonalization);
+  }
+
   async countByPersonalizationIdAndUserId(userId: number, personalizationGroupId: number): Promise<number> {
     return await this.getInstance().count({
-      user_id: userId,
-      personalization_group_id: personalizationGroupId
-    })
+      where: {
+        user_id: userId,
+        personalization_group_id: personalizationGroupId
+      }
+    });
   }
 
   async addBoughtPersonalization(boughtPersonalization: BoughtPersonalization): Promise<BoughtPersonalization> {
@@ -23,7 +32,7 @@ class BoughtPersonalizationRepository implements BoughtIPersonalizationRepositor
   }
 
   async findByUserId(userId: number): Promise<BoughtPersonalization[]> {
-    return await this.getInstance().find({ user_id: userId });
+    return await this.getInstance().find({ where: { user_id: userId } });
   }
 
   async existsBySongIdAndUserId(userId: number, personalizationId: number): Promise<boolean> {
@@ -31,7 +40,7 @@ class BoughtPersonalizationRepository implements BoughtIPersonalizationRepositor
   }
 
   async checkAlreadyPurchased(userId: number, personalizationGroupId: number): Promise<number> {
-    return await this.getInstance().count({ user_id: userId, personalization_group_id: personalizationGroupId });
+    return await this.getInstance().count({ where: { user_id: userId, personalization_group_id: personalizationGroupId } });
   }
 
   async removeActivePersonalizationByPersonalizationandUser(personalizationId: number, userId: number): Promise<BoughtPersonalization> {
@@ -86,7 +95,7 @@ class BoughtPersonalizationRepository implements BoughtIPersonalizationRepositor
   }
 
   getInstance(): Repository<BoughtPersonalization> {
-    return getRepository(BoughtPersonalization);
+    return this.ormRepository;
   }
 
 }
