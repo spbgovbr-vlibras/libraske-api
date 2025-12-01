@@ -139,14 +139,6 @@ rabbitmqha:
   rabbitmqPassword: vlibraschangeme
   existingSecrets: "vlibrasvideo-rabbitmq-credentials"
 
-redis:
-  enabled: true
-  usePassword: true
-  password: "changevlibrasme"
-  cachename: "changemeName"
-  redisPort: 6379
-  existingSecrets: "vlibrasvideo-redis-credentials"
-
 # Enable the use of an external services like PostgreSQL.
 # Note: If this is set to 'true', the internal PostgreSQL instance (above) will not be created.
 externalServices:
@@ -158,15 +150,6 @@ externalServices:
       password: "changeme"
       host: "rabitmqp.example.com"
       existingSecrets: "vlibrasvideo-rabbitmq-credentials"
-      #existingClaim: ""
-    redis:
-      enabled: true
-      usePassword: true
-      password: "changevlibrasme"
-      cachename: "changemeName"
-      redisPort: 6379
-      host: "redis.example.com"
-      existingSecrets: "vlibrasvideo-redis-credentials"
       #existingClaim: ""
     postgresql:
       enabled: true
