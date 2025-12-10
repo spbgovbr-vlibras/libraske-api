@@ -1,15 +1,13 @@
-import { AxiosInstance } from 'axios';
+import { AxiosError, AxiosInstance } from 'axios';
 import axios from 'axios';
-import jsonwebtoken from 'jsonwebtoken';
-import jwtToPem, { JWK } from 'jwk-to-pem';
 import qs from 'qs';
 import AppError from '../errors/AppError';
-import env from '../environment/environment'
+import env from '../environment/environment';
 
 export interface ILoginUnico {
   name: string;
-  cpf: string
-  email: string
+  cpf: string;
+  email: string;
   phoneNumber: string;
   profilePhoto: string;
 }
@@ -29,7 +27,6 @@ export const loginUnicoAxiosInstance = axios.create({
 });
 
 export default class LoginUnico {
-
   private http: AxiosInstance;
   private jwt: any;
   private jwtToPemInstance: any;
@@ -76,19 +73,21 @@ export default class LoginUnico {
         phoneNumber,
         profilePhoto: decoded.profilePhoto,
       };
-    } catch (error) {
+    } catch (err) {
+      const error = err as AxiosError;
 
-      const { response } = error;
-
-      if (response) {
-        const description = response.data && response.data.error_description;
-        const errors = {
-          error: 'User could not be authenticated on Login Único.',
-          ...(description && { description }),
-        };
-        throw new AppError(errors);
+      if (error?.response) {
+        // const { response } = error;
+        // const description = response.data && response.data.error_description;
+        // const errors = {
+        //   error: 'User could not be authenticated on Login Único.',
+        //   ...(description && { description }),
+        // };
+        throw new AppError(
+          'User could not be authenticated on Login Único.',
+          401,
+        );
       } else {
-
         throw new AppError('Internal Error');
       }
     }

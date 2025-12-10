@@ -11,7 +11,10 @@ const dataSourceOptions: DataSourceOptions = {
   username: environment.TYPEORM_USERNAME,
   password: environment.TYPEORM_PASSWORD,
   database: environment.TYPEORM_DATABASE,
-  entities: [environment.TYPEORM_ENTITIES, environment.TYPEORM_ENTITIES.replace(".ts", ".js")],
+  entities: [
+    environment.TYPEORM_ENTITIES,
+    environment.TYPEORM_ENTITIES.replace('.ts', '.js'),
+  ],
   migrations: [environment.TYPEORM_MIGRATIONS],
   logging: environment.TYPEORM_LOGGING === 'true',
   synchronize: environment.TYPEORM_SYNCHRONIZE === 'true',
@@ -25,8 +28,15 @@ export const startDatabase = async (): Promise<void> => {
   console.log(chalk.white(`Starting database connection...`));
 
   try {
-    await AppDataSource.initialize();
-    console.log(chalk.green(`Data Source has been initialized successfully!`));
+    if (!AppDataSource.isInitialized) {
+      await AppDataSource.initialize();
+      console.log(
+        chalk.green(`Data Source has been initialized successfully!`),
+      );
+    } else {
+      console.log(chalk.yellow(`Data Source is already initialized.`));
+    }
+
     if (AppDataSource.isInitialized) {
       console.log(chalk.green(`Database started!`));
     }
@@ -37,12 +47,11 @@ export const startDatabase = async (): Promise<void> => {
 };
 
 export const isConnectionAlive = async () => {
-  const connection = getConnection();
   try {
-    await connection.query("SELECT 1");
+    await AppDataSource.query('SELECT 1');
     return true;
   } catch (err) {
     console.log(err);
     return false;
   }
-}
+};

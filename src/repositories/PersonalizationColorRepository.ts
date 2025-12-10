@@ -1,6 +1,7 @@
-import { AppDataSource } from 'src/database';
-import PersonalizationColor from '../models/PersonalizationColor';
+import { AppDataSource } from '../database';
 import { Repository } from 'typeorm';
+
+import PersonalizationColor from '../models/PersonalizationColor';
 
 interface ColorsByPersonalization {
   personalizationId: number;
@@ -15,35 +16,43 @@ interface IPersonalizationColorRepository {
   getInstance(): Repository<PersonalizationColor>;
 }
 
-class PersonalizationColorRepository implements IPersonalizationColorRepository {
+class PersonalizationColorRepository
+  implements IPersonalizationColorRepository
+{
   private readonly ormRepository: Repository<PersonalizationColor>;
 
   constructor() {
     this.ormRepository = AppDataSource.getRepository(PersonalizationColor);
   }
 
-  async findColorById(id: number): Promise<PersonalizationColor | undefined> {
-    return await this.getInstance().findOne(id);
+  async findColorById(id: number): Promise<PersonalizationColor | null> {
+    return await this.getInstance().findOne({ where: { id } });
   }
 
   async findOneById(id: number): Promise<PersonalizationColor | undefined> {
-    return (await this.getInstance().findOne({ where: { personalizationGroup: { id } } })) ?? undefined;
+    return (
+      (await this.getInstance().findOne({
+        where: { personalizationGroup: { id } },
+      })) ?? undefined
+    );
   }
 
   async findAll(): Promise<PersonalizationColor[]> {
     return await this.getInstance().find();
   }
 
-  async findColorsByPersonalization(personalizationId: number): Promise<ColorsByPersonalization> {
-    const query = `select 
-                            p.id as personalizationId, 
+  async findColorsByPersonalization(
+    personalizationId: number,
+  ): Promise<ColorsByPersonalization> {
+    const query = `select
+                            p.id as personalizationId,
                             pg.id as personalizationGroupId,
                             pg.price,
                             pc."isDefault",
                             pc.code
-                        from personalizations p 
-                        inner join personalization_group pg on p.id = pg.personalization_id 
-                        inner join personalization_color pc on pc.personalization_group_id = pg.id 
+                        from personalizations p
+                        inner join personalization_group pg on p.id = pg.personalization_id
+                        inner join personalization_color pc on pc.personalization_group_id = pg.id
                         where p.id = ${personalizationId}`;
 
     return await this.getInstance().query(query);
@@ -54,7 +63,7 @@ class PersonalizationColorRepository implements IPersonalizationColorRepository 
       select pc.id, pc.code, pc.personalization_group_id, pc."isDefault" from personalization_color pc
       inner join personalization_group pg on pc.personalization_group_id = pg.id
       where pg.personalization_id = ${personalizationId}
-    `
+    `;
     return await this.getInstance().query(query);
   }
 

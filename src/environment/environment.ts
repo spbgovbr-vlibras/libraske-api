@@ -1,8 +1,9 @@
 import dotenv, { DotenvParseOutput } from 'dotenv';
 import path from 'path';
 
-export const loadEnvironments = function loadEnviromentsVariables(typeOfEnvironment: string): DotenvParseOutput {
-
+export const loadEnvironments = function loadEnviromentsVariables(
+  typeOfEnvironment: string = 'dev',
+): DotenvParseOutput {
   if (typeOfEnvironment === 'dev' || typeOfEnvironment === 'test') {
     const dotEnvFile = path.join(__dirname, `../../.env.${typeOfEnvironment}`);
 
