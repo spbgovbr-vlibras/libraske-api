@@ -1,6 +1,6 @@
 import { Repository } from 'typeorm';
 import Song from '../models/Song';
-import { AppDataSource } from 'src/database';
+import { AppDataSource } from '../database';
 
 interface ISongsRepository {
   findOneById(id: number): Promise<Song | undefined>;

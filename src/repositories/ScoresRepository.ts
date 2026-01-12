@@ -1,6 +1,6 @@
 import { Repository } from 'typeorm';
 import Scores from '../models/Scores';
-import { AppDataSource } from 'src/database';
+import { AppDataSource } from '../database';
 
 interface IScoresRepository {
   findBestScoreBySong(songId: string): Promise<IMaxSessionScore[]>;
