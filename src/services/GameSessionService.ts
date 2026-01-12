@@ -35,6 +35,23 @@ class GameSessionService {
     private usersService: typeof UsersService = UsersService,
     private songsService: typeof SongsService = SongsService) { }
 
+  private normalizePontuation(pontuation: GameSession['pontuation']): number[] {
+    if (Array.isArray(pontuation)) {
+      return pontuation;
+    }
+
+    if (typeof pontuation === 'string') {
+      try {
+        const parsed = JSON.parse(pontuation);
+        return Array.isArray(parsed) ? parsed.map((value) => Number(value)) : [];
+      } catch (error) {
+        return [];
+      }
+    }
+
+    return [];
+  }
+
 
   async findGameSession(gameSessionId: number): Promise<GameSession> {
 
@@ -54,11 +71,12 @@ class GameSessionService {
       throw new AppError('The game session is already closed.', 400)
     }
 
-    const sessionScore = CalculatePontuations(gameSession.pontuation);
+    const pontuations = this.normalizePontuation(gameSession.pontuation);
+    const sessionScore = CalculatePontuations(pontuations);
 
     return {
       sessionScore,
-      pontuations: gameSession.pontuation
+      pontuations,
     }
   }
 
@@ -70,7 +88,8 @@ class GameSessionService {
       throw new AppError('The game session is already closed.', 400)
     }
 
-    const sessionScore = CalculatePontuations(gameSession.pontuation);
+  const pontuations = this.normalizePontuation(gameSession.pontuation);
+  const sessionScore = CalculatePontuations(pontuations);
     await GameSessionRepository.closeGameSession(gameSession.id);
 
     return {
@@ -108,7 +127,7 @@ class GameSessionService {
 
     const gameSession = await this.findGameSession(idGameSession);
 
-    const oldArray = gameSession.pontuation ? gameSession.pontuation : [];
+  const oldArray = this.normalizePontuation(gameSession.pontuation);
 
     const newGameSession = {
       ...gameSession,
