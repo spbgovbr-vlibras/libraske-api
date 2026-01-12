@@ -3,13 +3,11 @@ import { DataSource, DataSourceOptions } from 'typeorm';
 
 import environment from '../environment/environment';
 
+const isSqlite = environment.TYPEORM_CONNECTION === 'sqlite';
+
 const dataSourceOptions: DataSourceOptions = {
   name: environment.TYPEORM_CONNECTION_NAME,
   type: environment.TYPEORM_CONNECTION as any,
-  host: environment.TYPEORM_HOST,
-  port: environment.TYPEORM_PORT as any,
-  username: environment.TYPEORM_USERNAME,
-  password: environment.TYPEORM_PASSWORD,
   database: environment.TYPEORM_DATABASE,
   entities: [
     environment.TYPEORM_ENTITIES,
@@ -18,6 +16,14 @@ const dataSourceOptions: DataSourceOptions = {
   migrations: [environment.TYPEORM_MIGRATIONS],
   logging: environment.TYPEORM_LOGGING === 'true',
   synchronize: environment.TYPEORM_SYNCHRONIZE === 'true',
+  ...(isSqlite
+    ? {}
+    : {
+        host: environment.TYPEORM_HOST,
+        port: environment.TYPEORM_PORT ? Number(environment.TYPEORM_PORT) : undefined,
+        username: environment.TYPEORM_USERNAME,
+        password: environment.TYPEORM_PASSWORD,
+      }),
 };
 
 console.log({ options: dataSourceOptions });
