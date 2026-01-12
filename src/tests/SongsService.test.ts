@@ -1,15 +1,14 @@
-import SongsService from '../services/SongsService';
-import UsersService from '../services/UsersService';
 import fs from 'fs';
-import DataGenerator from '../utils/DataGenerator';
-import { createConnection, getConnection, getRepository } from 'typeorm';
+
+import { AppDataSource } from '../database';
 import AppError from '../errors/AppError';
 import Song from '../models/Song';
 import User from '../models/User';
-
+import SongsService from '../services/SongsService';
+import UsersService from '../services/UsersService';
+import DataGenerator from '../utils/DataGenerator';
 
 describe('Song Service', () => {
-
   const setupFactory = () => {
     const cpf = DataGenerator.getUnformattedCpf();
 
@@ -29,36 +28,31 @@ describe('Song Service', () => {
       trainingAnimation: DataGenerator.getRandomFilePath(),
       trainingPhrase: DataGenerator.getRandomWord(),
       price: DataGenerator.getInteger(),
+    };
+  };
+
+  beforeAll(async () => {
+    if (!AppDataSource.isInitialized) {
+      await AppDataSource.initialize();
     }
-  }
+  });
 
-
-  beforeAll(() => {
-    return createConnection({
-      type: "sqlite",
-      database: ":memory:",
-      dropSchema: true,
-      entities: [Song, User],
-      synchronize: true,
-      logging: false
-    })
-  })
-
-  afterAll(() => {
-    const connection = getConnection();
-    return connection.close();
-  })
+  afterAll(async () => {
+    if (AppDataSource.isInitialized) {
+      await AppDataSource.destroy();
+    }
+  });
 
   afterEach(async () => {
-    const userRepository = getRepository(User);
-    const songRepository = getRepository(Song);
-    await songRepository.delete({});
-    await userRepository.delete({});
-  })
+    const userRepository = AppDataSource.getRepository(User);
+    const songRepository = AppDataSource.getRepository(Song);
+    await songRepository.clear();
+    await userRepository.clear();
+  });
 
   it('should create a song', async () => {
-
-    const { cpf,
+    const {
+      cpf,
       email,
       songName,
       profilePhoto,
@@ -72,11 +66,16 @@ describe('Song Service', () => {
       name,
       price,
       trainingAnimation,
-      trainingPhrase
+      trainingPhrase,
     } = setupFactory();
 
     const user = await UsersService.createUser({
-      cpf, email, profilePhoto, name, refreshToken: null, isGuest: false
+      cpf,
+      email,
+      profilePhoto,
+      name,
+      refreshToken: null,
+      isGuest: false,
     });
 
     const createdSong = await SongsService.createSong({
@@ -108,12 +107,11 @@ describe('Song Service', () => {
     expect(createdSong.subtitle).toBe(subtitle);
     expect(createdSong.name).toBe(songName);
     expect(createdSong.price).toBe(price);
-  })
-
+  });
 
   it('should return a list of songs', async () => {
-
-    const { cpf,
+    const {
+      cpf,
       email,
       songName,
       profilePhoto,
@@ -126,10 +124,19 @@ describe('Song Service', () => {
       name,
       price,
       trainingAnimation,
-      trainingPhrase } = setupFactory();
-    const firstIdSong = 0, secondIdSong = 1;
+      trainingPhrase,
+    } = setupFactory();
+    const firstIdSong = 0;
+    const secondIdSong = 1;
 
-    const user = await UsersService.createUser({ cpf, email, profilePhoto, name, refreshToken: null, isGuest: false });
+    const user = await UsersService.createUser({
+      cpf,
+      email,
+      profilePhoto,
+      name,
+      refreshToken: null,
+      isGuest: false,
+    });
 
     await SongsService.createSong({
       idSong: firstIdSong,
@@ -149,7 +156,7 @@ describe('Song Service', () => {
       trainingPhrase2: trainingPhrase,
       trainingPhrase3: trainingPhrase,
       trainingPhrase4: trainingPhrase,
-      price
+      price,
     });
 
     await SongsService.createSong({
@@ -170,7 +177,7 @@ describe('Song Service', () => {
       trainingPhrase2: trainingPhrase,
       trainingPhrase3: trainingPhrase,
       trainingPhrase4: trainingPhrase,
-      price
+      price,
     });
 
     const listOfSongs = await SongsService.listSongs();
@@ -180,13 +187,12 @@ describe('Song Service', () => {
     expect(listOfSongs.length).toBe(2);
     expect(listOfSongs[0].id).toBe(firstIdSong);
     expect(listOfSongs[1].id).toBe(secondIdSong);
-
-  })
+  });
 
   it('should find a song by id', async () => {
-
     const id = DataGenerator.getInteger();
-    const { cpf,
+    const {
+      cpf,
       email,
       songName,
       profilePhoto,
@@ -199,7 +205,8 @@ describe('Song Service', () => {
       name,
       price,
       trainingAnimation,
-      trainingPhrase } = setupFactory();
+      trainingPhrase,
+    } = setupFactory();
 
     const user = await UsersService.createUser({
       cpf,
@@ -207,7 +214,7 @@ describe('Song Service', () => {
       profilePhoto,
       name,
       refreshToken: null,
-      isGuest: false
+      isGuest: false,
     });
     await SongsService.createSong({
       idSong: id,
@@ -239,11 +246,9 @@ describe('Song Service', () => {
     expect(song1.description).toBe(description);
     expect(song1.singers).toBe(singers);
     expect(song1.name).toBe(songName);
-  })
-
+  });
 
   it('should fail if a song does not exists', async () => {
-
     const id = DataGenerator.getInteger();
 
     try {
@@ -252,11 +257,11 @@ describe('Song Service', () => {
       expect(error).toBeInstanceOf(AppError);
       expect(error.statusCode).toBe(404);
     }
-  })
+  });
 
   it('should delete a song', async () => {
-
-    const { cpf,
+    const {
+      cpf,
       email,
       songName,
       profilePhoto,
@@ -269,7 +274,8 @@ describe('Song Service', () => {
       name,
       price,
       trainingAnimation,
-      trainingPhrase } = setupFactory();
+      trainingPhrase,
+    } = setupFactory();
     const id = DataGenerator.getInteger();
 
     const user = await UsersService.createUser({
@@ -278,7 +284,7 @@ describe('Song Service', () => {
       profilePhoto,
       name,
       refreshToken: null,
-      isGuest: false
+      isGuest: false,
     });
     await SongsService.createSong({
       idSong: id,
@@ -308,11 +314,9 @@ describe('Song Service', () => {
 
     expect(beforeTestSongs.length).toBe(1);
     expect(afterTestSongs.length).toBe(0);
-
-  })
+  });
 
   it(`should fail when trying to delete a song that doesn't exist`, async () => {
-
     const id = DataGenerator.getInteger();
 
     try {
@@ -321,13 +325,12 @@ describe('Song Service', () => {
       expect(error).toBeInstanceOf(AppError);
       expect(error.statusCode).toBe(404);
     }
-
-  })
+  });
 
   it('should delete a fold when deleting a song', async () => {
-
     const id = DataGenerator.getInteger();
-    const { cpf,
+    const {
+      cpf,
       email,
       songName,
       profilePhoto,
@@ -340,7 +343,8 @@ describe('Song Service', () => {
       name,
       price,
       trainingAnimation,
-      trainingPhrase } = setupFactory();
+      trainingPhrase,
+    } = setupFactory();
 
     const user = await UsersService.createUser({
       cpf,
@@ -348,7 +352,7 @@ describe('Song Service', () => {
       profilePhoto,
       name,
       refreshToken: null,
-      isGuest: false
+      isGuest: false,
     });
     await SongsService.createSong({
       idSong: id,
@@ -371,16 +375,16 @@ describe('Song Service', () => {
       trainingPhrase4: trainingPhrase,
     });
 
-    fs.existsSync = jest.fn().mockReturnValue(true);
-    fs.rmdirSync = jest.fn();
+    const existsSpy = jest.spyOn(fs, 'existsSync').mockReturnValue(true);
+    const rmSpy = jest.spyOn(fs, 'rmSync').mockImplementation();
 
     await SongsService.deleteSongAndClearFolder({ id });
 
-    expect(fs.existsSync).toBeCalledTimes(1);
-    expect(fs.existsSync).toHaveReturnedWith(true);
-    expect(fs.rmdirSync).toBeCalledTimes(1);
+    expect(existsSpy).toBeCalledTimes(1);
+    expect(existsSpy).toHaveReturnedWith(true);
+    expect(rmSpy).toBeCalledTimes(1);
 
-  })
-
-})
-
+    existsSpy.mockRestore();
+    rmSpy.mockRestore();
+  });
+});
