@@ -2,6 +2,7 @@ import axios from 'axios';
 import LoginUnico from '../services/LoginUnicoService';
 import jsonwebtoken from 'jsonwebtoken';
 import DataGenerator from '../utils/DataGenerator';
+import AppError from '../errors/AppError';
 
 jest.mock('axios')
 jest.mock('jsonwebtoken')
@@ -79,7 +80,8 @@ describe('Login Unico', () => {
     try {
       await loginUnicoInstance.signUp({ code, redirectUri });
     } catch (err) {
-      expect(err.statusCode).toBe(500);
+      const error = err as AppError;
+      expect(error.statusCode).toBe(500);
     }
   })
 
@@ -113,9 +115,10 @@ describe('Login Unico', () => {
     try {
       await loginUnicoInstance.signUp({ code, redirectUri });
     } catch (err) {
-      expect(err.statusCode).toBe(500);
-      expect(err.message.error).toEqual('User could not be authenticated on Login Único.');
-      expect(err.message.description.length).toBeGreaterThan(0);
+      const error = err as AppError & { message: any };
+      expect(error.statusCode).toBe(500);
+      expect(error.message.error).toEqual('User could not be authenticated on Login Único.');
+      expect(error.message.description.length).toBeGreaterThan(0);
     }
   })
 })
