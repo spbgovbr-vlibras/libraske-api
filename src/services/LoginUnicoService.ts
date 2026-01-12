@@ -6,6 +6,14 @@ import qs from 'qs';
 import AppError from '../errors/AppError';
 import env from '../environment/environment'
 
+type AxiosErrorLike = {
+  response?: {
+    data?: {
+      error_description?: string;
+    };
+  };
+};
+
 export interface ILoginUnico {
   name: string;
   cpf: string
@@ -76,21 +84,26 @@ export default class LoginUnico {
         phoneNumber,
         profilePhoto: decoded.profilePhoto,
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const axiosLikeError = error as AxiosErrorLike;
+      const hasResponse =
+        (axios.isAxiosError(error) && !!error.response) ||
+        (!!axiosLikeError && typeof axiosLikeError === 'object' && !!axiosLikeError.response);
 
-      const { response } = error;
-
-      if (response) {
-        const description = response.data && response.data.error_description;
+      if (hasResponse && axiosLikeError.response) {
+        const description = axiosLikeError.response.data?.error_description;
         const errors = {
           error: 'User could not be authenticated on Login Único.',
           ...(description && { description }),
         };
-        throw new AppError(errors);
-      } else {
-
-        throw new AppError('Internal Error');
+        throw new AppError(errors as any);
       }
+
+      if (error instanceof AppError) {
+        throw error;
+      }
+
+      throw new AppError('Internal Error');
     }
   }
 }
