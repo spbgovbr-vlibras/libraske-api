@@ -41,7 +41,7 @@ class SongsService {
     const dir = path.resolve(songsFolder, `${id}`);
 
     if (fs.existsSync(dir)) {
-      fs.rmdirSync(dir, { recursive: true });
+      fs.rmSync(dir, { recursive: true, force: true });
     }
 
     return song;
