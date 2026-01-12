@@ -11,7 +11,10 @@ const dataSourceOptions: DataSourceOptions = {
   username: environment.TYPEORM_USERNAME,
   password: environment.TYPEORM_PASSWORD,
   database: environment.TYPEORM_DATABASE,
-  entities: [environment.TYPEORM_ENTITIES, environment.TYPEORM_ENTITIES.replace(".ts", ".js")],
+  entities: [
+    environment.TYPEORM_ENTITIES,
+    environment.TYPEORM_ENTITIES.replace('.ts', '.js'),
+  ],
   migrations: [environment.TYPEORM_MIGRATIONS],
   logging: environment.TYPEORM_LOGGING === 'true',
   synchronize: environment.TYPEORM_SYNCHRONIZE === 'true',
@@ -37,12 +40,11 @@ export const startDatabase = async (): Promise<void> => {
 };
 
 export const isConnectionAlive = async () => {
-  const connection = getConnection();
   try {
-    await connection.query("SELECT 1");
+    await AppDataSource.query('SELECT 1');
     return true;
   } catch (err) {
     console.log(err);
     return false;
   }
-}
+};
