@@ -11,7 +11,7 @@ import AppError from '../errors/AppError';
 import routes from '../routes';
 import chalk from 'chalk';
 import { SONG_STORAGE } from '@config/applicationFolders';
-import { isConnectionAlive } from 'src/database';
+import { isConnectionAlive } from '../database';
 
 export default async ({ app }: { app: express.Application }) => {
   const staticDirectory = env.ROOT_STORAGE;

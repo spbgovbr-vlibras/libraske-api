@@ -21,7 +21,8 @@
     "test": "cross-env NODE_ENV=dev jest",
     "seed": "cross-env NODE_ENV=dev ts-node-dev src/database/seeds/DatabaseSeed.ts",
     "seed-dth": "cross-env ts-node-dev src/database/seeds/DatabaseSeed.ts",
-    "prod": "tsc && cross-env NODE_ENV=dev ts-node dist/server.js"
+    "prod": "tsc && cross-env NODE_ENV=dev ts-node dist/server.js",
+    "migration:run": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:run -d src/database/index.ts"
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.14.5",
@@ -54,9 +55,10 @@
     "jest": "^27.0.4",
     "jsdoc": "^3.6.7",
     "lint-staged": "^11.0.0",
+    "newman": "^6.2.1",
     "prettier": "^2.2.1",
-    "ts-node": "10.9.2",
-    "ts-node-dev": "^1.1.6",
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
     "tsconfig-paths": "^3.9.0",
     "typescript": "^4.3.4"
   },
@@ -76,7 +78,7 @@
   "dependencies": {
     "@types/jest": "^27.0.0",
     "@types/lodash": "^4.14.171",
-    "amqplib": "^0.7.1",
+    "amqplib": "^0.10.9",
     "axios": "^1.9.0",
     "bcryptjs": "^2.4.3",
     "chalk": "^4.1.1",

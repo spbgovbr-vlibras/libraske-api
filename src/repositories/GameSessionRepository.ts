@@ -1,6 +1,6 @@
 import { Repository } from 'typeorm';
 import GameSession from '../models/GameSession';
-import { AppDataSource } from 'src/database';
+import { AppDataSource } from '../database';
 interface IGameSessionsRepository {
   closeGameSession(id: number): Promise<void>
   findOneById(id: number): Promise<GameSession | undefined>;

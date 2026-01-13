@@ -1,4 +1,4 @@
-import { AppDataSource } from 'src/database';
+import { AppDataSource } from '../database';
 import PersonalizationGroup from '../models/PersonalizationGroup';
 import { Repository } from 'typeorm';
 

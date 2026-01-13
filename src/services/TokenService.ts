@@ -35,8 +35,8 @@ class TokenService {
   public verifyRefreshToken(refreshToken: string) {
     try {
       jwt.verify(refreshToken, env.REFRESH_SECRET);
-    } catch (error) {
-      if (error.message.includes("expired")) {
+    } catch (error: unknown) {
+      if (error instanceof Error && error.message.includes("expired")) {
         throw new AppError("RefreshToken expirou!", 401)
       }
       throw new AppError("Refresh token inválido!", 403);

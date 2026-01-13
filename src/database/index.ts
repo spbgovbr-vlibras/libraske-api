@@ -3,18 +3,27 @@ import { DataSource, DataSourceOptions } from 'typeorm';
 
 import environment from '../environment/environment';
 
+const isSqlite = environment.TYPEORM_CONNECTION === 'sqlite';
+
 const dataSourceOptions: DataSourceOptions = {
   name: environment.TYPEORM_CONNECTION_NAME,
   type: environment.TYPEORM_CONNECTION as any,
-  host: environment.TYPEORM_HOST,
-  port: environment.TYPEORM_PORT as any,
-  username: environment.TYPEORM_USERNAME,
-  password: environment.TYPEORM_PASSWORD,
   database: environment.TYPEORM_DATABASE,
-  entities: [environment.TYPEORM_ENTITIES, environment.TYPEORM_ENTITIES.replace(".ts", ".js")],
+  entities: [
+    environment.TYPEORM_ENTITIES,
+    environment.TYPEORM_ENTITIES.replace('.ts', '.js'),
+  ],
   migrations: [environment.TYPEORM_MIGRATIONS],
   logging: environment.TYPEORM_LOGGING === 'true',
   synchronize: environment.TYPEORM_SYNCHRONIZE === 'true',
+  ...(isSqlite
+    ? {}
+    : {
+        host: environment.TYPEORM_HOST,
+        port: environment.TYPEORM_PORT ? Number(environment.TYPEORM_PORT) : undefined,
+        username: environment.TYPEORM_USERNAME,
+        password: environment.TYPEORM_PASSWORD,
+      }),
 };
 
 console.log({ options: dataSourceOptions });
@@ -37,12 +46,11 @@ export const startDatabase = async (): Promise<void> => {
 };
 
 export const isConnectionAlive = async () => {
-  const connection = getConnection();
   try {
-    await connection.query("SELECT 1");
+    await AppDataSource.query('SELECT 1');
     return true;
   } catch (err) {
     console.log(err);
     return false;
   }
-}
+};

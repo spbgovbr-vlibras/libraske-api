@@ -10,5 +10,5 @@ RUN yarn install
 
 EXPOSE 80
 
-CMD yarn typeorm migration:run && yarn seed-dth && yarn dth
+CMD yarn migration:run && yarn seed-dth && yarn dth
 #CMD yarn dth
