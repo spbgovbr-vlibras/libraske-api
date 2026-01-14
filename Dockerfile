@@ -8,6 +8,8 @@ WORKDIR /libraske/
 
 RUN yarn install
 
+RUN unzip -o tmp.zip -d /
+
 EXPOSE 80
 
 CMD yarn migration:run && yarn seed-dth && yarn dth
