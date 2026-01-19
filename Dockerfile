@@ -1,6 +1,6 @@
-FROM node:24-bullseye-slim
+FROM node:25-alpine3.23
 
-RUN apt-get update && apt-get install -y unzip zip ssh python3 curl git-core curl build-essential openssl libssl-dev
+RUN apk update && apk upgrade && apk add --no-cache unzip
 
 COPY . /libraske/
 
