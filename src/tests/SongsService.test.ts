@@ -378,9 +378,9 @@ describe('Song Service', () => {
 
     await SongsService.deleteSongAndClearFolder({ id });
 
-    expect(existsSpy).toBeCalledTimes(1);
+  expect(existsSpy).toHaveBeenCalledTimes(1);
     expect(existsSpy).toHaveReturnedWith(true);
-    expect(rmSpy).toBeCalledTimes(1);
+  expect(rmSpy).toHaveBeenCalledTimes(1);
 
     existsSpy.mockRestore();
     rmSpy.mockRestore();
