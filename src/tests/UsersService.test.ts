@@ -4,6 +4,13 @@ import User from '../models/User';
 import TokenService from '../services/TokenService';
 import UsersService from '../services/UsersService';
 import DataGenerator from '../utils/DataGenerator';
+import {
+  clearDatabaseEntities,
+  closeTestDatabase,
+  initializeTestDatabase,
+} from './helpers/testDatabase';
+
+jest.setTimeout(20000);
 
 describe('Users Service', () => {
   const createUser = (
@@ -66,21 +73,15 @@ describe('Users Service', () => {
   };
 
   beforeAll(async () => {
-    if (!AppDataSource.isInitialized) {
-      await AppDataSource.initialize();
-    }
+    await initializeTestDatabase();
   });
 
   afterAll(async () => {
-    if (AppDataSource.isInitialized) {
-      await AppDataSource.destroy();
-    }
+    await closeTestDatabase();
   });
 
   afterEach(async () => {
-    if (AppDataSource.isInitialized) {
-      await AppDataSource.getRepository(User).clear();
-    }
+    await clearDatabaseEntities([User]);
   });
 
   it('should create an user', async () => {

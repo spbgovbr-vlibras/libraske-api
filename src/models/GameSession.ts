@@ -7,11 +7,19 @@ import {
   JoinColumn,
   ManyToOne,
   OneToOne,
+  ColumnOptions,
 } from 'typeorm';
 import Scores from './Scores';
 
 import Music from './Song';
 import User from './User';
+import environment from '../environment/environment';
+
+const isSqlite = environment.TYPEORM_CONNECTION === 'better-sqlite3';
+
+const pontuationColumnOptions: ColumnOptions = isSqlite
+  ? { type: 'simple-json', nullable: true }
+  : { type: 'int', array: true, nullable: true };
 
 @Entity('game_sessions')
 class GameSession {
@@ -39,7 +47,7 @@ class GameSession {
   user: User;
   // end
 
-  @Column('int', { array: true })
+  @Column(pontuationColumnOptions)
   pontuation: number[];
 
 

@@ -7,6 +7,11 @@ import User from '../models/User';
 import SongsService from '../services/SongsService';
 import UsersService from '../services/UsersService';
 import DataGenerator from '../utils/DataGenerator';
+import {
+  clearDatabaseEntities,
+  closeTestDatabase,
+  initializeTestDatabase,
+} from './helpers/testDatabase';
 
 describe('Song Service', () => {
   const setupFactory = () => {
@@ -32,22 +37,15 @@ describe('Song Service', () => {
   };
 
   beforeAll(async () => {
-    if (!AppDataSource.isInitialized) {
-      await AppDataSource.initialize();
-    }
+    await initializeTestDatabase();
   });
 
   afterAll(async () => {
-    if (AppDataSource.isInitialized) {
-      await AppDataSource.destroy();
-    }
+    await closeTestDatabase();
   });
 
   afterEach(async () => {
-    const userRepository = AppDataSource.getRepository(User);
-    const songRepository = AppDataSource.getRepository(Song);
-    await songRepository.clear();
-    await userRepository.clear();
+    await clearDatabaseEntities([Song, User]);
   });
 
   it('should create a song', async () => {

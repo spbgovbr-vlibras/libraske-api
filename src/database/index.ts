@@ -3,7 +3,7 @@ import { DataSource, DataSourceOptions } from 'typeorm';
 
 import environment from '../environment/environment';
 
-const isSqlite = environment.TYPEORM_CONNECTION === 'sqlite';
+const isSqlite = environment.TYPEORM_CONNECTION === 'better-sqlite3';
 
 const dataSourceOptions: DataSourceOptions = {
   name: environment.TYPEORM_CONNECTION_NAME,
