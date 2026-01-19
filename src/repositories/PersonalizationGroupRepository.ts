@@ -14,7 +14,10 @@ class PersonalizationGroupRepository implements IPersonalizationGroupRepository 
   }
 
   async findOneById(id: number): Promise<PersonalizationGroup | undefined> {
-    return (await this.getInstance().findOne({ where: { id } })) ?? undefined;
+    return (
+      (await this.getInstance().findOne({ where: { id }, relations: ['personalization'] })) ??
+      undefined
+    );
   }
 
   async findByPersonalizationId(personalizationId: number): Promise<PersonalizationGroup[]> {

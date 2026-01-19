@@ -10,6 +10,11 @@ import SongsService from '../services/SongsService';
 import TokenService from '../services/TokenService';
 import UsersService from '../services/UsersService';
 import DataGenerator from '../utils/DataGenerator';
+import {
+  clearDatabaseEntities,
+  closeTestDatabase,
+  initializeTestDatabase,
+} from './helpers/testDatabase';
 
 jest.mock('../services/SenderMessageService');
 
@@ -100,24 +105,15 @@ describe('Game Session Service', () => {
   };
 
   beforeAll(async () => {
-    if (!AppDataSource.isInitialized) {
-      await AppDataSource.initialize();
-    }
+    await initializeTestDatabase();
   });
 
   afterAll(async () => {
-    if (AppDataSource.isInitialized) {
-      await AppDataSource.destroy();
-    }
+    await closeTestDatabase();
   });
 
   afterEach(async () => {
-    if (AppDataSource.isInitialized) {
-      await AppDataSource.getRepository(Scores).clear();
-      await AppDataSource.getRepository(GameSession).clear();
-      await AppDataSource.getRepository(Songs).clear();
-      await AppDataSource.getRepository(User).clear();
-    }
+    await clearDatabaseEntities([Scores, GameSession, Songs, User]);
   });
 
   beforeEach(() => {

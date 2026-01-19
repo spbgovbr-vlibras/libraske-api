@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken';
+import jwt, { Secret, SignOptions } from 'jsonwebtoken';
 import env from '../environment/environment';
 import AppError from '../errors/AppError';
 import UsersService from './UsersService';
@@ -21,20 +21,40 @@ class TokenService {
   }
 
   public createToken(cpf: object): string {
-    return jwt.sign(cpf, env.ACCESS_SECRET, {
-      expiresIn: env.ACCESS_TOKEN_EXPIRATION,
+    const accessSecret = env.ACCESS_SECRET as Secret;
+    const expiresIn = env.ACCESS_TOKEN_EXPIRATION as SignOptions['expiresIn'];
+
+    if (!accessSecret) {
+      throw new AppError('ACCESS_SECRET is not configured', 500);
+    }
+
+    return jwt.sign(cpf, accessSecret, {
+      expiresIn,
     });
   }
 
   public createRefreshToken(cpf: object): string {
-    return jwt.sign(cpf, env.REFRESH_SECRET, {
-      expiresIn: env.REFRESH_TOKEN_EXPIRATION,
+    const refreshSecret = env.REFRESH_SECRET as Secret;
+    const expiresIn = env.REFRESH_TOKEN_EXPIRATION as SignOptions['expiresIn'];
+
+    if (!refreshSecret) {
+      throw new AppError('REFRESH_SECRET is not configured', 500);
+    }
+
+    return jwt.sign(cpf, refreshSecret, {
+      expiresIn,
     });
   }
 
   public verifyRefreshToken(refreshToken: string) {
     try {
-      jwt.verify(refreshToken, env.REFRESH_SECRET);
+      const refreshSecret = env.REFRESH_SECRET as Secret;
+
+      if (!refreshSecret) {
+        throw new AppError('REFRESH_SECRET is not configured', 500);
+      }
+
+      jwt.verify(refreshToken, refreshSecret);
     } catch (error: unknown) {
       if (error instanceof Error && error.message.includes("expired")) {
         throw new AppError("RefreshToken expirou!", 401)

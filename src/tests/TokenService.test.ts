@@ -93,8 +93,8 @@ describe('Token Service', () => {
 
     await TokenService.deleteToken(refreshToken);
 
-    expect(mockedUsersService.findUserByCpfOrId).toBeCalledTimes(1);
-    expect(mockedUsersService.updateUser).toBeCalledTimes(1);
+  expect(mockedUsersService.findUserByCpfOrId).toHaveBeenCalledTimes(1);
+  expect(mockedUsersService.updateUser).toHaveBeenCalledTimes(1);
     expect(mockedUsersService.updateUser).toHaveBeenCalledWith({ name, cpf, email, credit, profilePhoto, refreshToken: null });
 
 
