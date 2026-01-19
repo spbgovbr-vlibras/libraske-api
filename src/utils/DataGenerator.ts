@@ -1,13 +1,13 @@
-import faker from 'faker';
+import { faker } from '@faker-js/faker';
 import CPF from 'cpf';
 
 export default class DataGenerator {
   static getUUID = () => {
-    return faker.datatype.uuid()
+    return faker.string.uuid();
   }
 
   static getFirstName = () => {
-    return faker.name.firstName()
+    return faker.person.firstName();
   }
 
   static getEmail = () => {
@@ -19,7 +19,7 @@ export default class DataGenerator {
   }
 
   static getInteger = (): number => {
-    return faker.datatype.number();
+    return faker.number.int();
   }
 
   static getFormattedCpf = () => {
@@ -31,7 +31,7 @@ export default class DataGenerator {
   }
 
   static getRandomWord = () => {
-    return faker.random.word();
+    return faker.word.sample();
   }
 
   static getSongGenre = () => {

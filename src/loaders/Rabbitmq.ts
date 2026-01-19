@@ -1,4 +1,4 @@
-import { Channel, Connection, connect } from 'amqplib';
+import { Channel, ChannelModel, connect } from 'amqplib';
 import chalk from 'chalk';
 
 import RabbitConsumer from '../services/ReceiverMessageService';
@@ -11,7 +11,7 @@ interface IDefaultChannels {
 class RabbitmqServer {
   private uri: string;
 
-  private connection: Connection;
+  private connection: ChannelModel;
 
   private senderChannel: Channel;
 
