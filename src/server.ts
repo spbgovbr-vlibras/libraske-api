@@ -4,8 +4,8 @@ import express from 'express';
 import figlet from 'figlet';
 
 import environment from './environment/environment';
-import chalk from 'chalk'
 import loaders from './loaders';
+import cliColors from './utils/cliColors';
 
 const PORT = environment?.PORT || 3333;
 
@@ -18,7 +18,7 @@ async function startServer() {
 
   app.listen(process.env.PORT, () => {
     console.log(`\n > Your server is ready on port ${PORT}`);
-    console.log(chalk.green(figlet.textSync('Libraske-api', { font: 'Standard' })));
+    console.log(cliColors.green(figlet.textSync('Libraske-api', { font: 'Standard' })));
   });
 }
 

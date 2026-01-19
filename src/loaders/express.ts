@@ -9,9 +9,9 @@ import env from '../environment/environment';
 
 import AppError from '../errors/AppError';
 import routes from '../routes';
-import chalk from 'chalk';
 import { SONG_STORAGE } from '@config/applicationFolders';
 import { isConnectionAlive } from '../database';
+import cliColors from '../utils/cliColors';
 
 export default async ({ app }: { app: express.Application }) => {
   const staticDirectory = env.ROOT_STORAGE;
@@ -64,7 +64,7 @@ export default async ({ app }: { app: express.Application }) => {
         .json({ status: 'error', message: 'Internal server error' });
     },
   );
-  console.log(chalk.green(`Express started!`));
+  console.log(cliColors.green(`Express started!`));
 
   return app;
 };

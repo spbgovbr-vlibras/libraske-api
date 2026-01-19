@@ -1,7 +1,7 @@
 import { Channel, ChannelModel, connect } from 'amqplib';
-import chalk from 'chalk';
 
 import RabbitConsumer from '../services/ReceiverMessageService';
+import cliColors from '../utils/cliColors';
 
 interface IDefaultChannels {
   senderChannel: Channel;
@@ -30,7 +30,7 @@ class RabbitmqServer {
 
     await RabbitConsumer.execute();
 
-    console.log(chalk.green(`RabbitMQ started!`));
+  console.log(cliColors.green(`RabbitMQ started!`));
     return { senderChannel, receiverChannel };
   }
 
