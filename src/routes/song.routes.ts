@@ -16,7 +16,7 @@ const removeSongFolder = (songId: string) => {
   const folder = path.resolve(SONG_STORAGE, songId);
   if (fs.existsSync(folder)) {
     console.log(`Removing folder : ${folder}`);
-    fs.rmdirSync(folder, { recursive: true });
+    fs.rmSync(folder, { recursive: true, force: true });
   }
 }
 

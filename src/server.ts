@@ -19,7 +19,7 @@ async function startServer() {
 
   app.listen(process.env.PORT, () => {
     console.log(`\n > Your server is ready on port ${PORT}`);
-    console.log(chalk.green(figlet.textSync('Libraske-api', 'Standard')));
+    console.log(chalk.green(figlet.textSync('Libraske-api', { font: 'Standard' })));
   });
 }
 

@@ -11,7 +11,9 @@ const dataSourceOptions: DataSourceOptions = {
   database: environment.TYPEORM_DATABASE,
   entities: [
     environment.TYPEORM_ENTITIES,
-    environment.TYPEORM_ENTITIES.replace('.ts', '.js'),
+    environment.TYPEORM_ENTITIES
+  ? environment.TYPEORM_ENTITIES.replace('.ts', '.js')
+  : 'dist/**/*.entity.js'
   ],
   migrations: [environment.TYPEORM_MIGRATIONS],
   logging: environment.TYPEORM_LOGGING === 'true',
