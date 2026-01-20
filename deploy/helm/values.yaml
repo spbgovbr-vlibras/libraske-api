@@ -51,7 +51,8 @@ libraskeapi:
     MIGRATION_FILES: ./src/database/migrations/*.ts
     REFRESH_TOKEN_EXPIRATION: 1d
     PORT: 80
-    SONG_STORAGE: /tmp/song
+    SONG_STORAGE: tmp/song
+    ROOT_STORAGE: tmp/
     BONUS_VALUE: 10
 
   secrets:
