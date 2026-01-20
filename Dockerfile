@@ -8,7 +8,7 @@ COPY package.json yarn.lock ./
 RUN yarn install --frozen-lockfile
 COPY . .
 RUN yarn build
-RUN unzip -o tmp.zip -d ./tmp/
+RUN unzip -o tmp.zip -d .
 
 # Stage 2 – runtime
 FROM node:25-alpine3.23
