@@ -59,10 +59,10 @@ libraskeapi:
     # The existingSecret field is more like a boolean. 
     # if it's empty, Video Backend creates a secret based on Enviroment Variables Values
     # if it's NOT empty, Video doesn't create a secret and try to use the existingSecret.
-    existingSecret: "vlibras-libraskeapi-appsecret"
+    existingSecret: "libraskeapi-appsecret"
     
     appSecret:
-      BASE_URI_API: https://api-libraske-dth.vlibras.lavid.ufpb.br/info/
+      BASE_URI_API: https:/libraske-back-dth.vlibras.gov.br/info/
       ACCESS_SECRET: YYYYY
       ACCESS_TOKEN_EXPIRATION : 1d
       LOGIN_UNICO_BASE_URL: https://sso.staging.acesso.gov.br
