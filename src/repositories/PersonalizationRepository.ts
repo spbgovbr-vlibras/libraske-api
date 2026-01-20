@@ -1,6 +1,6 @@
 import { Repository } from 'typeorm';
 import Personalization from '../models/Personalization';
-import { AppDataSource } from 'src/database';
+import { AppDataSource } from '../database';
 
 interface IPersonalizationsRepository {
 

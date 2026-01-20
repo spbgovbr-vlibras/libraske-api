@@ -1,4 +1,4 @@
-import { AppDataSource } from 'src/database';
+import { AppDataSource } from '../database';
 import PersonalizationColor from '../models/PersonalizationColor';
 import { Repository } from 'typeorm';
 
@@ -23,11 +23,16 @@ class PersonalizationColorRepository implements IPersonalizationColorRepository 
   }
 
   async findColorById(id: number): Promise<PersonalizationColor | undefined> {
-    return await this.getInstance().findOne(id);
+    const color = await this.getInstance().findOne({ where: { id } });
+    return color ?? undefined;
   }
 
   async findOneById(id: number): Promise<PersonalizationColor | undefined> {
-    return (await this.getInstance().findOne({ where: { personalizationGroup: { id } } })) ?? undefined;
+    const result = await this.getInstance().findOne({
+      where: { personalizationGroup: { id } },
+      relations: { personalizationGroup: true },
+    });
+    return result ?? undefined;
   }
 
   async findAll(): Promise<PersonalizationColor[]> {

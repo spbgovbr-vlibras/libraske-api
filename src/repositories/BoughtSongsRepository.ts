@@ -1,6 +1,6 @@
 import { Repository } from 'typeorm';
 import BoughtSongs from '../models/BoughtSongs';
-import { AppDataSource } from 'src/database';
+import { AppDataSource } from '../database';
 
 interface IBoughtSongsRepository {
 

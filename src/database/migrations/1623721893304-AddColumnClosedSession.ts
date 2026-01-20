@@ -1,4 +1,3 @@
-import { query } from 'express';
 import { TableColumn, MigrationInterface, QueryRunner } from 'typeorm';
 
 export default class AddColumnClosedSession1623721893304

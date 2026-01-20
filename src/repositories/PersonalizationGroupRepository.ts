@@ -1,4 +1,4 @@
-import { AppDataSource } from 'src/database';
+import { AppDataSource } from '../database';
 import PersonalizationGroup from '../models/PersonalizationGroup';
 import { Repository } from 'typeorm';
 
@@ -14,7 +14,10 @@ class PersonalizationGroupRepository implements IPersonalizationGroupRepository 
   }
 
   async findOneById(id: number): Promise<PersonalizationGroup | undefined> {
-    return (await this.getInstance().findOne({ where: { id } })) ?? undefined;
+    return (
+      (await this.getInstance().findOne({ where: { id }, relations: ['personalization'] })) ??
+      undefined
+    );
   }
 
   async findByPersonalizationId(personalizationId: number): Promise<PersonalizationGroup[]> {

@@ -1,8 +1,6 @@
 import jwt from 'jsonwebtoken';
-import { createConnection, getConnection } from 'typeorm';
-import env, { loadEnvironments } from '../environment/environment';
+import env from '../environment/environment';
 import User from '../models/User';
-import UsersRepository from '../repositories/UsersRepository';
 import TokenService, { IJwtToken } from '../services/TokenService';
 import UsersService from '../services/UsersService';
 import DataGenerator from '../utils/DataGenerator';
@@ -27,25 +25,12 @@ describe('Token Service', () => {
     }
   }
 
-  beforeAll(() => {
-    return createConnection({
-      type: "sqlite",
-      database: ":memory:",
-      dropSchema: true,
-      entities: [User],
-      synchronize: true,
-      logging: false
-    })
-  })
+  const defaultRefreshExpiration = env['REFRESH_TOKEN_EXPIRATION'];
 
-  afterAll(() => {
-
-    const defaultVariable = loadEnvironments('test')
-    env['REFRESH_TOKEN_EXPIRATION'] = defaultVariable['REFRESH_TOKEN_EXPIRATION'];
-
-    const connection = getConnection();
-    return connection.close();
-  })
+  beforeEach(() => {
+    jest.clearAllMocks();
+    env['REFRESH_TOKEN_EXPIRATION'] = defaultRefreshExpiration;
+  });
 
   it('should create a token once and return correct value', async () => {
 
@@ -76,15 +61,16 @@ describe('Token Service', () => {
 
     const { cpf, refreshToken, profilePhoto, name, email } = setupFactory();
 
-    await UsersRepository.getInstance().insert({
+    TokenService.UserService = mockedUsersService;
+    mockedUsersService.findUserByCpfOrId.mockResolvedValueOnce({
       name,
       email,
       profilePhoto,
       cpf,
       refreshToken,
       credit: 0,
-      isGuest: false
-    })
+      isGuest: false,
+    } as User);
 
     const newAccessToken = await TokenService.updateToken(refreshToken);
     const { cpf: decodedCpf } = jwt.decode(newAccessToken) as unknown as IJwtToken;
@@ -101,23 +87,14 @@ describe('Token Service', () => {
 
     mockedUsersService.findUserByCpfOrId.mockClear();
     mockedUsersService.findUserByCpfOrId.mockResolvedValueOnce({ name, cpf, refreshToken, email, credit, profilePhoto } as User);
+    mockedUsersService.updateUser.mockResolvedValueOnce();
 
     TokenService.UserService = mockedUsersService;
 
-    await UsersRepository.getInstance().insert({
-      name,
-      email,
-      profilePhoto,
-      cpf,
-      refreshToken,
-      credit: 0,
-      isGuest: false
-    })
-
     await TokenService.deleteToken(refreshToken);
 
-    expect(mockedUsersService.findUserByCpfOrId).toBeCalledTimes(1);
-    expect(mockedUsersService.updateUser).toBeCalledTimes(1);
+  expect(mockedUsersService.findUserByCpfOrId).toHaveBeenCalledTimes(1);
+  expect(mockedUsersService.updateUser).toHaveBeenCalledTimes(1);
     expect(mockedUsersService.updateUser).toHaveBeenCalledWith({ name, cpf, email, credit, profilePhoto, refreshToken: null });
 
 

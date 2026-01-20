@@ -41,28 +41,35 @@ global:
 libraskeapi:
   replicaCount: 6
   image:
-    repository: "registry.sisp.gov.br/vlibras/vlibras-video-service/vlibras-video-core"
+    repository: "registry.sisp.gov.br/vlibras/vlibras-libraskeapi/vlibras-libraskeapi"
     tag: ""
   
   pullPolicy: Always
 
   appConfig:
-    AMQP_PROTOCOL: 'amqp'
-    AMQP_PREFETCH_COUNT: 1
-    CORE_QUEUE: 'core'
-
+    MIGRATION_DIRECTORY: ./src/database/migrations
+    MIGRATION_FILES: ./src/database/migrations/*.ts
+    REFRESH_TOKEN_EXPIRATION: 1d
+    PORT: 80
+    SONG_STORAGE: /tmp/song
+    BONUS_VALUE: 10
 
   secrets:
     # The existingSecret field is more like a boolean. 
     # if it's empty, Video Backend creates a secret based on Enviroment Variables Values
     # if it's NOT empty, Video doesn't create a secret and try to use the existingSecret.
-    existingSecret: "vlibras-video-core-appsecret"
+    existingSecret: "vlibras-libraskeapi-appsecret"
     
     appSecret:
-      VLIBRAS_CORE_QUEUE: 'video-makere'
-      VLIBRAS_MIXER_QUEUE: 'videomixer'
-      VLIBRAS_FILES: '/video/uploads/'
-      VLIBRAS_DICTIONARY: '/video/bundles-video/'
+      BASE_URI_API: https://api-libraske-dth.vlibras.lavid.ufpb.br/info/
+      ACCESS_SECRET: YYYYY
+      ACCESS_TOKEN_EXPIRATION : 1d
+      LOGIN_UNICO_BASE_URL: https://sso.staging.acesso.gov.br
+      LOGIN_UNICO_CLIENT: libraske-dth.vlibras.gov.br
+      SEcret: XXXX
+      LOGIN_UNICO_SECRET: XXXX
+      REFRESH_SECRET: YYYYY
+      Client_id: libraske-dth.vlibras.gov.br
 
 
   service:
@@ -137,7 +144,7 @@ rabbitmqha:
   port: 5672
   rabbitmqUsername: vlibras
   rabbitmqPassword: vlibraschangeme
-  existingSecrets: "vlibrasvideo-rabbitmq-credentials"
+  existingSecrets: "libraskeapi-rabbitmq-credentials"
 
 # Enable the use of an external services like PostgreSQL.
 # Note: If this is set to 'true', the internal PostgreSQL instance (above) will not be created.
@@ -149,7 +156,7 @@ externalServices:
       username: "video_usr_amqp"
       password: "changeme"
       host: "rabitmqp.example.com"
-      existingSecrets: "vlibrasvideo-rabbitmq-credentials"
+      existingSecrets: "libraskeapi-rabbitmq-credentials"
       #existingClaim: ""
     postgresql:
       enabled: true
@@ -158,4 +165,4 @@ externalServices:
       password: "changeme"
       host: "postgreshost.example.com"
       port: 5432
-      existingSecrets: "vlibrasvideo-db-credentials"
+      existingSecrets: "libraskeapi-db-credentials"

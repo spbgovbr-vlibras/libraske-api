@@ -4,7 +4,7 @@ import PersonalizationGroupService from '@services/PersonalizationGroupService';
 import UsersService from '@services/UsersService';
 import BoughtPersonalization from '@models/BoughtPersonalization';
 import BoughtPersonalizationService from '@services/BoughtPersonalizationService';
-import AppError from 'src/errors/AppError';
+import AppError from '../errors/AppError';
 import PersonalizationColor from '@models/PersonalizationColor';
 
 const personalizationColor = Router();

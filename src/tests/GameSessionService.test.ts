@@ -1,18 +1,37 @@
-import GameSession from "../models/GameSession"
-import Songs from "../models/Song"
-import { createConnection, getConnection } from "typeorm"
-import User from "../models/User"
-import GameSessionService from "../services/GameSessionService"
-import SongsService from "../services/SongsService"
-import TokenService from "../services/TokenService"
-import UsersService from "../services/UsersService"
-import DataGenerator from "../utils/DataGenerator"
-import Scores from "../models/Scores"
-import AppError from "../errors/AppError"
+import { AppDataSource } from '../database';
+import AppError from '../errors/AppError';
+import GameSession from '../models/GameSession';
+import Scores from '../models/Scores';
+import Songs from '../models/Song';
+import User from '../models/User';
+import GameSessionService from '../services/GameSessionService';
+import SenderMessage from '../services/SenderMessageService';
+import SongsService from '../services/SongsService';
+import TokenService from '../services/TokenService';
+import UsersService from '../services/UsersService';
+import DataGenerator from '../utils/DataGenerator';
+import {
+  clearDatabaseEntities,
+  closeTestDatabase,
+  initializeTestDatabase,
+} from './helpers/testDatabase';
+
+jest.mock('../services/SenderMessageService');
+
+const MockedSenderMessage = SenderMessage as jest.MockedClass<
+  typeof SenderMessage
+>;
 
 describe('Game Session Service', () => {
-
-  const createUser = (id: number, name: string, email: string, profilePhoto: string, cpf: string, refreshToken: string, credit: number): User => {
+  const createUser = (
+    id: number,
+    name: string,
+    email: string,
+    profilePhoto: string,
+    cpf: string,
+    refreshToken: string,
+    credit: number,
+  ): User => {
     return {
       id,
       name,
@@ -28,12 +47,11 @@ describe('Game Session Service', () => {
       pele: null,
       olhos: null,
       calca: null,
-      camisa: null
-    }
-  }
+      camisa: null,
+    };
+  };
 
   const getDefaultData = () => {
-
     const cpf = DataGenerator.getUnformattedCpf();
     const refreshToken = TokenService.createRefreshToken({ cpf });
     const id = DataGenerator.getInteger();
@@ -53,7 +71,15 @@ describe('Game Session Service', () => {
     const price = DataGenerator.getInteger();
     const trainingPhrase = DataGenerator.getRandomWord();
 
-    const defaultUser = createUser(id, name, email, profilePhoto, cpf, refreshToken, credit);
+    const defaultUser = createUser(
+      id,
+      name,
+      email,
+      profilePhoto,
+      cpf,
+      refreshToken,
+      credit,
+    );
 
     return {
       cpf,
@@ -74,28 +100,34 @@ describe('Game Session Service', () => {
       animation,
       song,
       trainingAnimation,
-      trainingPhrase
-    }
-  }
+      trainingPhrase,
+    };
+  };
 
-  beforeAll(() => {
-    return createConnection({
-      type: "sqlite",
-      database: ":memory:",
-      dropSchema: true,
-      entities: [User, Songs, GameSession, Scores],
-      synchronize: true,
-      logging: false,
-    })
-  })
+  beforeAll(async () => {
+    await initializeTestDatabase();
+  });
 
-  afterAll(() => {
-    const connection = getConnection();
-    return connection.close();
-  })
+  afterAll(async () => {
+    await closeTestDatabase();
+  });
+
+  afterEach(async () => {
+    await clearDatabaseEntities([Scores, GameSession, Songs, User]);
+  });
+
+  beforeEach(() => {
+    MockedSenderMessage.mockReset();
+    MockedSenderMessage.mockImplementation(
+      () =>
+        ({
+          getNumberOfConsumers: jest.fn().mockResolvedValue(1),
+          execute: jest.fn(),
+        } as unknown as SenderMessage),
+    );
+  });
 
   it('should should create a new game session', async () => {
-
     const {
       cpf,
       refreshToken,
@@ -112,7 +144,7 @@ describe('Game Session Service', () => {
       song,
       animation,
       trainingAnimation,
-      trainingPhrase
+      trainingPhrase,
     } = getDefaultData();
 
     const user = await UsersService.createUser({
@@ -121,7 +153,7 @@ describe('Game Session Service', () => {
       cpf,
       profilePhoto,
       refreshToken,
-      isGuest: false
+      isGuest: false,
     });
     const song1 = await SongsService.createSong({
       idUser: user.id,
@@ -144,16 +176,18 @@ describe('Game Session Service', () => {
       trainingPhrase4: trainingPhrase,
     });
 
-    const result = await GameSessionService.createGameSession({ idSong: song1.id, idUser: user.id });
+    const result = await GameSessionService.createGameSession({
+      idSong: song1.id,
+      idUser: user.id,
+    });
 
     expect(result).toBeDefined();
     expect(result.song_id).toBe(song1.id);
     expect(result.user_id).toBe(user.id);
     expect(result.isClosed).toBeFalsy();
-  })
+  });
 
   it('should find a game session', async () => {
-
     const {
       cpf,
       refreshToken,
@@ -170,7 +204,7 @@ describe('Game Session Service', () => {
       animation,
       song,
       trainingAnimation,
-      trainingPhrase
+      trainingPhrase,
     } = getDefaultData();
 
     const user = await UsersService.createUser({
@@ -179,7 +213,7 @@ describe('Game Session Service', () => {
       cpf,
       profilePhoto,
       refreshToken,
-      isGuest: false
+      isGuest: false,
     });
     const song1 = await SongsService.createSong({
       idUser: user.id,
@@ -202,18 +236,21 @@ describe('Game Session Service', () => {
       trainingPhrase4: trainingPhrase,
     });
 
-    const gameSession = await GameSessionService.createGameSession({ idSong: song1.id, idUser: user.id });
+    const gameSession = await GameSessionService.createGameSession({
+      idSong: song1.id,
+      idUser: user.id,
+    });
 
-    const foundGameSession = await GameSessionService.findGameSession(gameSession.id);
+    const foundGameSession = await GameSessionService.findGameSession(
+      gameSession.id,
+    );
 
     expect(foundGameSession).toBeDefined();
     expect(foundGameSession.song_id).toBe(song1.id);
     expect(foundGameSession.user_id).toBe(user.id);
-
-  })
+  });
 
   it('should throw an error when not finding a game session', async () => {
-
     const { id } = getDefaultData();
 
     try {
@@ -222,11 +259,9 @@ describe('Game Session Service', () => {
       expect(error).toBeInstanceOf(AppError);
       expect(error.statusCode).toBe(404);
     }
-
-  })
+  });
 
   it('should count how many times a user played the song', async () => {
-
     const {
       cpf,
       refreshToken,
@@ -243,7 +278,7 @@ describe('Game Session Service', () => {
       animation,
       song,
       trainingAnimation,
-      trainingPhrase
+      trainingPhrase,
     } = getDefaultData();
 
     const user = await UsersService.createUser({
@@ -252,7 +287,7 @@ describe('Game Session Service', () => {
       cpf,
       profilePhoto,
       refreshToken,
-      isGuest: false
+      isGuest: false,
     });
     const song1 = await SongsService.createSong({
       idUser: user.id,
@@ -275,23 +310,43 @@ describe('Game Session Service', () => {
       trainingPhrase4: trainingPhrase,
     });
 
-    const firstResult = await GameSessionService.countByUserIdAndSongId(user.id, song1.id);
+    const firstResult = await GameSessionService.countByUserIdAndSongId(
+      user.id,
+      song1.id,
+    );
 
-    await GameSessionService.createGameSession({ idSong: song1.id, idUser: user.id });
+    await GameSessionService.createGameSession({
+      idSong: song1.id,
+      idUser: user.id,
+    });
 
-    const secondResult = await GameSessionService.countByUserIdAndSongId(user.id, song1.id);
+    const secondResult = await GameSessionService.countByUserIdAndSongId(
+      user.id,
+      song1.id,
+    );
 
-    await GameSessionService.createGameSession({ idSong: song1.id, idUser: user.id });
-    await GameSessionService.createGameSession({ idSong: song1.id, idUser: user.id });
-    await GameSessionService.createGameSession({ idSong: song1.id, idUser: user.id });
+    await GameSessionService.createGameSession({
+      idSong: song1.id,
+      idUser: user.id,
+    });
+    await GameSessionService.createGameSession({
+      idSong: song1.id,
+      idUser: user.id,
+    });
+    await GameSessionService.createGameSession({
+      idSong: song1.id,
+      idUser: user.id,
+    });
 
-    const thirdResult = await GameSessionService.countByUserIdAndSongId(user.id, song1.id);
+    const thirdResult = await GameSessionService.countByUserIdAndSongId(
+      user.id,
+      song1.id,
+    );
 
     expect(firstResult).toBe(0);
     expect(secondResult).toBe(1);
     expect(thirdResult).toBe(4);
-
-  })
+  });
 
   it('should close a game session', async () => {
     const {
@@ -310,7 +365,7 @@ describe('Game Session Service', () => {
       animation,
       song,
       trainingAnimation,
-      trainingPhrase
+      trainingPhrase,
     } = getDefaultData();
 
     const user = await UsersService.createUser({
@@ -319,7 +374,7 @@ describe('Game Session Service', () => {
       cpf,
       profilePhoto,
       refreshToken,
-      isGuest: false
+      isGuest: false,
     });
     const song1 = await SongsService.createSong({
       idUser: user.id,
@@ -341,17 +396,21 @@ describe('Game Session Service', () => {
       trainingPhrase3: trainingPhrase,
       trainingPhrase4: trainingPhrase,
     });
-    const gameSession = await GameSessionService.createGameSession({ idSong: song1.id, idUser: user.id });
+    const gameSession = await GameSessionService.createGameSession({
+      idSong: song1.id,
+      idUser: user.id,
+    });
 
     await GameSessionService.closeGameSession({ id: gameSession.id });
 
-    const closedGameSession = await GameSessionService.findGameSession(gameSession.id);
+    const closedGameSession = await GameSessionService.findGameSession(
+      gameSession.id,
+    );
 
-    expect(closedGameSession.id).toBe(gameSession.id)
-    expect(closedGameSession.song_id).toBe(gameSession.song_id)
-    expect(closedGameSession.user_id).toBe(gameSession.user_id)
+    expect(closedGameSession.id).toBe(gameSession.id);
+    expect(closedGameSession.song_id).toBe(gameSession.song_id);
+    expect(closedGameSession.user_id).toBe(gameSession.user_id);
     expect(closedGameSession.isClosed).toBeTruthy();
-
   });
 
   it('should throw an error when trying to close an already closed game session.', async () => {
@@ -371,7 +430,7 @@ describe('Game Session Service', () => {
       animation,
       song,
       trainingAnimation,
-      trainingPhrase
+      trainingPhrase,
     } = getDefaultData();
 
     const user = await UsersService.createUser({
@@ -380,7 +439,7 @@ describe('Game Session Service', () => {
       cpf,
       profilePhoto,
       refreshToken,
-      isGuest: false
+      isGuest: false,
     });
     const song1 = await SongsService.createSong({
       idUser: user.id,
@@ -402,7 +461,10 @@ describe('Game Session Service', () => {
       trainingPhrase3: trainingPhrase,
       trainingPhrase4: trainingPhrase,
     });
-    const gameSession = await GameSessionService.createGameSession({ idSong: song1.id, idUser: user.id });
+    const gameSession = await GameSessionService.createGameSession({
+      idSong: song1.id,
+      idUser: user.id,
+    });
 
     await GameSessionService.closeGameSession({ id: gameSession.id });
 
@@ -410,8 +472,7 @@ describe('Game Session Service', () => {
       await GameSessionService.closeGameSession({ id: gameSession.id });
     } catch (error: any) {
       expect(error).toBeInstanceOf(AppError);
-      expect(error.statusCode).toBe(400)
+      expect(error.statusCode).toBe(400);
     }
-
   });
-})
+});

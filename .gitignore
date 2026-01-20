@@ -15,6 +15,5 @@ tmp/song/*
 !tmp/song/.gitkeep
 
 *.log
-*.lock
-yarn.lock
 coverage/
+.env

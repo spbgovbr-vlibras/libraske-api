@@ -1,6 +1,6 @@
 import { Repository } from 'typeorm';
 import BoughtPersonalization from '../models/BoughtPersonalization';
-import { AppDataSource } from 'src/database';
+import { AppDataSource } from '../database';
 
 interface BoughtIPersonalizationRepository {
 
