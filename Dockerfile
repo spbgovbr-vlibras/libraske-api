@@ -24,10 +24,11 @@ RUN yarn install --production --frozen-lockfile
 
 COPY --from=builder /libraske/dist ./dist
 COPY --from=builder /libraske/tmp ./tmp
+COPY docker-entrypoint.sh ./docker-entrypoint.sh
+RUN chmod +x docker-entrypoint.sh
 
 ENV TYPEORM_ENTITIES="./dist/models/*.js"
 ENV TYPEORM_MIGRATIONS="./dist/database/migrations/*.js"
 ENV TYPEORM_MIGRATIONS_DIR="./dist/database/migrations"
 
-
-CMD ["node", "dist/server.js"]
+ENTRYPOINT ["./docker-entrypoint.sh"]
