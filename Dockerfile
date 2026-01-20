@@ -31,4 +31,8 @@ ENV TYPEORM_ENTITIES="./dist/models/*.js"
 ENV TYPEORM_MIGRATIONS="./dist/database/migrations/*.js"
 ENV TYPEORM_MIGRATIONS_DIR="./dist/database/migrations"
 
+ENV ROOT_STORAGE='tmp'
+ENV SONG_STORAGE='tmp/songs'
+ENV GAME_IMAGES_STORAGE='tmp/images'
+
 ENTRYPOINT ["./docker-entrypoint.sh"]
