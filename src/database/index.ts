@@ -36,6 +36,11 @@ export const startDatabase = async (): Promise<void> => {
   console.log(cliColors.white(`Starting database connection...`));
 
   try {
+    if (AppDataSource.isInitialized) {
+      console.log(cliColors.yellow(`Data Source already initialized.`));
+      return;
+    }
+
     await AppDataSource.initialize();
     console.log(cliColors.green(`Data Source has been initialized successfully!`));
     if (AppDataSource.isInitialized) {
