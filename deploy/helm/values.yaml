@@ -39,7 +39,7 @@ global:
   
 
 libraskeapi:
-  replicaCount: 6
+  replicaCount: 1
   image:
     repository: "registry.sisp.gov.br/vlibras/vlibras-libraskeapi/vlibras-libraskeapi"
     tag: ""
