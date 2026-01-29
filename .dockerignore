@@ -1,5 +1,10 @@
+Dockerfile
+kubernetes/
 node_modules
 .vscode
 .git
 .env
 .env.dev
+pgdata
+**/pgdata
+*/pgdata/*

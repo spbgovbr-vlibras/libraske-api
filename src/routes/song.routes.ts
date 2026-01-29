@@ -16,12 +16,14 @@ const removeSongFolder = (songId: string) => {
   const folder = path.resolve(SONG_STORAGE, songId);
   if (fs.existsSync(folder)) {
     console.log(`Removing folder : ${folder}`);
-    fs.rmdirSync(folder, { recursive: true });
+    fs.rmSync(folder, { recursive: true, force: true });
   }
 }
 
-const songIsNotValid = (multerErrors: MulterValidationError[]) => {
+const songIsNotValid = (multerErrors?: MulterValidationError[]) => {
   try {
+    if (!Array.isArray(multerErrors)) return false;
+
     const result = multerErrors.filter(item => item.errors.length > 0);
     return result.length > 0;
   } catch (err) {

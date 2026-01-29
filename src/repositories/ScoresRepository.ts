@@ -1,5 +1,6 @@
-import { getRepository, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import Scores from '../models/Scores';
+import { AppDataSource } from '../database';
 
 interface IScoresRepository {
   findBestScoreBySong(songId: string): Promise<IMaxSessionScore[]>;
@@ -21,6 +22,12 @@ export interface IBestScoresByUser {
 
 }
 class ScoresRepository implements IScoresRepository {
+  private readonly ormRepository: Repository<Scores>;
+
+  constructor() {
+    this.ormRepository = AppDataSource.getRepository(Scores);
+  }
+
   async getHistoryBySong(userId: number, songId: string): Promise<IHistoryBySong[]> {
     const query = ` select so.name, s.session_score from scores s 
                         inner join game_sessions gs on gs.id = s.game_session_id 
@@ -28,12 +35,12 @@ class ScoresRepository implements IScoresRepository {
                         where gs.song_id = '${songId}' and gs.user_id = '${userId}' 
                         order by s.session_score desc`
 
-    return await getRepository(Scores).query(query);
+    return await this.ormRepository.query(query);
 
   }
 
   async findOneById(id: string): Promise<Scores | undefined> {
-    return await getRepository(Scores).findOne({ id });
+    return (await this.ormRepository.findOne({ where: { id } })) ?? undefined;
   }
 
   async findBestScoreBySong(songId: string): Promise<IMaxSessionScore[]> {
@@ -41,7 +48,7 @@ class ScoresRepository implements IScoresRepository {
                         inner join "game_sessions" gs on gs.id = s.game_session_id 
                         where gs.song_id = '${songId}'`
 
-    return await getRepository(Scores).query(query);
+    return await this.ormRepository.query(query);
   }
 
   async getBestScoresByUser(userId: number): Promise<IBestScoresByUser[]> {
@@ -50,11 +57,11 @@ class ScoresRepository implements IScoresRepository {
                         inner join songs s on gs.song_id = s.id 
                         where gs.user_id = '${userId}'`
 
-    return await getRepository(Scores).query(query);
+    return await this.ormRepository.query(query);
   }
 
   getInstance(): Repository<Scores> {
-    return getRepository(Scores);
+    return this.ormRepository;
   }
 }
 

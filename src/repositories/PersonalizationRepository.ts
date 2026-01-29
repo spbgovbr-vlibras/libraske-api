@@ -1,5 +1,6 @@
-import { getRepository, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import Personalization from '../models/Personalization';
+import { AppDataSource } from '../database';
 
 interface IPersonalizationsRepository {
 
@@ -10,14 +11,21 @@ interface IPersonalizationsRepository {
 }
 
 class PersonalizationsRepository implements IPersonalizationsRepository {
+  private readonly ormRepository: Repository<Personalization>;
+
+  constructor() {
+    this.ormRepository = AppDataSource.getRepository(Personalization);
+  }
+
   async findOne(id: number): Promise<Personalization | undefined> {
-    return await getRepository(Personalization).findOne(id, {
+    return (await this.getInstance().findOne({
+      where: { id },
       select: ['id', 'name', 'description']
-    });
+    })) ?? undefined;
   }
 
   async save(personalization: Personalization): Promise<Personalization> {
-    return await getRepository(Personalization).save(personalization);
+    return await this.getInstance().save(personalization);
   }
 
   async findAll(): Promise<Personalization[]> {
@@ -27,8 +35,8 @@ class PersonalizationsRepository implements IPersonalizationsRepository {
   }
 
   getInstance(): Repository<Personalization> {
-    return getRepository(Personalization);
+    return this.ormRepository;
   }
 }
 
-export default new PersonalizationsRepository();
+export default new PersonalizationsRepository();  

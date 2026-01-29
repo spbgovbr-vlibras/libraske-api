@@ -1,17 +1,27 @@
+import { AppDataSource } from '../database';
 import PersonalizationGroup from '../models/PersonalizationGroup';
-import { getRepository, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 
 interface IPersonalizationGroupRepository {
   getInstance(): Repository<PersonalizationGroup>;
 }
 
 class PersonalizationGroupRepository implements IPersonalizationGroupRepository {
+  private readonly ormRepository: Repository<PersonalizationGroup>;
+
+  constructor() {
+    this.ormRepository = AppDataSource.getRepository(PersonalizationGroup);
+  }
+
   async findOneById(id: number): Promise<PersonalizationGroup | undefined> {
-    return await this.getInstance().findOne(id, { relations: ["personalization"] });
+    return (
+      (await this.getInstance().findOne({ where: { id }, relations: ['personalization'] })) ??
+      undefined
+    );
   }
 
   async findByPersonalizationId(personalizationId: number): Promise<PersonalizationGroup[]> {
-    return await this.getInstance().find({ personalization_id: personalizationId });
+    return await this.getInstance().find({ where: { personalization_id: personalizationId } });
   }
 
   async findAll(): Promise<PersonalizationGroup[]> {
@@ -19,7 +29,7 @@ class PersonalizationGroupRepository implements IPersonalizationGroupRepository 
   }
 
   getInstance(): Repository<PersonalizationGroup> {
-    return getRepository(PersonalizationGroup);
+    return this.ormRepository;
   }
 }
 

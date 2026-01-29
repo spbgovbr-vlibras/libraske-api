@@ -40,8 +40,8 @@ describe('Authorization Service', () => {
 
     const result = await Authorization.authenticateOnLoginUnico({ code, redirectUri });
 
-    expect(MockedLoginUnico.signUp).toBeCalledTimes(1);
-    expect(MockedLoginUnico.signUp).toBeCalledWith({ code, redirectUri });
+  expect(MockedLoginUnico.signUp).toHaveBeenCalledTimes(1);
+  expect(MockedLoginUnico.signUp).toHaveBeenCalledWith({ code, redirectUri });
     expect(result).toBeDefined();
     expect(result.cpf).toBe(cpf);
     expect(result.email).toBe(email);
@@ -66,8 +66,8 @@ describe('Authorization Service', () => {
       await Authorization.authenticateOnLoginUnico({ code, redirectUri });
     } catch (error: any) {
       expect(error.statusCode).toBe(500);
-      expect(MockedLoginUnico.signUp).toBeCalledTimes(1);
-      expect(MockedLoginUnico.signUp).toBeCalledWith({ code, redirectUri });
+  expect(MockedLoginUnico.signUp).toHaveBeenCalledTimes(1);
+  expect(MockedLoginUnico.signUp).toHaveBeenCalledWith({ code, redirectUri });
     }
   })
 })
