@@ -10,13 +10,14 @@ services:
     ports:
       - "5432:5432"
   queue:
-    image: rabbitmq
+    image: rabbitmq:3-management
     container_name: libraske-queue
     restart: always
     env_file:
       - .env
     ports:
       - "5672:5672"
+      - "15672:15672"
   api:
     build: .
     container_name: libraske-api
