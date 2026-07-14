@@ -12,6 +12,9 @@ const thumbnailAllowedMimeType = ['image/jpeg', 'image/png']
 const animationAllowedExtension = ['']
 const animationAllowedMimeType = ['application/octet-stream']
 
+const frameAllowedExtension = ['.png', '.jpg', '.jpeg']
+const frameAllowedMimeType = ['image/png', 'image/jpeg']
+
 const SONG = 'song';
 const SUBTITLE = 'subtitle';
 const THUMBNAIL = 'thumbnail';
@@ -21,6 +24,7 @@ const TRAINING_ANIMATION2 = 'trainingAnimation2';
 const TRAINING_ANIMATION3 = 'trainingAnimation3';
 const TRAINING_ANIMATION4 = 'trainingAnimation4';
 const TRAINING_ANIMATION5 = 'trainingAnimation5';
+const FRAME = 'frame';
 
 export interface MulterValidationError {
   fieldName: string;
@@ -42,6 +46,8 @@ export const MulterFileValidatorFactory = (field: string): MulterFileValidator =
     case TRAINING_ANIMATION4:
     case TRAINING_ANIMATION5:
       return new MulterFileValidator(animationAllowedExtension, animationAllowedMimeType);
+    case FRAME:
+      return new MulterFileValidator(frameAllowedExtension, frameAllowedMimeType);
     default:
       return new MulterFileValidator([], []);
   }

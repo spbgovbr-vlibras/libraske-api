@@ -5,6 +5,7 @@ declare namespace Express {
     idSong: string;
     destination: string;
     multerErrors: MulterValidationError[];
+    gameSession: GameSession;
 
     files: {
       thumbnail: [
