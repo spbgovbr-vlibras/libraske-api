@@ -26,7 +26,13 @@ export default async ({ app }: { app: express.Application }) => {
   });
   app.enable('trust proxy');
 
-  app.use(cors());
+  const isDev = process.env.NODE_ENV === 'dev' || process.env.NODE_ENV === 'test';
+
+  if (!isDev && !env.CORS_ALLOWED_ORIGIN) {
+    throw new Error('CORS_ALLOWED_ORIGIN must be set outside of dev/test environments.');
+  }
+
+  app.use(cors({ origin: isDev ? '*' : env.CORS_ALLOWED_ORIGIN }));
   app.use(helmet());
   app.use(morgan('dev'));
   app.use(express.json());
