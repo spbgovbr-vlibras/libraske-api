@@ -10,21 +10,18 @@ const guestAuthRouter = Router();
 guestAuthRouter.post('/', dtoValidationMiddleware(GuestLoginDTO), async (request, response) => {
   const { guestName } = request.body;
 
-  let user;
-  let accessToken;
-
   try {
-    ({ user, accessToken } = await GuestAuthService.createGuestAccount(guestName));
+    const { user, accessToken } = await GuestAuthService.createGuestAccount(guestName);
+
+    return response.status(200).json({
+      ...user,
+      accessToken,
+      refreshToken: user.refreshToken
+    });
   } catch (error) {
     console.error(error);
     throw new AppError('Não foi possível criar a conta de convidado.', 400);
   }
-
-  response.status(200).json({
-    ...user,
-    accessToken,
-    refreshToken: user.refreshToken
-  });
 });
 
 export default guestAuthRouter;
