@@ -37,10 +37,11 @@ export default function storage({ folder, request, maxFileSizeBytes }: ITypeFold
           errors: fileValidator.validate(file)
         });
 
-        request.multerErrors = errors;
+        request.multerErrors = request.multerErrors ? [...request.multerErrors, ...errors] : errors;
 
-        const fileHash = crypto.randomBytes(10).toString('hex');
-        const fileName = `${fileHash}-${file.fieldname}.${file.originalname}`;
+        const fileHash = crypto.randomBytes(16).toString('hex');
+        const extension = path.extname(file.originalname);
+        const fileName = `${fileHash}-${file.fieldname}${extension}`;
 
         return callback(null, fileName);
       }

@@ -27,14 +27,31 @@ export default async ({ app }: { app: express.Application }) => {
   });
   app.enable('trust proxy');
 
-  app.use(cors());
+  const isDev = process.env.NODE_ENV === 'dev' || process.env.NODE_ENV === 'test';
+
+  if (!isDev && !env.CORS_ALLOWED_ORIGIN) {
+    throw new Error('CORS_ALLOWED_ORIGIN must be set outside of dev/test environments.');
+  }
+
+  app.use(cors({ origin: isDev ? '*' : env.CORS_ALLOWED_ORIGIN }));
   app.use(helmet());
   app.use(morgan('dev'));
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
 
-  app.use(express.static(path.resolve(SONG_STORAGE)));
-  app.use('/info', express.static(path.resolve(staticDirectory)));
+  const staticOptions = {
+    setHeaders: (res: any, reqPath: string) => {
+      if (reqPath.endsWith('.svg')) {
+        res.setHeader('Content-Disposition', 'attachment');
+      }
+      res.setHeader('Content-Type', 'application/octet-stream');
+      res.setHeader('Content-Security-Policy', "default-src 'none'; img-src 'self' data:; media-src 'self';");
+      res.setHeader('X-Content-Type-Options', 'nosniff');
+    }
+  };
+
+  app.use(express.static(path.resolve(SONG_STORAGE), staticOptions));
+  app.use('/info', express.static(path.resolve(staticDirectory), staticOptions));
 
   app.use('/libraske', routes);
   app.use('/health-check', async (req, res) => {

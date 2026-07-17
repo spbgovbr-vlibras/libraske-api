@@ -9,7 +9,7 @@ const subtitleAllowedMimeType = ['text/plain']
 const thumbnailAllowedExtension = ['.jpg', '.jpeg', '.png']
 const thumbnailAllowedMimeType = ['image/jpeg', 'image/png']
 
-const animationAllowedExtension = ['']
+const animationAllowedExtension = ['.bin', '.assetbundle', '']
 const animationAllowedMimeType = ['application/octet-stream']
 
 const frameAllowedExtension = ['.png', '.jpg', '.jpeg']
