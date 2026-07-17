@@ -75,7 +75,7 @@ songsRouter.get('/', async (request, response) => {
 
 songsRouter.get('/:id', async (request, response) => {
   const { id } = request.params;
-  const song = await SongsService.findById({ id: parseInt(id) });
+  const { user_id, created_at, updated_at, ...song } = await SongsService.findById({ id: parseInt(id) });
 
   return response.json({ song });
 });
@@ -166,9 +166,23 @@ songsRouter.post('/', createSongFolder, (request, response) => {
 songsRouter.delete('/:id', async (request, response) => {
   const { id } = request.params;
 
-  await SongsService.deleteSongAndClearFolder({ id: parseInt(id) });
+  const song = await SongsService.findById({ id: parseInt(id) });
 
-  return response.status(200).send();
+  if (song.user_id !== request.user.id) {
+    throw new AppError('You do not have permission to delete this song.', 403);
+  }
+
+  try {
+    await SongsService.deleteSongAndClearFolder({ id: parseInt(id) });
+  } catch (error: any) {
+    if (error.code === '23503') {
+      throw new AppError('This song cannot be deleted because it has associated game sessions or purchases.', 409);
+    }
+
+    throw error;
+  }
+
+  return response.status(204).send();
 });
 
 export default songsRouter;

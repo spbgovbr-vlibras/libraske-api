@@ -8,6 +8,8 @@ export default (statusCode: number) => {
       return "Unauthorized";
     case 403:
       return "Forbidden";
+    case 409:
+      return "Conflict";
     case 500:
       return "Internal Server Error";
     default:
