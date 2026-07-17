@@ -13,6 +13,7 @@ import routes from '../routes';
 import { SONG_STORAGE } from '@config/applicationFolders';
 import { isConnectionAlive } from '../database';
 import cliColors from '../utils/cliColors';
+import stripControlCharacters from '../middlewares/stripControlCharacters';
 
 export default async ({ app }: { app: express.Application }) => {
   const staticDirectory = env.ROOT_STORAGE;
@@ -38,6 +39,7 @@ export default async ({ app }: { app: express.Application }) => {
   app.use(morgan('dev'));
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
+  app.use(stripControlCharacters);
 
   const staticOptions = {
     setHeaders: (res: any, reqPath: string) => {
