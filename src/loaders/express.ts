@@ -2,6 +2,7 @@ import cors from 'cors';
 import express, { Request, Response, NextFunction } from 'express';
 import helmet from 'helmet';
 import morgan from 'morgan';
+import multer from 'multer';
 import path from 'path';
 import ValidationErrors from '../errors/ValidationErrors';
 import StatusCodeName from '../utils/StatusCodeName';
@@ -68,6 +69,10 @@ export default async ({ app }: { app: express.Application }) => {
         return response
           .status(err.statusCode)
           .json({ status: 'ValidationError', errors: err.errors });
+      } else if (err instanceof multer.MulterError) {
+        return response
+          .status(400)
+          .json({ status: 'MulterError', message: err.message });
       }
 
       return response

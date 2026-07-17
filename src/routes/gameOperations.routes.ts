@@ -1,8 +1,10 @@
 import uploadConfig from '../config/multer/uploadConfig';
+import { matchesImageSignature } from '../config/multer/validators/FileSignatureValidator';
 import SenderMessageService from '../services/SenderMessageService';
 import ScoresService from '../services/ScoresService'
-import { Router } from 'express';
+import { NextFunction, Request, Response, Router } from 'express';
 import multer from 'multer';
+import fs from 'fs';
 import environment from '../environment/environment';
 import GameSessionService from '../services/GameSessionService';
 import CalculateCredits from '../utils/CalculateCredits';
@@ -13,32 +15,51 @@ import { GAME_IMAGES_STORAGE } from '@config/applicationFolders';
 
 const gameOperationsRouter = Router();
 
-const uploadFrame = multer(uploadConfig({ folder: GAME_IMAGES_STORAGE }));
+const FRAME_MAX_FILE_SIZE_BYTES = 5 * 1024 * 1024; // 5MB
+
+const uploadFrame = multer(uploadConfig({ folder: GAME_IMAGES_STORAGE, maxFileSizeBytes: FRAME_MAX_FILE_SIZE_BYTES }));
+
+const ensureGameSessionOwnership = async (request: Request, response: Response, next: NextFunction) => {
+  const { idSession } = request.params;
+  const gameSession = await GameSessionService.findGameSession(parseInt(idSession));
+
+  if (gameSession.user_id !== request.user.id) {
+    throw new AppError("You do not have access to this game session", 403);
+  }
+
+  request.gameSession = gameSession;
+  next();
+};
 
 gameOperationsRouter.post(
   '/frame/:idSession',
+  ensureGameSessionOwnership,
   uploadFrame.single('frame'),
   async (request, response) => {
     const { idSession } = request.params;
     const { idFrame } = request.body;
+    const { multerErrors, file, gameSession } = request;
 
-    // // GAMBIARRA PRA APRESENTACAO
-    // const sessionByUser = await GameSessionService.findGameSessionByUserId(request.user.id) as any;
-    // const idSession = sessionByUser[0].max;
-    const { song_id } = await GameSessionService.findGameSession(parseInt(idSession));
+    const frameIsNotValid = Array.isArray(multerErrors) && multerErrors.some(item => item.errors.length > 0);
+
+    if (frameIsNotValid || !file) {
+      if (file) fs.rmSync(file.path, { force: true });
+      throw new AppError("Invalid file. Only PNG and JPEG images up to 5MB are allowed.", 400);
+    }
+
+    if (!matchesImageSignature(file.path, file.mimetype)) {
+      fs.rmSync(file.path, { force: true });
+      throw new AppError("File content does not match a valid image.", 400);
+    }
 
     const sendMessageService = new SenderMessageService();
-    const frameImageFilename = request?.file?.filename;
-
-    if (!frameImageFilename) {
-      throw new AppError("Image was not sent", 400);
-    }
+    const frameImageFilename = file.filename;
 
     await sendMessageService.execute({
       idSession,
       idFrame,
       frameImageFilename,
-      songId: song_id
+      songId: gameSession.song_id
     });
 
     return response.sendStatus(201);
