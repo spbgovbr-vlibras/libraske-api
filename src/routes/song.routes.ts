@@ -12,6 +12,20 @@ import BoughtSongsService from '@services/BoughtSongsService';
 
 const songsRouter = Router();
 
+const sanitizeSvgContent = (filePath: string) => {
+  try {
+    const content = fs.readFileSync(filePath, 'utf-8');
+    if (content.toLowerCase().includes('<svg')) {
+      const sanitized = content
+        .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '') // Remove <script> tags
+        .replace(/\bon[a-z]+\s*=\s*(['"]?)(?:(?!\1).)*\1/gi, ''); // Remove event handlers
+      fs.writeFileSync(filePath, sanitized);
+    }
+  } catch (error) {
+    console.error(`Error sanitizing SVG: ${error}`);
+  }
+};
+
 const removeSongFolder = (songId: string) => {
   const folder = path.resolve(SONG_STORAGE, songId);
   if (fs.existsSync(folder)) {
@@ -102,6 +116,13 @@ songsRouter.post('/', createSongFolder, (request, response) => {
     }
 
     try {
+      if (request.files) {
+        Object.values(request.files).forEach((fileArray: any) => {
+          fileArray.forEach((file: any) => {
+            sanitizeSvgContent(file.path);
+          });
+        });
+      }
 
       if (!price) {
         throw new AppError("price is required", 400);
