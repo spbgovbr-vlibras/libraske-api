@@ -24,7 +24,7 @@ const ensureGameSessionOwnership = async (request: Request, response: Response, 
   const gameSession = await GameSessionService.findGameSession(parseInt(idSession));
 
   if (gameSession.user_id !== request.user.id) {
-    throw new AppError("You do not have access to this game session", 403);
+    throw new AppError("Game session not found!", 404);
   }
 
   request.gameSession = gameSession;
@@ -88,6 +88,12 @@ gameOperationsRouter.patch(
     const intId = parseInt(id);
     const bonusValue = parseInt(environment.BONUS_VALUE);
 
+    const gameSessionBeforeClose = await GameSessionService.findGameSession(intId);
+
+    if (gameSessionBeforeClose.user_id !== request.user.id) {
+      throw new AppError("Game session not found!", 404);
+    }
+
     // Finalizando a GameSession
     const { gameSession, sessionScore } = await GameSessionService.closeGameSession({ id: intId });
 
@@ -100,8 +106,9 @@ gameOperationsRouter.patch(
     // Calculando créditos do usuário
     const { score, bonusValue: bonus } = CalculateCredits(timesPlayed, sessionScore, bonusValue);
 
-    // Atualizando dados do usuário
-    const { credit } = await UsersService.changeCredit({ creditsToChange: score, user: request.user });
+    // Atualizando dados do usuário dono da sessão (não de quem chamou o PATCH)
+    const sessionOwner = await UsersService.findUserByCpfOrId({ id: gameSession.user_id });
+    const { credit } = await UsersService.changeCredit({ creditsToChange: score, user: sessionOwner });
 
     return response.status(201).json({ credit, sessionScore: score - bonus, bonus });
   },
