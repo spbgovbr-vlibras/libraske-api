@@ -9,6 +9,10 @@ import path from 'path';
 import fs from 'fs';
 import { MulterValidationError } from '../config/multer/validators';
 import BoughtSongsService from '@services/BoughtSongsService';
+import { sanitize } from 'class-sanitizer';
+import { plainToInstance } from 'class-transformer';
+import { validate } from 'class-validator';
+import { SongCreateDTO } from '../dto/SongCreateDTO';
 
 const songsRouter = Router();
 
@@ -91,17 +95,7 @@ songsRouter.post('/', createSongFolder, (request, response) => {
     { name: 'trainingAnimation3', maxCount: 1 },
     { name: 'trainingAnimation4', maxCount: 1 },
   ])(request, response, async () => {
-    const {
-      name,
-      description,
-      singers,
-      price,
-      trainingPhrase1,
-      trainingPhrase2,
-      trainingPhrase3,
-      trainingPhrase4,
-      trainingPhrase5
-    } = request.body;
+    const { price } = request.body;
     const { multerErrors } = request;
 
     if (songIsNotValid(multerErrors)) {
@@ -114,6 +108,20 @@ songsRouter.post('/', createSongFolder, (request, response) => {
       removeSongFolder(idSong);
       return response.status(400).json({ error: 'Missing properties.' });
     }
+
+    const songMetadata = plainToInstance(SongCreateDTO, request.body);
+    const validationErrors = await validate(songMetadata);
+
+    if (validationErrors.length > 0) {
+      removeSongFolder(idSong);
+      const dtoErrors = validationErrors.map((error) => ({
+        field: error.property,
+        errors: Object.values(error.constraints || {}),
+      }));
+      return response.status(400).json(dtoErrors);
+    }
+
+    sanitize(songMetadata);
 
     try {
       if (request.files) {
@@ -131,9 +139,9 @@ songsRouter.post('/', createSongFolder, (request, response) => {
       const song = await SongsService.createSong({
         idSong: parseInt(idSong),
         idUser: request.user.id,
-        name,
-        description,
-        singers,
+        name: songMetadata.name,
+        description: songMetadata.description,
+        singers: songMetadata.singers,
         thumbnail: request.files.thumbnail[0].filename,
         subtitle: request.files.subtitle[0].filename,
         animation: request.files.animation[0].filename,
@@ -143,10 +151,10 @@ songsRouter.post('/', createSongFolder, (request, response) => {
         trainingAnimation3: request.files.trainingAnimation3[0].filename,
         trainingAnimation4: request.files.trainingAnimation4[0].filename,
         price: parseInt(price),
-        trainingPhrase1,
-        trainingPhrase2,
-        trainingPhrase3,
-        trainingPhrase4
+        trainingPhrase1: songMetadata.trainingPhrase1,
+        trainingPhrase2: songMetadata.trainingPhrase2,
+        trainingPhrase3: songMetadata.trainingPhrase3,
+        trainingPhrase4: songMetadata.trainingPhrase4
       });
       return response.json(song);
     } catch (error: any) {
