@@ -8,21 +8,24 @@ import env from '../../environment/environment';
 interface ITypeFolder {
   folder: string;
   request?: Request;
+  maxFileSizeBytes?: number;
 }
 
 interface IStorage {
   directory: string;
   storage: multer.StorageEngine;
+  limits?: multer.Options['limits'];
 }
 
 export const rootFolder = path.resolve(env.ROOT_STORAGE);
 export const songsFolder = path.resolve(env.SONG_STORAGE);
 
-export default function storage({ folder, request }: ITypeFolder): IStorage {
+export default function storage({ folder, request, maxFileSizeBytes }: ITypeFolder): IStorage {
   let destination = path.resolve(folder);
 
   return {
     directory: destination,
+    limits: maxFileSizeBytes ? { fileSize: maxFileSizeBytes } : undefined,
     storage: multer.diskStorage({
       destination,
       filename(request, file, callback) {
@@ -34,10 +37,11 @@ export default function storage({ folder, request }: ITypeFolder): IStorage {
           errors: fileValidator.validate(file)
         });
 
-        request.multerErrors = errors;
+        request.multerErrors = request.multerErrors ? [...request.multerErrors, ...errors] : errors;
 
-        const fileHash = crypto.randomBytes(10).toString('hex');
-        const fileName = `${fileHash}-${file.fieldname}.${file.originalname}`;
+        const fileHash = crypto.randomBytes(16).toString('hex');
+        const extension = path.extname(file.originalname);
+        const fileName = `${fileHash}-${file.fieldname}${extension}`;
 
         return callback(null, fileName);
       }

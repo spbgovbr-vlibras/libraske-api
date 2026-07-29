@@ -79,6 +79,10 @@ authRouter.post('/logout', async (request, response) => {
 });
 
 authRouter.post('/fake-login', async (request, response) => {
+  if (process.env.NODE_ENV !== 'dev') {
+    throw new AppError('Not found', 404);
+  }
+
   try {
     // TODO Remover endpoint futuramente.
     const user = await UsersRepository.getInstance().findOne({ where: {} });

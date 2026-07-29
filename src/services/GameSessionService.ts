@@ -125,6 +125,10 @@ class GameSessionService {
 
   async addPontuation({ idGameSession, pontuation }: ICreatePontuation): Promise<GameSession> {
 
+    if (typeof pontuation !== 'number' || !Number.isFinite(pontuation)) {
+      throw new AppError('Invalid pontuation value.', 400);
+    }
+
     const gameSession = await this.findGameSession(idGameSession);
 
   const oldArray = this.normalizePontuation(gameSession.pontuation);
